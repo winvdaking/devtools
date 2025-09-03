@@ -67,7 +67,7 @@ export function EmailNormalizer() {
   const normalizeEmail = (email: string): EmailInfo => {
     let normalized = email.trim();
     const original = normalized;
-    
+
     // Extraire les commentaires
     let comment = "";
     if (options.removeComments) {
@@ -77,7 +77,7 @@ export function EmailNormalizer() {
         normalized = normalized.replace(/\s*\([^)]+\)/, '');
       }
     }
-    
+
     // Séparer la partie locale et le domaine
     const atIndex = normalized.indexOf('@');
     if (atIndex === -1) {
@@ -90,39 +90,39 @@ export function EmailNormalizer() {
         suggestions: []
       };
     }
-    
+
     let localPart = normalized.substring(0, atIndex);
     let domain = normalized.substring(atIndex + 1);
-    
+
     // Normaliser la partie locale
     if (options.lowercase) {
       localPart = localPart.toLowerCase();
     }
-    
+
     if (options.removeDots) {
       localPart = localPart.replace(/\./g, '');
     }
-    
+
     if (options.removePlus) {
       const plusIndex = localPart.indexOf('+');
       if (plusIndex !== -1) {
         localPart = localPart.substring(0, plusIndex);
       }
     }
-    
+
     // Normaliser le domaine
     if (options.lowercase) {
       domain = domain.toLowerCase();
     }
-    
+
     // Reconstruire l'email
     normalized = localPart + '@' + domain;
-    
+
     // Ajouter le commentaire si nécessaire
     if (!options.removeComments && comment) {
       normalized += ` (${comment})`;
     }
-    
+
     // Générer des suggestions
     const suggestions: string[] = [];
     if (domain.includes('gmail.com')) {
@@ -131,7 +131,7 @@ export function EmailNormalizer() {
         suggestions.push(localPart.substring(0, localPart.indexOf('+')) + '@gmail.com');
       }
     }
-    
+
     return {
       original,
       normalized,
@@ -150,21 +150,21 @@ export function EmailNormalizer() {
 
     try {
       setError("");
-      
+
       // Diviser les emails
       const emailList = inputEmails
         .split(/[\n,;]/)
         .map(email => email.trim())
         .filter(email => email.length > 0);
-      
+
       if (emailList.length === 0) {
         setError("Aucun email valide trouvé");
         return;
       }
-      
+
       // Normaliser chaque email
       let processedEmails = emailList.map(normalizeEmail);
-      
+
       // Supprimer les doublons si demandé
       if (options.removeDuplicates) {
         const seen = new Set<string>();
@@ -177,12 +177,12 @@ export function EmailNormalizer() {
           return true;
         });
       }
-      
+
       // Trier par domaine si demandé
       if (options.sortByDomain) {
         processedEmails.sort((a, b) => a.domain.localeCompare(b.domain));
       }
-      
+
       setNormalizedEmails(processedEmails);
     } catch (err) {
       setError("Erreur lors du traitement des emails");
@@ -222,12 +222,12 @@ export function EmailNormalizer() {
 
   const getStats = () => {
     if (normalizedEmails.length === 0) return null;
-    
+
     const validEmails = normalizedEmails.filter(email => email.isValid);
     const invalidEmails = normalizedEmails.filter(email => !email.isValid);
     const domains = new Set(normalizedEmails.map(email => email.domain));
     const gmailEmails = normalizedEmails.filter(email => email.domain.includes('gmail.com'));
-    
+
     return {
       total: normalizedEmails.length,
       valid: validEmails.length,
@@ -366,7 +366,7 @@ export function EmailNormalizer() {
             placeholder="john.doe@example.com&#10;JANE.SMITH@GMAIL.COM&#10;user+tag@domain.org"
             className="min-h-[200px] font-mono text-sm"
           />
-          
+
           <div className="flex flex-wrap gap-2">
             <Button onClick={processEmails} className="flex-1">
               <FileText className="h-4 w-4 mr-2" />
@@ -385,8 +385,8 @@ export function EmailNormalizer() {
         <Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20">
           <CardContent className="pt-6">
             <div className="text-red-800 dark:text-red-200">{error}</div>
-          </div>
-        </CardContent>
+          </CardContent>
+        </Card>
       )}
 
       {/* Emails normalisés */}
@@ -429,20 +429,18 @@ export function EmailNormalizer() {
               {normalizedEmails.map((email, index) => (
                 <div
                   key={index}
-                  className={`p-3 rounded-lg border ${
-                    email.isValid 
-                      ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20' 
-                      : 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20'
-                  }`}
+                  className={`p-3 rounded-lg border ${email.isValid
+                    ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20'
+                    : 'border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20'
+                    }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <span className={`text-sm font-medium ${
-                          email.isValid 
-                            ? 'text-green-800 dark:text-green-200' 
-                            : 'text-red-800 dark:text-red-200'
-                        }`}>
+                        <span className={`text-sm font-medium ${email.isValid
+                          ? 'text-green-800 dark:text-green-200'
+                          : 'text-red-800 dark:text-red-200'
+                          }`}>
                           {email.isValid ? '✓ Valide' : '✗ Invalide'}
                         </span>
                         {email.suggestions.length > 0 && (
@@ -451,22 +449,22 @@ export function EmailNormalizer() {
                           </span>
                         )}
                       </div>
-                      
+
                       <div className="space-y-1">
                         <div className="text-sm">
-                          <span className="font-medium">Original:</span> 
+                          <span className="font-medium">Original:</span>
                           <span className="font-mono ml-2">{email.original}</span>
                         </div>
                         <div className="text-sm">
-                          <span className="font-medium">Normalisé:</span> 
+                          <span className="font-medium">Normalisé:</span>
                           <span className="font-mono ml-2">{email.normalized}</span>
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          <span className="font-medium">Partie locale:</span> {email.localPart} | 
+                          <span className="font-medium">Partie locale:</span> {email.localPart} |
                           <span className="font-medium ml-2">Domaine:</span> {email.domain}
                         </div>
                       </div>
-                      
+
                       {email.suggestions.length > 0 && (
                         <div className="mt-2">
                           <div className="text-xs font-medium text-blue-600 dark:text-blue-400 mb-1">
@@ -496,7 +494,7 @@ export function EmailNormalizer() {
                         </div>
                       )}
                     </div>
-                    
+
                     <Button
                       variant="outline"
                       size="sm"
@@ -521,7 +519,7 @@ export function EmailNormalizer() {
       {(() => {
         const stats = getStats();
         if (!stats) return null;
-        
+
         return (
           <Card>
             <CardHeader>
@@ -574,8 +572,8 @@ export function EmailNormalizer() {
                 Normalisateur d'emails
               </p>
               <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                Normalisez et validez vos listes d'emails avec des options configurables. 
-                Supprimez les doublons, normalisez les domaines et générez des suggestions 
+                Normalisez et validez vos listes d'emails avec des options configurables.
+                Supprimez les doublons, normalisez les domaines et générez des suggestions
                 pour les emails Gmail.
               </p>
             </div>

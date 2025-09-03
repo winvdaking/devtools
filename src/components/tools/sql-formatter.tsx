@@ -63,7 +63,7 @@ export function SqlFormatter() {
     try {
       setError("");
       let formatted = sql.trim();
-      
+
       // Convertir en minuscules si demandé
       if (!uppercase) {
         formatted = formatted.toLowerCase();
@@ -113,11 +113,11 @@ export function SqlFormatter() {
     try {
       setError("");
       let minified = sql.trim();
-      
+
       // Supprimer les commentaires
       minified = minified.replace(/--.*$/gm, '');
       minified = minified.replace(/\/\*[\s\S]*?\*\//g, '');
-      
+
       // Supprimer les espaces et retours à la ligne
       minified = minified
         .replace(/\s+/g, ' ')
@@ -208,7 +208,7 @@ export function SqlFormatter() {
               <Input
                 type="number"
                 value={indentSize}
-                onChange={(e) => setIndentSize(Math.max(1, Math.min(8, parseInt(e.target.value) || 2))}
+                onChange={(e) => setIndentSize(Math.max(1, Math.min(8, parseInt(e.target.value) || 2)))}
                 min={1}
                 max={8}
                 className="w-20"
@@ -244,7 +244,7 @@ export function SqlFormatter() {
             placeholder="SELECT * FROM users WHERE active = 1;"
             className="min-h-[200px] font-mono text-sm"
           />
-          
+
           <div className="flex flex-wrap gap-2">
             <Button onClick={() => formatSql(inputSql)} className="flex-1">
               <FileText className="h-4 w-4 mr-2" />
@@ -267,7 +267,7 @@ export function SqlFormatter() {
         <Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20">
           <CardContent className="pt-6">
             <div className="text-red-800 dark:text-red-200">{error}</div>
-          </div>
+          </CardContent>
         </Card>
       )}
 
@@ -369,7 +369,7 @@ export function SqlFormatter() {
               </div>
               <div className="p-3 bg-muted rounded">
                 <div className="text-2xl font-bold text-primary">
-                  {sqlKeywords.filter(keyword => 
+                  {sqlKeywords.filter(keyword =>
                     inputSql.toUpperCase().includes(keyword)
                   ).length}
                 </div>
@@ -389,8 +389,8 @@ export function SqlFormatter() {
                 Formateur SQL
               </p>
               <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                Formatez et minifiez vos requêtes SQL pour une meilleure lisibilité 
-                ou pour optimiser la production. Supporte SELECT, INSERT, UPDATE, DELETE, 
+                Formatez et minifiez vos requêtes SQL pour une meilleure lisibilité
+                ou pour optimiser la production. Supporte SELECT, INSERT, UPDATE, DELETE,
                 JOIN et autres clauses SQL courantes.
               </p>
             </div>

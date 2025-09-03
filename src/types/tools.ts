@@ -3,14 +3,6 @@
  */
 import { LucideIcon } from "lucide-react";
 
-export interface Tool {
-  id: string;
-  name: string;
-  description: string;
-  icon: LucideIcon;
-  component: React.ComponentType;
-}
-
 export type ToolId =
   | "date-formatter"
   | "json-formatter"
@@ -40,3 +32,19 @@ export type ToolId =
   | "email-normalizer"
   | "regex-tester"
   | "regex-cheatsheet";
+
+export interface Tool {
+  id: ToolId;
+  name: string;
+  description: string;
+  icon: LucideIcon;
+  category: string;
+  component: React.ComponentType;
+}
+
+export interface ToolCategory {
+  id: string;
+  name: string;
+  description: string;
+  tools: Omit<Tool, "component">[];
+}

@@ -253,8 +253,8 @@ export function UrlParser() {
                     {parsedUrl.protocol === "https:"
                       ? "Sécurisé (HTTPS)"
                       : parsedUrl.protocol === "http:"
-                      ? "Non sécurisé (HTTP)"
-                      : parsedUrl.protocol.replace(":", "")}
+                        ? "Non sécurisé (HTTP)"
+                        : parsedUrl.protocol.replace(":", "")}
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -263,8 +263,8 @@ export function UrlParser() {
                     {parsedUrl.protocol === "https:"
                       ? "443 (HTTPS)"
                       : parsedUrl.protocol === "http:"
-                      ? "80 (HTTP)"
-                      : "Non standard"}
+                        ? "80 (HTTP)"
+                        : "Non standard"}
                   </div>
                 </div>
                 <div className="space-y-2">

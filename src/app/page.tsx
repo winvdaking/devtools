@@ -83,14 +83,11 @@ export default function HomePage() {
       {/* Zone de contenu principale */}
       <main className="flex-1 overflow-auto">
         <div className="container mx-auto p-6 lg:p-8 max-w-7xl">
-          <motion.div
+          <div
             key={activeTool}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
           >
             <ActiveToolComponent />
-          </motion.div>
+          </div>
         </div>
       </main>
     </div>

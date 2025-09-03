@@ -110,7 +110,7 @@ export function RegexTester() {
       sticky: 'y',
       dotAll: 's'
     };
-    
+
     return Object.entries(flags)
       .filter(([_, enabled]) => enabled)
       .map(([key, _]) => flagMap[key as keyof typeof flags])
@@ -130,24 +130,24 @@ export function RegexTester() {
 
     try {
       setError("");
-      
+
       // Valider la regex
       if (!validateRegex(regex)) {
         setIsValid(false);
         setError("Expression régulière invalide");
         return;
       }
-      
+
       setIsValid(true);
-      
+
       // Créer l'objet RegExp avec les flags
       const flagsString = getFlagsString();
       const regexObj = new RegExp(regex, flagsString);
-      
+
       // Tester la regex
       const newMatches: RegexMatch[] = [];
       let match;
-      
+
       if (flags.global) {
         // Recherche globale
         while ((match = regexObj.exec(testText)) !== null) {
@@ -157,7 +157,7 @@ export function RegexTester() {
             groups: match.slice(1),
             fullMatch: match[0]
           });
-          
+
           // Éviter les boucles infinies si la regex ne progresse pas
           if (match.index === regexObj.lastIndex) {
             regexObj.lastIndex++;
@@ -175,7 +175,7 @@ export function RegexTester() {
           });
         }
       }
-      
+
       setMatches(newMatches);
     } catch (err) {
       setError(`Erreur lors du test: ${err instanceof Error ? err.message : 'Erreur inconnue'}`);
@@ -184,22 +184,22 @@ export function RegexTester() {
 
   const highlightMatches = (text: string, matches: RegexMatch[]): string => {
     if (matches.length === 0) return text;
-    
+
     let highlightedText = text;
     let offset = 0;
-    
+
     // Trier les matches par index décroissant pour éviter les problèmes d'offset
     const sortedMatches = [...matches].sort((a, b) => b.index - a.index);
-    
+
     for (const match of sortedMatches) {
       const before = highlightedText.substring(0, match.index + offset);
       const matched = highlightedText.substring(match.index + offset, match.index + offset + match.match.length);
       const after = highlightedText.substring(match.index + offset + match.match.length);
-      
+
       highlightedText = before + `<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">${matched}</mark>` + after;
       offset += 45; // Longueur approximative du HTML ajouté
     }
-    
+
     return highlightedText;
   };
 
@@ -230,12 +230,12 @@ export function RegexTester() {
 
   const getRegexInfo = () => {
     if (!regex.trim() || !isValid) return null;
-    
+
     try {
       const regexObj = new RegExp(regex);
       const source = regexObj.source;
       const flagsString = getFlagsString();
-      
+
       return {
         source,
         flags: flagsString,
@@ -446,7 +446,7 @@ export function RegexTester() {
             placeholder="Entrez votre texte ici..."
             className="min-h-[150px] font-mono text-sm"
           />
-          
+
           <div className="flex flex-wrap gap-2">
             <Button onClick={testRegex} className="flex-1">
               <Play className="h-4 w-4 mr-2" />
@@ -465,8 +465,8 @@ export function RegexTester() {
         <Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20">
           <CardContent className="pt-6">
             <div className="text-red-800 dark:text-red-200">{error}</div>
-          </div>
-        </CardContent>
+          </CardContent>
+        </Card>
       )}
 
       {/* Résultats */}
@@ -499,12 +499,12 @@ export function RegexTester() {
               {/* Texte avec surlignage */}
               <div>
                 <h4 className="font-medium mb-2">Texte avec correspondances surlignées :</h4>
-                <div 
+                <div
                   className="p-3 bg-muted rounded-lg font-mono text-sm whitespace-pre-wrap"
                   dangerouslySetInnerHTML={{ __html: highlightMatches(testText, matches) }}
                 />
               </div>
-              
+
               {/* Liste des correspondances */}
               <div>
                 <h4 className="font-medium mb-2">Détail des correspondances :</h4>
@@ -562,7 +562,7 @@ export function RegexTester() {
       {(() => {
         const info = getRegexInfo();
         if (!info) return null;
-        
+
         return (
           <Card>
             <CardHeader>
@@ -609,8 +609,8 @@ export function RegexTester() {
                 Testeur d'expressions régulières
               </p>
               <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                Testez vos expressions régulières en temps réel avec validation automatique, 
-                surlignage des correspondances et configuration des flags. Parfait pour 
+                Testez vos expressions régulières en temps réel avec validation automatique,
+                surlignage des correspondances et configuration des flags. Parfait pour
                 développer et déboguer des patterns regex complexes.
               </p>
             </div>

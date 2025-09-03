@@ -47,22 +47,22 @@ export function XmlFormatter() {
 
   const validateXml = (xml: string): string[] => {
     const errors: string[] = [];
-    
+
     try {
       // Vérifier les balises non fermées
       const openTags: string[] = [];
       const selfClosingTags = ['br', 'hr', 'img', 'input', 'meta', 'link'];
-      
+
       const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9]*)(?:\s[^>]*)?>/g;
       let match;
-      
+
       while ((match = tagRegex.exec(xml)) !== null) {
         const tagName = match[1];
         const isClosing = match[0].startsWith('</');
         const isSelfClosing = match[0].endsWith('/>') || selfClosingTags.includes(tagName);
-        
+
         if (isSelfClosing) continue;
-        
+
         if (isClosing) {
           if (openTags.length === 0 || openTags.pop() !== tagName) {
             errors.push(`Balise fermante </${tagName}> sans balise ouvrante correspondante`);
@@ -71,11 +71,11 @@ export function XmlFormatter() {
           openTags.push(tagName);
         }
       }
-      
+
       if (openTags.length > 0) {
         errors.push(`Balises non fermées: ${openTags.join(', ')}`);
       }
-      
+
       // Vérifier les attributs mal formés
       const attrRegex = /<[^>]*\s([a-zA-Z][a-zA-Z0-9]*)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/g;
       while ((match = attrRegex.exec(xml)) !== null) {
@@ -84,11 +84,11 @@ export function XmlFormatter() {
           errors.push(`Attribut ${match[1]} sans guillemets`);
         }
       }
-      
+
     } catch (err) {
       errors.push("Erreur lors de la validation XML");
     }
-    
+
     return errors;
   };
 
@@ -101,7 +101,7 @@ export function XmlFormatter() {
     try {
       setError("");
       setValidationErrors([]);
-      
+
       // Valider le XML
       const errors = validateXml(xml);
       if (errors.length > 0) {
@@ -120,14 +120,14 @@ export function XmlFormatter() {
       let formatted = '';
       let indent = 0;
       const indentStr = ' '.repeat(indentSize);
-      
+
       // Diviser en balises
       const parts = cleanXml.split(/(<\/?[^>]+>)/);
-      
+
       for (let i = 0; i < parts.length; i++) {
         const part = parts[i].trim();
         if (!part) continue;
-        
+
         if (part.startsWith('</')) {
           // Balise fermante
           indent--;
@@ -144,7 +144,7 @@ export function XmlFormatter() {
           formatted += part;
         }
       }
-      
+
       setFormattedXml(formatted.trim());
     } catch (err) {
       setError("Erreur lors du formatage du XML");
@@ -160,7 +160,7 @@ export function XmlFormatter() {
     try {
       setError("");
       setValidationErrors([]);
-      
+
       // Valider le XML
       const errors = validateXml(xml);
       if (errors.length > 0) {
@@ -274,7 +274,7 @@ export function XmlFormatter() {
             <Input
               type="number"
               value={indentSize}
-              onChange={(e) => setIndentSize(Math.max(1, Math.min(8, parseInt(e.target.value) || 2))}
+              onChange={(e) => setIndentSize(Math.max(1, Math.min(8, parseInt(e.target.value) || 2)))}
               min={1}
               max={8}
               className="w-20"
@@ -301,7 +301,7 @@ export function XmlFormatter() {
             placeholder="<root><element>contenu</element></root>"
             className="min-h-[200px] font-mono text-sm"
           />
-          
+
           <div className="flex flex-wrap gap-2">
             <Button onClick={() => formatXml(inputXml)} className="flex-1">
               <FileText className="h-4 w-4 mr-2" />
@@ -345,8 +345,8 @@ export function XmlFormatter() {
         <Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20">
           <CardContent className="pt-6">
             <div className="text-red-800 dark:text-red-200">{error}</div>
-          </div>
-        </CardContent>
+          </CardContent>
+        </Card>
       )}
 
       {/* XML formaté */}
@@ -455,13 +455,13 @@ export function XmlFormatter() {
               </div>
               <div className="p-3 bg-muted rounded">
                 <div className="text-2xl font-bold text-primary">
-                  (inputXml.match(/<[^>]+>/g) || []).length
+                  {(inputXml.match(/<[^>]+>/g) || []).length}
                 </div>
                 <div className="text-xs text-muted-foreground">Balises</div>
               </div>
               <div className="p-3 bg-muted rounded">
                 <div className="text-2xl font-bold text-primary">
-                  (inputXml.match(/[a-zA-Z][a-zA-Z0-9]*\s*=/g) || []).length
+                  {(inputXml.match(/[a-zA-Z][a-zA-Z0-9]*\s*=/g) || []).length}
                 </div>
                 <div className="text-xs text-muted-foreground">Attributs</div>
               </div>
@@ -485,8 +485,8 @@ export function XmlFormatter() {
                 Formateur XML
               </p>
               <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                Formatez et minifiez vos fichiers XML pour une meilleure lisibilité 
-                ou pour optimiser la production. Validation automatique des erreurs 
+                Formatez et minifiez vos fichiers XML pour une meilleure lisibilité
+                ou pour optimiser la production. Validation automatique des erreurs
                 de syntaxe et support des balises auto-fermantes.
               </p>
             </div>
