@@ -5,16 +5,20 @@ FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copier les fichiers de dépendances
-COPY package*.json ./
-RUN npm ci --only=production
-
 # Étape de build
 FROM base AS builder
 WORKDIR /app
+
+# Copier les fichiers de dépendances
 COPY package*.json ./
-RUN npm ci
+
+# Installer toutes les dépendances (dev + prod) pour le build
+RUN npm install
+
+# Copier le code source
 COPY . .
+
+# Build de l'application
 RUN npm run build
 
 # Étape de production
@@ -26,6 +30,7 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
+# Copier les fichiers publics
 COPY --from=builder /app/public ./public
 
 # Copier les fichiers de build optimisés
