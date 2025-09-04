@@ -4,34 +4,55 @@
 import { LucideIcon } from "lucide-react";
 
 export type ToolId =
+  // Outils de formatage
   | "date-formatter"
   | "json-formatter"
   | "text-converter"
+  | "xml-formatter"
+  | "yaml-formatter"
+  | "sql-formatter"
+  | "json-to-csv"
+
+  // Outils d'encodage et sécurité
   | "hash-encrypt"
   | "base64"
-  | "uuid-generator"
   | "url-encoder"
   | "html-escape"
+  | "basic-auth"
+  | "jwt-parser"
+
+  // Générateurs
+  | "uuid-generator"
+  | "random-port"
+  | "crontab-generator"
+  | "slugify"
+
+  // Utilitaires
   | "url-parser"
   | "device-info"
-  | "jwt-parser"
-  | "slugify"
-  | "basic-auth"
+  | "chmod-calculator"
+  | "docker-converter"
+  | "email-normalizer"
+
+  // Références et aide-mémoire
   | "mime-types"
   | "keycode-info"
   | "http-status"
   | "git-cheatsheet"
-  | "random-port"
-  | "crontab-generator"
-  | "json-to-csv"
-  | "sql-formatter"
-  | "chmod-calculator"
-  | "docker-converter"
-  | "xml-formatter"
-  | "yaml-formatter"
-  | "email-normalizer"
+  | "regex-cheatsheet"
   | "regex-tester"
-  | "regex-cheatsheet";
+
+  // Outils de développement
+  | "bundle-analyzer"
+  | "graphql-playground"
+  | "color-palette-generator"
+  | "css-grid-generator"
+  | "mock-data-generator"
+  | "console-log-beautifier"
+  | "error-stack-parser"
+
+  // Cheatsheets des technologies
+  | "cheatsheets";
 
 export interface Tool {
   id: ToolId;

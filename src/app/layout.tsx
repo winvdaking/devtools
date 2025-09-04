@@ -2,11 +2,21 @@
  * Layout racine de l'application Next.js
  */
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Poppins, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ 
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-poppins'
+})
+
+const playfair = Playfair_Display({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-playfair'
+})
 
 export const metadata: Metadata = {
   title: 'DevTools Hub - Boîte à outils pour développeurs',
@@ -21,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${poppins.variable} ${playfair.variable} ${poppins.className}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

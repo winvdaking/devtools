@@ -33,10 +33,17 @@ import {
   BookOpen,
   ChevronDown,
   ChevronRight,
+  Zap,
+  BarChart3,
+  Palette,
+  Webhook,
+  Grid,
+  Terminal,
+  AlertTriangle,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Tool, ToolId, ToolCategory } from "@/types/tools";
+import { ToolId, ToolCategory } from "@/types/tools";
 import { ThemeToggle } from "./ui/theme-toggle";
 
 interface SidebarProps {
@@ -47,41 +54,41 @@ interface SidebarProps {
 const toolCategories: ToolCategory[] = [
   {
     id: "formatting",
-    name: "Formatage",
-    description: "Outils de formatage et conversion",
+    name: "Formatage & Conversion",
+    description: "Outils de formatage et conversion de données",
     tools: [
       {
         id: "json-formatter",
         name: "JSON Formatter",
-        description: "Formatage JSON",
+        description: "Formatage et validation JSON",
         icon: Braces,
         category: "formatting",
       },
       {
         id: "xml-formatter",
         name: "XML Formatter",
-        description: "Formatage XML",
+        description: "Formatage et validation XML",
         icon: FileCode,
         category: "formatting",
       },
       {
         id: "yaml-formatter",
         name: "YAML Formatter",
-        description: "Formatage YAML",
+        description: "Formatage et validation YAML",
         icon: FileText,
         category: "formatting",
       },
       {
         id: "sql-formatter",
         name: "SQL Formatter",
-        description: "Formatage SQL",
+        description: "Formatage et beautification SQL",
         icon: Database,
         category: "formatting",
       },
       {
         id: "text-converter",
         name: "Text Converter",
-        description: "Conversion de texte",
+        description: "Conversion et transformation de texte",
         icon: Type,
         category: "formatting",
       },
@@ -96,8 +103,8 @@ const toolCategories: ToolCategory[] = [
   },
   {
     id: "encoding",
-    name: "Encodage & Hachage",
-    description: "Outils d'encodage et de sécurité",
+    name: "Encodage & Sécurité",
+    description: "Outils d'encodage, hachage et sécurité",
     tools: [
       {
         id: "base64",
@@ -115,23 +122,30 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "url-encoder",
-        name: "Encode/decode URL-format",
+        name: "URL Encoder/Decoder",
         description: "Encodage/décodage URL",
         icon: Link,
         category: "encoding",
       },
       {
         id: "html-escape",
-        name: "Escape HTML entities",
-        description: "Échappement HTML",
+        name: "HTML Escape",
+        description: "Échappement des entités HTML",
         icon: Code,
         category: "encoding",
       },
       {
         id: "basic-auth",
-        name: "Basic auth generator",
-        description: "Génération d'auth basique",
+        name: "Basic Auth Generator",
+        description: "Génération d'authentification basique",
         icon: Shield,
+        category: "encoding",
+      },
+      {
+        id: "jwt-parser",
+        name: "JWT Parser",
+        description: "Analyse et décodage de tokens JWT",
+        icon: Key,
         category: "encoding",
       },
     ],
@@ -139,34 +153,41 @@ const toolCategories: ToolCategory[] = [
   {
     id: "generators",
     name: "Générateurs",
-    description: "Outils de génération",
+    description: "Outils de génération automatique",
     tools: [
       {
         id: "uuid-generator",
-        name: "UUID & Token Generator",
-        description: "Génération UUID et tokens",
+        name: "UUID Generator",
+        description: "Génération d'UUID et tokens",
         icon: Key,
         category: "generators",
       },
       {
         id: "random-port",
-        name: "Random port generator",
-        description: "Générateur de ports",
+        name: "Random Port Generator",
+        description: "Génération de ports aléatoires",
         icon: Network,
         category: "generators",
       },
       {
         id: "crontab-generator",
-        name: "Crontab generator",
-        description: "Générateur de cron",
+        name: "Crontab Generator",
+        description: "Génération d'expressions cron",
         icon: Clock,
         category: "generators",
       },
       {
         id: "slugify",
-        name: "Slugify string",
-        description: "Génération de slugs",
+        name: "Slugify String",
+        description: "Génération de slugs URL",
         icon: Hash,
+        category: "generators",
+      },
+      {
+        id: "mock-data-generator",
+        name: "Mock Data Generator",
+        description: "Génération de données de test",
+        icon: Database,
         category: "generators",
       },
     ],
@@ -174,49 +195,98 @@ const toolCategories: ToolCategory[] = [
   {
     id: "utilities",
     name: "Utilitaires",
-    description: "Outils pratiques",
+    description: "Outils pratiques et utilitaires",
     tools: [
       {
         id: "date-formatter",
         name: "Date Formatter",
-        description: "Formatage de dates",
+        description: "Formatage et conversion de dates",
         icon: Calendar,
         category: "utilities",
       },
       {
         id: "url-parser",
-        name: "URL parser",
-        description: "Analyse d'URL",
+        name: "URL Parser",
+        description: "Analyse et décomposition d'URL",
         icon: Globe,
         category: "utilities",
       },
       {
         id: "device-info",
-        name: "Device information",
-        description: "Informations appareil",
+        name: "Device Information",
+        description: "Informations sur l'appareil",
         icon: Monitor,
         category: "utilities",
       },
       {
         id: "email-normalizer",
         name: "Email Normalizer",
-        description: "Normalisation d'emails",
+        description: "Normalisation d'adresses email",
         icon: Mail,
         category: "utilities",
       },
       {
         id: "chmod-calculator",
         name: "Chmod Calculator",
-        description: "Calculateur de permissions",
+        description: "Calculateur de permissions Unix",
         icon: Shield,
         category: "utilities",
       },
       {
         id: "docker-converter",
         name: "Docker Converter",
-        description: "Convertisseur Docker",
+        description: "Convertisseur de formats Docker",
         icon: Ship,
         category: "utilities",
+      },
+    ],
+  },
+  {
+    id: "development",
+    name: "Développement",
+    description: "Outils pour le développement",
+    tools: [
+      {
+        id: "bundle-analyzer",
+        name: "Bundle Analyzer",
+        description: "Analyse de la taille des bundles",
+        icon: BarChart3,
+        category: "development",
+      },
+      {
+        id: "graphql-playground",
+        name: "GraphQL Playground",
+        description: "Test et exploration d'APIs GraphQL",
+        icon: Webhook,
+        category: "development",
+      },
+      {
+        id: "color-palette-generator",
+        name: "Color Palette Generator",
+        description: "Génération de palettes de couleurs",
+        icon: Palette,
+        category: "development",
+      },
+      {
+        id: "css-grid-generator",
+        name: "CSS Grid Generator",
+        description: "Création de grilles CSS",
+        icon: Grid,
+        category: "development",
+      },
+      {
+        id: "console-log-beautifier",
+        name: "Console Log Beautifier",
+        description: "Formatage des logs console",
+        icon: Terminal,
+        category: "development",
+      },
+      {
+        id: "error-stack-parser",
+        name: "Error Stack Parser",
+        description: "Analyse des traces d'erreur",
+        icon: AlertTriangle,
+        category: "development",
       },
     ],
   },
@@ -226,36 +296,29 @@ const toolCategories: ToolCategory[] = [
     description: "Aide-mémoire et documentation",
     tools: [
       {
-        id: "jwt-parser",
-        name: "JWT parser",
-        description: "Analyse de tokens JWT",
-        icon: Key,
-        category: "reference",
-      },
-      {
         id: "mime-types",
-        name: "MIME types",
-        description: "Référence types MIME",
+        name: "MIME Types",
+        description: "Référence des types MIME",
         icon: FileType,
         category: "reference",
       },
       {
         id: "keycode-info",
-        name: "Keycode info",
-        description: "Informations touches clavier",
+        name: "Keycode Info",
+        description: "Informations sur les touches clavier",
         icon: Keyboard,
         category: "reference",
       },
       {
         id: "http-status",
-        name: "HTTP status codes",
+        name: "HTTP Status Codes",
         description: "Codes de statut HTTP",
         icon: Globe,
         category: "reference",
       },
       {
         id: "git-cheatsheet",
-        name: "Git cheatsheet",
+        name: "Git Cheatsheet",
         description: "Aide-mémoire Git",
         icon: GitBranch,
         category: "reference",
@@ -263,23 +326,31 @@ const toolCategories: ToolCategory[] = [
       {
         id: "regex-cheatsheet",
         name: "Regex Cheatsheet",
-        description: "Aide-mémoire regex",
+        description: "Aide-mémoire des expressions régulières",
         icon: BookOpen,
         category: "reference",
       },
-    ],
-  },
-  {
-    id: "testing",
-    name: "Test & Validation",
-    description: "Outils de test",
-    tools: [
       {
         id: "regex-tester",
         name: "Regex Tester",
         description: "Testeur d'expressions régulières",
         icon: Search,
-        category: "testing",
+        category: "reference",
+      },
+    ],
+  },
+  {
+    id: "cheatsheets",
+    name: "Cheatsheets Tech",
+    description: "Références des technologies de développement",
+    tools: [
+      {
+        id: "cheatsheets",
+        name: "Cheatsheets",
+        description:
+          "Références rapides Node.js, PHP, React, Nuxt, Laravel, Symfony, Cursor AI, Claude, GitHub Copilot",
+        icon: BookOpen,
+        category: "cheatsheets",
       },
     ],
   },
@@ -288,7 +359,7 @@ const toolCategories: ToolCategory[] = [
 export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(["formatting", "encoding"])
+    new Set(["formatting", "encoding", "development", "cheatsheets"])
   );
 
   const toggleCategory = (categoryId: string) => {
@@ -335,10 +406,12 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm">
-                DT
+                DL
               </span>
             </div>
-            <h1 className="text-lg font-semibold">DevTools Hub</h1>
+            <h1 className="text-lg font-semibold font-playfair">
+              tools.dlpz.fr
+            </h1>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -431,6 +504,21 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
             })}
           </div>
         </nav>
+
+        {/* Footer */}
+        <div className="p-4 border-t border-border">
+          <a
+            href="https://dorianlopez.fr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            <Zap className="h-4 w-4" />
+            <span>
+              Développé par <strong>dorianlopez.fr</strong>
+            </span>
+          </a>
+        </div>
       </motion.aside>
     </>
   );

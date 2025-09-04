@@ -4,11 +4,10 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Sidebar } from "@/components/sidebar";
 import { ToolId } from "@/types/tools";
 
-// Import des composants d'outils
+// Import des composants d'outils existants
 import { DateFormatter } from "@/components/tools/date-formatter";
 import { JsonFormatter } from "@/components/tools/json-formatter";
 import { TextConverter } from "@/components/tools/text-converter";
@@ -38,36 +37,67 @@ import { EmailNormalizer } from "@/components/tools/email-normalizer";
 import { RegexTester } from "@/components/tools/regex-tester";
 import { RegexCheatsheet } from "@/components/tools/regex-cheatsheet";
 
+// Nouveaux composants implémentés
+import BundleAnalyzer from "@/components/tools/bundle-analyzer";
+import GraphQLPlayground from "@/components/tools/graphql-playground";
+import ColorPaletteGenerator from "@/components/tools/color-palette-generator";
+import CSSGridGenerator from "@/components/tools/css-grid-generator";
+import MockDataGenerator from "@/components/tools/mock-data-generator";
+import ConsoleLogBeautifier from "@/components/tools/console-log-beautifier";
+import ErrorStackParser from "@/components/tools/error-stack-parser";
+import Cheatsheets from "@/components/tools/cheatsheets";
+
 // Mapping des outils
 const toolComponents: Record<ToolId, React.ComponentType> = {
+  // Outils de formatage
   "date-formatter": DateFormatter,
   "json-formatter": JsonFormatter,
   "text-converter": TextConverter,
+  "xml-formatter": XmlFormatter,
+  "yaml-formatter": YamlFormatter,
+  "sql-formatter": SqlFormatter,
+  "json-to-csv": JsonToCsv,
+  
+  // Outils d'encodage et sécurité
   "hash-encrypt": HashEncrypt,
   base64: Base64,
-  "uuid-generator": UuidGenerator,
   "url-encoder": UrlEncoder,
   "html-escape": HtmlEscape,
+  "basic-auth": BasicAuthGenerator,
+  "jwt-parser": JwtParser,
+  
+  // Générateurs
+  "uuid-generator": UuidGenerator,
+  "random-port": RandomPortGenerator,
+  "crontab-generator": CrontabGenerator,
+  slugify: SlugifyString,
+  
+  // Utilitaires
   "url-parser": UrlParser,
   "device-info": DeviceInformation,
-  "jwt-parser": JwtParser,
-  slugify: SlugifyString,
-  "basic-auth": BasicAuthGenerator,
+  "chmod-calculator": ChmodCalculator,
+  "docker-converter": DockerConverter,
+  "email-normalizer": EmailNormalizer,
+  
+  // Références et aide-mémoire
   "mime-types": MimeTypes,
   "keycode-info": KeycodeInfo,
   "http-status": HttpStatusCodes,
   "git-cheatsheet": GitCheatsheet,
-  "random-port": RandomPortGenerator,
-  "crontab-generator": CrontabGenerator,
-  "json-to-csv": JsonToCsv,
-  "sql-formatter": SqlFormatter,
-  "chmod-calculator": ChmodCalculator,
-  "docker-converter": DockerConverter,
-  "xml-formatter": XmlFormatter,
-  "yaml-formatter": YamlFormatter,
-  "email-normalizer": EmailNormalizer,
-  "regex-tester": RegexTester,
   "regex-cheatsheet": RegexCheatsheet,
+  "regex-tester": RegexTester,
+  
+  // Outils de développement
+  "bundle-analyzer": BundleAnalyzer,
+  "graphql-playground": GraphQLPlayground,
+  "color-palette-generator": ColorPaletteGenerator,
+  "css-grid-generator": CSSGridGenerator,
+  "mock-data-generator": MockDataGenerator,
+  "console-log-beautifier": ConsoleLogBeautifier,
+  "error-stack-parser": ErrorStackParser,
+  
+  // Cheatsheets des technologies
+  cheatsheets: Cheatsheets,
 };
 
 export default function HomePage() {
@@ -83,9 +113,7 @@ export default function HomePage() {
       {/* Zone de contenu principale */}
       <main className="flex-1 overflow-auto">
         <div className="container mx-auto p-6 lg:p-8 max-w-7xl">
-          <div
-            key={activeTool}
-          >
+          <div key={activeTool}>
             <ActiveToolComponent />
           </div>
         </div>
