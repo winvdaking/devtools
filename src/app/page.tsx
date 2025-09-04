@@ -45,6 +45,8 @@ import CSSGridGenerator from "@/components/tools/css-grid-generator";
 import MockDataGenerator from "@/components/tools/mock-data-generator";
 import ConsoleLogBeautifier from "@/components/tools/console-log-beautifier";
 import ErrorStackParser from "@/components/tools/error-stack-parser";
+import SpellChecker from "@/components/tools/spell-checker";
+import TextReformulator from "@/components/tools/text-reformulator";
 import Cheatsheets from "@/components/tools/cheatsheets";
 
 // Mapping des outils
@@ -53,11 +55,13 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "date-formatter": DateFormatter,
   "json-formatter": JsonFormatter,
   "text-converter": TextConverter,
+  "spell-checker": SpellChecker,
+  "text-reformulator": TextReformulator,
   "xml-formatter": XmlFormatter,
   "yaml-formatter": YamlFormatter,
   "sql-formatter": SqlFormatter,
   "json-to-csv": JsonToCsv,
-  
+
   // Outils d'encodage et sécurité
   "hash-encrypt": HashEncrypt,
   base64: Base64,
@@ -65,20 +69,20 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "html-escape": HtmlEscape,
   "basic-auth": BasicAuthGenerator,
   "jwt-parser": JwtParser,
-  
+
   // Générateurs
   "uuid-generator": UuidGenerator,
   "random-port": RandomPortGenerator,
   "crontab-generator": CrontabGenerator,
   slugify: SlugifyString,
-  
+
   // Utilitaires
   "url-parser": UrlParser,
   "device-info": DeviceInformation,
   "chmod-calculator": ChmodCalculator,
   "docker-converter": DockerConverter,
   "email-normalizer": EmailNormalizer,
-  
+
   // Références et aide-mémoire
   "mime-types": MimeTypes,
   "keycode-info": KeycodeInfo,
@@ -86,7 +90,7 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "git-cheatsheet": GitCheatsheet,
   "regex-cheatsheet": RegexCheatsheet,
   "regex-tester": RegexTester,
-  
+
   // Outils de développement
   "bundle-analyzer": BundleAnalyzer,
   "graphql-playground": GraphQLPlayground,
@@ -95,7 +99,7 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "mock-data-generator": MockDataGenerator,
   "console-log-beautifier": ConsoleLogBeautifier,
   "error-stack-parser": ErrorStackParser,
-  
+
   // Cheatsheets des technologies
   cheatsheets: Cheatsheets,
 };

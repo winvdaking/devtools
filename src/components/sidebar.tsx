@@ -40,6 +40,7 @@ import {
   Grid,
   Terminal,
   AlertTriangle,
+  RefreshCw,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -90,6 +91,20 @@ const toolCategories: ToolCategory[] = [
         name: "Text Converter",
         description: "Conversion et transformation de texte",
         icon: Type,
+        category: "formatting",
+      },
+      {
+        id: "spell-checker",
+        name: "Correcteur Orthographique",
+        description: "Vérification orthographe et grammaire",
+        icon: BookOpen,
+        category: "formatting",
+      },
+      {
+        id: "text-reformulator",
+        name: "Reformulateur de Texte",
+        description: "Reformulation selon différents styles",
+        icon: RefreshCw,
         category: "formatting",
       },
       {

@@ -9,6 +9,8 @@ export { XmlFormatter } from "./xml-formatter";
 export { YamlFormatter } from "./yaml-formatter";
 export { SqlFormatter } from "./sql-formatter";
 export { TextConverter } from "./text-converter";
+export { default as SpellChecker } from "./spell-checker";
+export { default as TextReformulator } from "./text-reformulator";
 export { JsonToCsv } from "./json-to-csv";
 
 // Outils d'encodage et sécurité
