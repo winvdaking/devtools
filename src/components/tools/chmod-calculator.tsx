@@ -201,13 +201,13 @@ export function ChmodCalculator() {
 
   const updatePermission = (
     section: keyof ChmodPermissions,
-    permission: keyof Permission,
+    permission: keyof Permission | keyof ChmodPermissions['special'],
     value: boolean
   ) => {
     if (section === "special") {
       setPermissions((prev) => ({
         ...prev,
-        special: { ...prev.special, [permission]: value },
+        special: { ...prev.special, [permission as keyof ChmodPermissions['special']]: value },
       }));
     } else {
       setPermissions((prev) => ({
@@ -250,9 +250,8 @@ export function ChmodCalculator() {
     if (perms.others.write) othersPerms.push("écriture");
     if (perms.others.execute) othersPerms.push("exécution");
 
-    return `Propriétaire: ${ownerPerms.join(", ") || "aucune"}; Groupe: ${
-      groupPerms.join(", ") || "aucune"
-    }; Autres: ${othersPerms.join(", ") || "aucune"}`;
+    return `Propriétaire: ${ownerPerms.join(", ") || "aucune"}; Groupe: ${groupPerms.join(", ") || "aucune"
+      }; Autres: ${othersPerms.join(", ") || "aucune"}`;
   };
 
   useEffect(() => {
@@ -396,8 +395,8 @@ export function ChmodCalculator() {
                         {perm === "read"
                           ? "Lecture"
                           : perm === "write"
-                          ? "Écriture"
-                          : "Exécution"}
+                            ? "Écriture"
+                            : "Exécution"}
                       </span>
                     </label>
                   ))}
@@ -425,8 +424,8 @@ export function ChmodCalculator() {
                         {perm === "read"
                           ? "Lecture"
                           : perm === "write"
-                          ? "Écriture"
-                          : "Exécution"}
+                            ? "Écriture"
+                            : "Exécution"}
                       </span>
                     </label>
                   ))}
@@ -454,8 +453,8 @@ export function ChmodCalculator() {
                         {perm === "read"
                           ? "Lecture"
                           : perm === "write"
-                          ? "Écriture"
-                          : "Exécution"}
+                            ? "Écriture"
+                            : "Exécution"}
                       </span>
                     </label>
                   ))}
