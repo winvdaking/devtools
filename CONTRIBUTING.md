@@ -52,8 +52,8 @@ Nous nous engageons à offrir un environnement accueillant et inspirant pour tou
 
 ```bash
 # 1. Fork et clone du repository
-git clone https://github.com/winvdaking/devtools-hub.git
-cd devtools-hub
+git clone https://github.com/winvdaking/devtools.git
+cd devtools
 
 # 2. Installation des dépendances
 npm install
@@ -334,9 +334,8 @@ npm test             # Tests unitaires
 
 ## 📞 Contact
 
-- 💬 **Discussions** : [GitHub Discussions](https://github.com/winvdaking/devtools-hub/discussions)
-- 📧 **Email** : votre-email@example.com
-- 🐦 **Twitter** : [@votre-handle](https://twitter.com/votre-handle)
+- 💬 **Discussions** : [GitHub Discussions](https://github.com/winvdaking/devtools/discussions)
+- 📧 **Email** : hello@dorianlopez.fr
 
 ## 🙏 Remerciements
 
@@ -344,6 +343,4 @@ Merci à tous les contributeurs qui rendent ce projet possible !
 
 ---
 
-<div align="center">
-  <p>Ensemble, construisons les meilleurs outils pour les développeurs ! 🚀</p>
-</div>
+[@Dorian](https://github.com/winvdaking)
