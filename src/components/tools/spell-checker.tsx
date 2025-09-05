@@ -57,6 +57,10 @@ export default function SpellChecker() {
     tous: ["tout", "tous"],
     toute: ["toutes", "toute"],
     toutes: ["toute", "toutes"],
+    dans: ["dans", "en"],
+    en: ["dans", "en"],
+    pour: ["pour", "par"],
+    par: ["pour", "par"],
 
     // Erreurs de conjugaison
     fais: ["fais", "fait"],
@@ -65,6 +69,9 @@ export default function SpellChecker() {
     peut: ["peux", "peut"],
     vois: ["vois", "voit"],
     voit: ["vois", "voit"],
+    vais: ["vais", "va"],
+    vas: ["vas", "va"],
+    va: ["vais", "vas", "va"],
 
     // Erreurs de ponctuation
     "...": ["…", "..."],
@@ -96,29 +103,49 @@ export default function SpellChecker() {
     const errors: SpellError[] = [];
     let correctedText = text;
 
-    // Vérification des erreurs courantes
-    Object.entries(commonErrors).forEach(([error, suggestions]) => {
-      const regex = new RegExp(`\\b${error}\\b`, "gi");
+    // Vérification des erreurs courantes - seulement les mots problématiques
+    const problematicWords = [
+      "sa",
+      "ca",
+      "ou",
+      "a",
+      "la",
+      "se",
+      "ce",
+      "ses",
+      "ces",
+      "leur",
+      "leurs",
+      "tout",
+      "tous",
+      "toute",
+      "toutes",
+    ];
+
+    problematicWords.forEach((word) => {
+      const regex = new RegExp(`\\b${word}\\b`, "gi");
       let match;
 
       while ((match = regex.exec(text)) !== null) {
+        const suggestions = commonErrors[word] || [];
         errors.push({
           word: match[0],
           suggestions,
           type: "spelling",
           context: text.substring(
             Math.max(0, match.index - 20),
-            match.index + error.length + 20
+            match.index + word.length + 20
           ),
-          position: { start: match.index, end: match.index + error.length },
+          position: { start: match.index, end: match.index + word.length },
         });
       }
     });
 
     // Vérification des règles de grammaire
     grammarRules.forEach((rule) => {
+      const regex = new RegExp(rule.pattern.source, rule.pattern.flags);
       let match;
-      while ((match = rule.pattern.exec(text)) !== null) {
+      while ((match = regex.exec(text)) !== null) {
         errors.push({
           word: match[0],
           suggestions: [rule.suggestion],
@@ -144,8 +171,9 @@ export default function SpellChecker() {
     ];
 
     punctuationErrors.forEach((rule) => {
+      const regex = new RegExp(rule.pattern.source, rule.pattern.flags);
       let match;
-      while ((match = rule.pattern.exec(text)) !== null) {
+      while ((match = regex.exec(text)) !== null) {
         errors.push({
           word: match[0],
           suggestions: [rule.suggestion],

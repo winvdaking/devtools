@@ -203,37 +203,59 @@ export default function TextReformulator() {
         switch (style) {
           case "formal":
             reformulatedText = reformulatedText
-              .replace(/\b(je|tu)\b/gi, "nous")
+              .replace(/\b(je|tu)\b/gi, (match) =>
+                match === "je" ? "nous" : "vous"
+              )
               .replace(/\b(mon|ma|mes)\b/gi, "notre")
-              .replace(/\b(ce|cette)\b/gi, "ledit/la dite");
+              .replace(/\b(ce|cette)\b/gi, "ledit/la dite")
+              .replace(/\b(c'est)\b/gi, "ceci est")
+              .replace(/\b(il y a)\b/gi, "il existe")
+              .replace(/\b(très)\b/gi, "particulièrement");
             break;
 
           case "casual":
             reformulatedText = reformulatedText
               .replace(/\b(nous)\b/gi, "on")
               .replace(/\b(notre)\b/gi, "notre")
-              .replace(/\b(ledit|la dite)\b/gi, "ce/cette");
+              .replace(/\b(ledit|la dite)\b/gi, "ce/cette")
+              .replace(/\b(ceci est)\b/gi, "c'est")
+              .replace(/\b(il existe)\b/gi, "il y a")
+              .replace(/\b(particulièrement)\b/gi, "très");
             break;
 
           case "academic":
             reformulatedText = reformulatedText
               .replace(/\b(je pense|je crois)\b/gi, "il semble que")
               .replace(/\b(beaucoup)\b/gi, "un nombre considérable de")
-              .replace(/\b(important)\b/gi, "significatif");
+              .replace(/\b(important)\b/gi, "significatif")
+              .replace(/\b(très)\b/gi, "considérablement")
+              .replace(/\b(bien)\b/gi, "de manière satisfaisante");
             break;
 
           case "creative":
             reformulatedText = reformulatedText
               .replace(/\b(beau)\b/gi, "magnifique")
               .replace(/\b(grand)\b/gi, "majestueux")
-              .replace(/\b(rapide)\b/gi, "fulgurant");
+              .replace(/\b(rapide)\b/gi, "fulgurant")
+              .replace(/\b(très)\b/gi, "incroyablement")
+              .replace(/\b(bien)\b/gi, "merveilleusement");
             break;
 
           case "simple":
             reformulatedText = reformulatedText
               .replace(/\b(considérable)\b/gi, "grand")
               .replace(/\b(significatif)\b/gi, "important")
-              .replace(/\b(pertinent)\b/gi, "utile");
+              .replace(/\b(pertinent)\b/gi, "utile")
+              .replace(/\b(particulièrement)\b/gi, "très")
+              .replace(/\b(considérablement)\b/gi, "beaucoup");
+            break;
+
+          case "professional":
+            reformulatedText = reformulatedText
+              .replace(/\b(je pense)\b/gi, "nous estimons")
+              .replace(/\b(très)\b/gi, "particulièrement")
+              .replace(/\b(bien)\b/gi, "efficacement")
+              .replace(/\b(beaucoup)\b/gi, "nombreux");
             break;
         }
       }
@@ -247,10 +269,13 @@ export default function TextReformulator() {
       };
 
       // Calculer la lisibilité (formule simplifiée)
+      const words = reformulatedText
+        .split(/\s+/)
+        .filter((word) => word.length > 0);
       const avgWordLength =
-        reformulatedText
-          .split(/\s+/)
-          .reduce((acc, word) => acc + word.length, 0) / wordCount.reformulated;
+        words.length > 0
+          ? words.reduce((acc, word) => acc + word.length, 0) / words.length
+          : 0;
       const readabilityScore = Math.max(0, 100 - avgWordLength * 5);
 
       let readabilityLevel = "Facile";
