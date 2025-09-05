@@ -24,7 +24,6 @@ import { BasicAuthGenerator } from "@/components/tools/basic-auth";
 import { MimeTypes } from "@/components/tools/mime-types";
 import { KeycodeInfo } from "@/components/tools/keycode-info";
 import { HttpStatusCodes } from "@/components/tools/http-status";
-import { GitCheatsheet } from "@/components/tools/git-cheatsheet";
 import { RandomPortGenerator } from "@/components/tools/random-port";
 import { CrontabGenerator } from "@/components/tools/crontab-generator";
 import { JsonToCsv } from "@/components/tools/json-to-csv";
@@ -35,7 +34,6 @@ import { XmlFormatter } from "@/components/tools/xml-formatter";
 import { YamlFormatter } from "@/components/tools/yaml-formatter";
 import { EmailNormalizer } from "@/components/tools/email-normalizer";
 import { RegexTester } from "@/components/tools/regex-tester";
-import { RegexCheatsheet } from "@/components/tools/regex-cheatsheet";
 
 // Nouveaux composants implémentés
 import BundleAnalyzer from "@/components/tools/bundle-analyzer";
@@ -48,6 +46,18 @@ import ErrorStackParser from "@/components/tools/error-stack-parser";
 import SpellChecker from "@/components/tools/spell-checker";
 import TextReformulator from "@/components/tools/text-reformulator";
 import Cheatsheets from "@/components/tools/cheatsheets";
+
+// Cheatsheets individuels
+import GitCheatsheetIndividual from "@/components/tools/git-cheatsheet-individual";
+import DockerCheatsheetIndividual from "@/components/tools/docker-cheatsheet-individual";
+import BashCheatsheetIndividual from "@/components/tools/bash-cheatsheet-individual";
+import NodeCheatsheetIndividual from "@/components/tools/node-cheatsheet-individual";
+import LaravelCheatsheetIndividual from "@/components/tools/laravel-cheatsheet-individual";
+import ReactCheatsheetIndividual from "@/components/tools/react-cheatsheet-individual";
+import PythonCheatsheetIndividual from "@/components/tools/python-cheatsheet-individual";
+import SqlCheatsheetIndividual from "@/components/tools/sql-cheatsheet-individual";
+import LinuxCheatsheetIndividual from "@/components/tools/linux-cheatsheet-individual";
+import RegexCheatsheetIndividual from "@/components/tools/regex-cheatsheet-individual";
 
 // Mapping des outils
 const toolComponents: Record<ToolId, React.ComponentType> = {
@@ -87,9 +97,19 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "mime-types": MimeTypes,
   "keycode-info": KeycodeInfo,
   "http-status": HttpStatusCodes,
-  "git-cheatsheet": GitCheatsheet,
-  "regex-cheatsheet": RegexCheatsheet,
   "regex-tester": RegexTester,
+
+  // Cheatsheets individuels
+  "git-cheatsheet": GitCheatsheetIndividual,
+  "docker-cheatsheet": DockerCheatsheetIndividual,
+  "bash-cheatsheet": BashCheatsheetIndividual,
+  "node-cheatsheet": NodeCheatsheetIndividual,
+  "laravel-cheatsheet": LaravelCheatsheetIndividual,
+  "react-cheatsheet": ReactCheatsheetIndividual,
+  "python-cheatsheet": PythonCheatsheetIndividual,
+  "sql-cheatsheet": SqlCheatsheetIndividual,
+  "linux-cheatsheet": LinuxCheatsheetIndividual,
+  "regex-cheatsheet": RegexCheatsheetIndividual,
 
   // Outils de développement
   "bundle-analyzer": BundleAnalyzer,

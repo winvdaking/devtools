@@ -1,0 +1,119 @@
+/**
+ * Composant pour afficher un cheatsheet individuel
+ * Affiche un cheatsheet spécifique basé sur son nom
+ */
+
+import React from "react";
+import { allCheatSheets } from "../../data/cheatsheets";
+import {
+  BookOpen,
+  Code,
+  Database,
+  Globe,
+  Layers,
+  Zap,
+  Terminal,
+  GitBranch,
+  Package,
+  Server,
+  Monitor,
+  Network,
+} from "lucide-react";
+
+// Mapping des icônes par nom
+const iconMap: Record<string, React.ReactNode> = {
+  GitBranch: <GitBranch className="w-5 h-5" />,
+  Package: <Package className="w-5 h-5" />,
+  Terminal: <Terminal className="w-5 h-5" />,
+  Zap: <Zap className="w-5 h-5" />,
+  Server: <Server className="w-5 h-5" />,
+  Code: <Code className="w-5 h-5" />,
+  Globe: <Globe className="w-5 h-5" />,
+  Layers: <Layers className="w-5 h-5" />,
+  Database: <Database className="w-5 h-5" />,
+  Monitor: <Monitor className="w-5 h-5" />,
+  BookOpen: <BookOpen className="w-5 h-5" />,
+  Network: <Network className="w-5 h-5" />,
+};
+
+interface IndividualCheatsheetProps {
+  cheatsheetName: string;
+}
+
+export default function IndividualCheatsheet({
+  cheatsheetName,
+}: IndividualCheatsheetProps) {
+  // Trouver le cheatsheet correspondant
+  const cheatsheet = allCheatSheets.find((cs) => cs.name === cheatsheetName);
+
+  if (!cheatsheet) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold font-playfair mb-2">
+            Cheatsheet non trouvé
+          </h2>
+          <p className="text-muted-foreground">
+            Le cheatsheet "{cheatsheetName}" n'a pas été trouvé.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const icon = iconMap[cheatsheet.icon || "Code"] || (
+    <Code className="w-5 h-5" />
+  );
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <div className="flex items-center gap-3 mb-2">
+          {icon}
+          <h2 className="text-2xl font-bold font-playfair">
+            {cheatsheet.name}
+          </h2>
+        </div>
+        <p className="text-muted-foreground">{cheatsheet.description}</p>
+      </div>
+
+      <div className="grid gap-6">
+        {cheatsheet.sections.map((section, sectionIndex) => (
+          <div key={sectionIndex} className="space-y-4">
+            <h4 className="text-lg font-semibold border-b pb-2">
+              {section.title}
+            </h4>
+
+            <div className="space-y-4">
+              {section.items.map((item, itemIndex) => (
+                <div key={itemIndex} className="bg-card border rounded-lg p-4">
+                  <h5 className="font-medium mb-2">{item.title}</h5>
+                  <p className="text-muted-foreground mb-3">
+                    {item.description}
+                  </p>
+
+                  {item.code && (
+                    <div className="bg-muted rounded p-3 font-mono text-sm overflow-x-auto">
+                      <pre className="whitespace-pre-wrap">{item.code}</pre>
+                    </div>
+                  )}
+
+                  {item.examples && (
+                    <div className="mt-3">
+                      <p className="text-sm font-medium mb-2">Exemples :</p>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                        {item.examples.map((example, exampleIndex) => (
+                          <li key={exampleIndex}>{example}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

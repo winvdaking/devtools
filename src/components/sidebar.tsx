@@ -41,6 +41,7 @@ import {
   Terminal,
   AlertTriangle,
   RefreshCw,
+  Package,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -59,10 +60,72 @@ const toolCategories: ToolCategory[] = [
     description: "Références des technologies de développement",
     tools: [
       {
-        id: "cheatsheets",
-        name: "Cheatsheets",
-        description:
-          "Références rapides pour toutes les technologies de développement",
+        id: "git-cheatsheet",
+        name: "Git",
+        description: "Commandes Git essentielles",
+        icon: GitBranch,
+        category: "cheatsheets",
+      },
+      {
+        id: "docker-cheatsheet",
+        name: "Docker",
+        description: "Commandes Docker et Docker Compose",
+        icon: Ship,
+        category: "cheatsheets",
+      },
+      {
+        id: "bash-cheatsheet",
+        name: "Bash/Shell",
+        description: "Commandes terminal et shell",
+        icon: Terminal,
+        category: "cheatsheets",
+      },
+      {
+        id: "node-cheatsheet",
+        name: "Node.js/npm",
+        description: "Commandes Node.js et npm",
+        icon: Package,
+        category: "cheatsheets",
+      },
+      {
+        id: "laravel-cheatsheet",
+        name: "Laravel",
+        description: "Artisan et Laravel",
+        icon: Code,
+        category: "cheatsheets",
+      },
+      {
+        id: "react-cheatsheet",
+        name: "React",
+        description: "Hooks et composants React",
+        icon: Globe,
+        category: "cheatsheets",
+      },
+      {
+        id: "python-cheatsheet",
+        name: "Python",
+        description: "Commandes Python et pip",
+        icon: Code,
+        category: "cheatsheets",
+      },
+      {
+        id: "sql-cheatsheet",
+        name: "SQL",
+        description: "Requêtes SQL essentielles",
+        icon: Database,
+        category: "cheatsheets",
+      },
+      {
+        id: "linux-cheatsheet",
+        name: "Linux",
+        description: "Commandes système Linux",
+        icon: Monitor,
+        category: "cheatsheets",
+      },
+      {
+        id: "regex-cheatsheet",
+        name: "Regex",
+        description: "Expressions régulières",
         icon: BookOpen,
         category: "cheatsheets",
       },
@@ -407,127 +470,124 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
 
       {/* Sidebar */}
       <motion.aside
-        initial={{ x: -280 }}
+        initial={{ x: -240 }}
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={cn(
-          "fixed left-0 top-0 z-40 h-full w-72 bg-card border-r border-border transition-transform duration-300 overflow-hidden",
+          "fixed left-0 top-0 z-40 h-full w-60 bg-card border-r border-border transition-transform duration-300 overflow-hidden",
           "lg:relative lg:z-0 lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border">
+        <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg overflow-hidden">
+            <div className="w-6 h-6 rounded-lg overflow-hidden">
               <img
                 src="https://dorianlopez.fr/avatar.png"
                 alt="Dorian Lopez"
                 className="w-full h-full object-cover"
               />
             </div>
-            <h1 className="text-lg font-semibold font-playfair">
+            <h1 className="text-sm font-semibold font-playfair">
               tools.dlpz.fr
             </h1>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             <ThemeToggle />
             {/* Bouton fermer pour mobile */}
             <button
               onClick={() => setIsOpen(false)}
               className="lg:hidden p-1 rounded-md hover:bg-accent"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        {/* Navigation avec scroll vertical uniquement */}
-        <nav className="flex-1 overflow-hidden">
-          <div className="h-full overflow-y-auto overflow-x-hidden">
-            <div className="p-4 space-y-4">
-              {toolCategories.map((category) => {
-                const isExpanded = expandedCategories.has(category.id);
-                const Icon = isExpanded ? ChevronDown : ChevronRight;
+        {/* Navigation avec scroll vertical */}
+        <nav className="flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="p-3 space-y-3">
+            {toolCategories.map((category) => {
+              const isExpanded = expandedCategories.has(category.id);
+              const Icon = isExpanded ? ChevronDown : ChevronRight;
 
-                return (
-                  <div key={category.id} className="space-y-2">
-                    <button
-                      onClick={() => toggleCategory(category.id)}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-left hover:bg-accent hover:text-accent-foreground transition-colors"
+              return (
+                <div key={category.id} className="space-y-1">
+                  <button
+                    onClick={() => toggleCategory(category.id)}
+                    className="w-full flex items-center justify-between px-2 py-1.5 rounded-md text-left hover:bg-accent hover:text-accent-foreground transition-colors"
+                  >
+                    <div className="flex items-center space-x-1.5">
+                      <span className="text-xs font-medium">
+                        {category.name}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        ({category.tools.length})
+                      </span>
+                    </div>
+                    <Icon className="h-3 w-3 text-muted-foreground" />
+                  </button>
+
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="ml-3 space-y-0.5"
                     >
-                      <div className="flex items-center space-x-2">
-                        <span className="text-sm font-medium">
-                          {category.name}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          ({category.tools.length})
-                        </span>
-                      </div>
-                      <Icon className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                      {category.tools.map((tool) => {
+                        const ToolIcon = tool.icon;
+                        const isActive = activeTool === tool.id;
 
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="ml-4 space-y-1 max-h-96 overflow-y-auto"
-                      >
-                        {category.tools.map((tool) => {
-                          const ToolIcon = tool.icon;
-                          const isActive = activeTool === tool.id;
-
-                          return (
-                            <motion.button
-                              key={tool.id}
-                              onClick={() => {
-                                onToolSelect(tool.id as ToolId);
-                                setIsOpen(false); // Fermer la sidebar sur mobile après sélection
-                              }}
-                              className={cn(
-                                "w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors",
-                                isActive
-                                  ? "bg-primary text-primary-foreground"
-                                  : "hover:bg-accent hover:text-accent-foreground"
-                              )}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <ToolIcon className="h-4 w-4 flex-shrink-0" />
-                              <div className="flex-1 min-w-0">
-                                <div className="text-sm font-medium truncate">
-                                  {tool.name}
-                                </div>
-                                <div
-                                  className={cn(
-                                    "text-xs truncate",
-                                    isActive
-                                      ? "text-primary-foreground/70"
-                                      : "text-muted-foreground"
-                                  )}
-                                >
-                                  {tool.description}
-                                </div>
+                        return (
+                          <motion.button
+                            key={tool.id}
+                            onClick={() => {
+                              onToolSelect(tool.id as ToolId);
+                              setIsOpen(false); // Fermer la sidebar sur mobile après sélection
+                            }}
+                            className={cn(
+                              "w-full flex items-center space-x-2 px-2 py-1.5 rounded-md text-left transition-colors",
+                              isActive
+                                ? "bg-primary text-primary-foreground"
+                                : "hover:bg-accent hover:text-accent-foreground"
+                            )}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                          >
+                            <ToolIcon className="h-3 w-3 flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <div className="text-xs font-medium truncate">
+                                {tool.name}
                               </div>
-                            </motion.button>
-                          );
-                        })}
-                      </motion.div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+                              <div
+                                className={cn(
+                                  "text-xs truncate",
+                                  isActive
+                                    ? "text-primary-foreground/70"
+                                    : "text-muted-foreground"
+                                )}
+                              >
+                                {tool.description}
+                              </div>
+                            </div>
+                          </motion.button>
+                        );
+                      })}
+                    </motion.div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </nav>
 
         {/* Footer */}
-        <div className="px-4 py-2 border-t border-border">
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Développé par</span>
+        <div className="px-3 py-2 border-t border-border">
+          <div className="flex items-center justify-center text-xs text-muted-foreground">
             <a
               href="https://dorianlopez.fr"
               target="_blank"

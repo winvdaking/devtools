@@ -38,9 +38,19 @@ export type ToolId =
   | "mime-types"
   | "keycode-info"
   | "http-status"
-  | "git-cheatsheet"
-  | "regex-cheatsheet"
   | "regex-tester"
+
+  // Cheatsheets individuels
+  | "git-cheatsheet"
+  | "docker-cheatsheet"
+  | "bash-cheatsheet"
+  | "node-cheatsheet"
+  | "laravel-cheatsheet"
+  | "react-cheatsheet"
+  | "python-cheatsheet"
+  | "sql-cheatsheet"
+  | "linux-cheatsheet"
+  | "regex-cheatsheet"
 
   // Outils de développement
   | "bundle-analyzer"
