@@ -1,6 +1,6 @@
 /**
  * Composant principal des cheatsheets pour les technologies de développement
- * Fournit des références rapides pour Node.js, PHP, React, Nuxt, Laravel et Symfony
+ * Fournit des références rapides pour toutes les technologies de développement
  */
 
 import React, { useState } from "react";
@@ -13,6 +13,15 @@ import {
   Zap,
   Terminal,
   GitBranch,
+  Package,
+  Server,
+  Smartphone,
+  Monitor,
+  Cloud,
+  Shield,
+  Settings,
+  Cpu,
+  Network,
 } from "lucide-react";
 
 interface CheatsheetSection {
@@ -32,93 +41,161 @@ interface TechnologyCheatsheet {
 }
 
 const cheatsheets: TechnologyCheatsheet[] = [
+  // Cheatsheets en premier
   {
-    name: "Node.js",
-    icon: <Zap className="w-5 h-5" />,
+    name: "Git",
+    icon: <GitBranch className="w-5 h-5" />,
     sections: [
       {
-        title: "Gestion des packages",
+        title: "Configuration",
         items: [
           {
-            title: "Initialiser un projet",
-            description: "Créer un package.json",
-            code: "npm init -y",
+            title: "Configuration utilisateur",
+            description: "Définir nom et email",
+            code: 'git config --global user.name "Votre Nom"\ngit config --global user.email "votre@email.com"',
           },
           {
-            title: "Installer des dépendances",
-            description: "Installation normale et développement",
-            code: "npm install package-name\nnpm install --save-dev package-name",
-          },
-          {
-            title: "Scripts npm",
-            description: "Scripts courants",
-            code: "npm start\nnpm test\nnpm run build\nnpm run dev",
+            title: "Configuration locale",
+            description: "Pour un projet spécifique",
+            code: 'git config user.name "Votre Nom"\ngit config user.email "votre@email.com"',
           },
         ],
       },
       {
-        title: "Modules ES6",
+        title: "Commandes de base",
         items: [
           {
-            title: "Import/Export",
-            description: "Syntaxe moderne",
-            code: 'import { func } from "./module";\nexport default class;\nexport { func };',
+            title: "Initialisation et clonage",
+            description: "Créer ou récupérer un dépôt",
+            code: "git init\ngit clone <url>\ngit clone --depth 1 <url>  # Clone superficiel",
           },
           {
-            title: "Import dynamique",
-            description: "Chargement à la demande",
-            code: 'const module = await import("./module");',
+            title: "Ajout et commit",
+            description: "Sauvegarder les modifications",
+            code: 'git add .\ngit add <fichier>\ngit commit -m "Message"\ngit commit -am "Message"  # Add + commit',
+          },
+          {
+            title: "Status et historique",
+            description: "Voir l'état du dépôt",
+            code: "git status\ngit log --oneline\ngit log --graph --oneline\ngit diff",
           },
         ],
       },
       {
-        title: "Async/Await",
+        title: "Branches",
         items: [
           {
-            title: "Gestion des promesses",
-            description: "Syntaxe moderne pour les opérations asynchrones",
-            code: "async function fetchData() {\n  try {\n    const data = await fetch(url);\n    return data.json();\n  } catch (error) {\n    console.error(error);\n  }\n}",
+            title: "Gestion des branches",
+            description: "Créer, lister et supprimer des branches",
+            code: "git branch\ngit branch <nom>\ngit checkout <branche>\ngit checkout -b <nouvelle-branche>\ngit branch -d <branche>",
+          },
+          {
+            title: "Fusion et rebase",
+            description: "Intégrer les modifications",
+            code: "git merge <branche>\ngit rebase <branche>\ngit rebase -i HEAD~3  # Interactive",
+          },
+        ],
+      },
+      {
+        title: "Remote et push",
+        items: [
+          {
+            title: "Gestion des remotes",
+            description: "Travailler avec des dépôts distants",
+            code: "git remote -v\ngit remote add origin <url>\ngit push origin <branche>\ngit push -u origin <branche>  # Set upstream",
+          },
+          {
+            title: "Pull et fetch",
+            description: "Récupérer les modifications",
+            code: "git pull\ngit fetch\ngit pull --rebase",
           },
         ],
       },
     ],
   },
   {
-    name: "PHP",
-    icon: <Code className="w-5 h-5" />,
+    name: "Regex",
+    icon: <BookOpen className="w-5 h-5" />,
     sections: [
       {
-        title: "Syntaxe de base",
+        title: "Métacaractères",
         items: [
           {
-            title: "Variables",
-            description: "Déclaration et types",
-            code: '$variable = "valeur";\n$nombre = 42;\n$tableau = [1, 2, 3];\n$assoc = ["key" => "value"];',
+            title: "Caractères spéciaux",
+            description: "Symboles avec signification spéciale",
+            code: ".  # N'importe quel caractère\n^  # Début de ligne\n$  # Fin de ligne\n*  # 0 ou plus\n+  # 1 ou plus\n?  # 0 ou 1",
           },
           {
-            title: "Fonctions",
-            description: "Définition et appel",
-            code: "function maFonction($param) {\n  return $param * 2;\n}\n\n$resultat = maFonction(5);",
-          },
-        ],
-      },
-      {
-        title: "Classes et objets",
-        items: [
-          {
-            title: "Classe simple",
-            description: "Définition de classe avec constructeur",
-            code: "class MaClasse {\n  private $propriete;\n  \n  public function __construct($valeur) {\n    $this->propriete = $valeur;\n  }\n  \n  public function getPropriete() {\n    return $this->propriete;\n  }\n}",
+            title: "Classes de caractères",
+            description: "Groupes de caractères",
+            code: "[abc]     # a, b ou c\n[^abc]    # Tout sauf a, b, c\n[a-z]     # Lettres minuscules\n[0-9]     # Chiffres\n\\w       # Caractère de mot\n\\d       # Chiffre\n\\s       # Espace",
           },
         ],
       },
       {
-        title: "Base de données",
+        title: "Quantificateurs",
         items: [
           {
-            title: "PDO - Connexion",
-            description: "Connexion à une base MySQL",
-            code: 'try {\n  $pdo = new PDO("mysql:host=localhost;dbname=test", "user", "pass");\n  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n} catch(PDOException $e) {\n  echo "Erreur: " . $e->getMessage();\n}',
+            title: "Quantificateurs de base",
+            description: "Contrôler le nombre d'occurrences",
+            code: "a*        # 0 ou plus 'a'\na+        # 1 ou plus 'a'\na?        # 0 ou 1 'a'\na{3}      # Exactement 3 'a'\na{2,4}    # Entre 2 et 4 'a'\na{2,}     # Au moins 2 'a'",
+          },
+        ],
+      },
+      {
+        title: "Patterns communs",
+        items: [
+          {
+            title: "Validation courante",
+            description: "Expressions pour valider des données",
+            code: "# Email\n^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n\n# URL\nhttps?://[^\\s]+\n\n# Téléphone français\n(?:0[1-9]|\\+33[1-9])(?:[0-9]{8})\n\n# Code postal\n^[0-9]{5}$",
+          },
+        ],
+      },
+    ],
+  },
+  // Frameworks et technologies
+  {
+    name: "Next.js",
+    icon: <Globe className="w-5 h-5" />,
+    sections: [
+      {
+        title: "Création de projet",
+        items: [
+          {
+            title: "Nouveau projet",
+            description: "Créer une application Next.js",
+            code: "npx create-next-app@latest mon-app\nnpx create-next-app@latest mon-app --typescript\nnpx create-next-app@latest mon-app --tailwind --eslint",
+          },
+          {
+            title: "Avec template",
+            description: "Utiliser un template spécifique",
+            code: "npx create-next-app@latest mon-app --template typescript\nnpx create-next-app@latest mon-app --template tailwind",
+          },
+        ],
+      },
+      {
+        title: "Commandes de développement",
+        items: [
+          {
+            title: "Scripts npm",
+            description: "Commandes essentielles",
+            code: "npm run dev        # Serveur de développement\nnpm run build      # Build de production\nnpm run start      # Serveur de production\nnpm run lint       # Vérification ESLint",
+          },
+          {
+            title: "Pages et routing",
+            description: "Structure des pages",
+            code: "pages/\n  index.js         # /\n  about.js         # /about\n  blog/\n    [slug].js      # /blog/mon-article\n    index.js       # /blog",
+          },
+        ],
+      },
+      {
+        title: "API Routes",
+        items: [
+          {
+            title: "Créer une API",
+            description: "Routes API dans Next.js",
+            code: "// pages/api/users.js\nexport default function handler(req, res) {\n  if (req.method === 'GET') {\n    res.status(200).json({ users: [] });\n  }\n}",
           },
         ],
       },
@@ -126,322 +203,490 @@ const cheatsheets: TechnologyCheatsheet[] = [
   },
   {
     name: "React",
-    icon: <Globe className="w-5 h-5" />,
+    icon: <Code className="w-5 h-5" />,
     sections: [
+      {
+        title: "Création de projet",
+        items: [
+          {
+            title: "Create React App",
+            description: "Créer une application React",
+            code: "npx create-react-app mon-app\nnpx create-react-app mon-app --template typescript\nnpx create-react-app mon-app --template redux",
+          },
+          {
+            title: "Vite",
+            description: "Alternative rapide à CRA",
+            code: "npm create vite@latest mon-app -- --template react\nnpm create vite@latest mon-app -- --template react-ts",
+          },
+        ],
+      },
+      {
+        title: "Hooks essentiels",
+        items: [
+          {
+            title: "useState et useEffect",
+            description: "Hooks de base",
+            code: "import { useState, useEffect } from 'react';\n\nfunction MonComposant() {\n  const [count, setCount] = useState(0);\n  \n  useEffect(() => {\n    document.title = `Count: ${count}`;\n  }, [count]);\n  \n  return <div>{count}</div>;\n}",
+          },
+        ],
+      },
       {
         title: "Composants",
         items: [
           {
             title: "Composant fonctionnel",
-            description: "Composant moderne avec hooks",
-            code: 'import React, { useState, useEffect } from "react";\n\nfunction MonComposant({ titre }) {\n  const [compteur, setCompteur] = useState(0);\n  \n  useEffect(() => {\n    document.title = `${titre} - ${compteur}`;\n  }, [titre, compteur]);\n  \n  return (\n    <div>\n      <h1>{titre}</h1>\n      <p>Compteur: {compteur}</p>\n      <button onClick={() => setCompteur(c => c + 1)}>\n        Incrémenter\n      </button>\n    </div>\n  );\n}',
-          },
-        ],
-      },
-      {
-        title: "Hooks courants",
-        items: [
-          {
-            title: "useState",
-            description: "Gestion de l'état local",
-            code: 'const [valeur, setValeur] = useState(initialValue);\nconst [obj, setObj] = useState({ prop: "valeur" });\n\nsetObj(prev => ({ ...prev, prop: "nouvelle" }));',
-          },
-          {
-            title: "useEffect",
-            description: "Effets de bord",
-            code: "useEffect(() => {\n  // Code à exécuter\n  return () => {\n    // Nettoyage\n  };\n}, [dependencies]);",
-          },
-        ],
-      },
-      {
-        title: "Props et enfants",
-        items: [
-          {
-            title: "Passage de props",
-            description: "Communication entre composants",
-            code: 'function Parent() {\n  return <Enfant titre="Mon titre" compteur={42} />;\n}\n\nfunction Enfant({ titre, compteur, children }) {\n  return (\n    <div>\n      <h2>{titre}</h2>\n      <p>Compteur: {compteur}</p>\n      {children}\n    </div>\n  );\n}',
+            description: "Structure de base",
+            code: "import React from 'react';\n\ninterface Props {\n  title: string;\n  children?: React.ReactNode;\n}\n\nconst MonComposant: React.FC<Props> = ({ title, children }) => {\n  return (\n    <div>\n      <h1>{title}</h1>\n      {children}\n    </div>\n  );\n};\n\nexport default MonComposant;",
           },
         ],
       },
     ],
   },
   {
-    name: "Nuxt",
+    name: "Vue.js",
     icon: <Layers className="w-5 h-5" />,
     sections: [
       {
-        title: "Structure des dossiers",
+        title: "Création de projet",
         items: [
           {
-            title: "Pages",
-            description: "Routage automatique basé sur les fichiers",
-            code: "pages/\n  index.vue          # / (accueil)\n  about.vue          # /about\n  users/\n    [id].vue         # /users/123\n    index.vue        # /users",
+            title: "Vue CLI",
+            description: "Créer un projet Vue",
+            code: "npm install -g @vue/cli\nvue create mon-app\nvue create mon-app --preset typescript",
+          },
+          {
+            title: "Vite",
+            description: "Alternative moderne",
+            code: "npm create vue@latest mon-app\nnpm create vite@latest mon-app -- --template vue\nnpm create vite@latest mon-app -- --template vue-ts",
           },
         ],
       },
       {
-        title: "Composables",
+        title: "Composition API",
         items: [
           {
-            title: "useState",
-            description: "État partagé entre composants",
-            code: '// composables/useCounter.js\nexport const useCounter = () => {\n  return useState("counter", () => 0);\n};\n\n// Dans un composant\nconst counter = useCounter();\ncounter.value++;',
-          },
-        ],
-      },
-      {
-        title: "API routes",
-        items: [
-          {
-            title: "Route API",
-            description: "API côté serveur",
-            code: "// server/api/users.js\nexport default defineEventHandler(async (event) => {\n  const users = await fetchUsers();\n  return users;\n});",
+            title: "Setup et refs",
+            description: "Nouvelle API de composition",
+            code: "<script setup>\nimport { ref, reactive, computed } from 'vue';\n\nconst count = ref(0);\nconst state = reactive({ name: 'Vue' });\nconst doubleCount = computed(() => count.value * 2);\n</script>",
           },
         ],
       },
     ],
   },
   {
-    name: "Laravel",
-    icon: <Database className="w-5 h-5" />,
+    name: "Node.js",
+    icon: <Zap className="w-5 h-5" />,
     sections: [
       {
-        title: "Artisan CLI",
+        title: "Initialisation",
         items: [
           {
-            title: "Commandes courantes",
+            title: "Nouveau projet",
+            description: "Créer un projet Node.js",
+            code: "npm init\nnpm init -y  # Avec valeurs par défaut\nnpm init -y --scope=@mon-org",
+          },
+          {
+            title: "Gestion des packages",
+            description: "Installer et gérer les dépendances",
+            code: "npm install express\nnpm install --save-dev nodemon\nnpm install -g typescript\nnpm uninstall package-name",
+          },
+        ],
+      },
+      {
+        title: "Scripts utiles",
+        items: [
+          {
+            title: "Scripts package.json",
+            description: "Scripts courants",
+            code: '{\n  "scripts": {\n    "start": "node index.js",\n    "dev": "nodemon index.js",\n    "test": "jest",\n    "build": "tsc"\n  }\n}',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "PHP",
+    icon: <Server className="w-5 h-5" />,
+    sections: [
+      {
+        title: "Composer",
+        items: [
+          {
+            title: "Initialisation",
+            description: "Créer un projet PHP avec Composer",
+            code: "composer init\ncomposer create-project symfony/skeleton mon-app\ncomposer create-project laravel/laravel mon-app",
+          },
+          {
+            title: "Gestion des dépendances",
+            description: "Installer et gérer les packages",
+            code: "composer install\ncomposer require symfony/http-foundation\ncomposer require --dev phpunit/phpunit\ncomposer update",
+          },
+        ],
+      },
+      {
+        title: "Laravel",
+        items: [
+          {
+            title: "Commandes Artisan",
             description: "Outils de développement Laravel",
             code: "php artisan make:controller UserController\nphp artisan make:model User -m\nphp artisan make:migration create_users_table\nphp artisan migrate\nphp artisan serve",
           },
         ],
       },
       {
-        title: "Eloquent ORM",
+        title: "Symfony",
         items: [
           {
-            title: "Relations",
-            description: "Définition des relations entre modèles",
-            code: 'class User extends Model {\n  public function posts() {\n    return $this->hasMany(Post::class);\n  }\n  \n  public function profile() {\n    return $this->hasOne(Profile::class);\n  }\n}\n\n// Utilisation\n$user = User::with("posts")->find(1);\n$posts = $user->posts;',
-          },
-        ],
-      },
-      {
-        title: "Blade Templates",
-        items: [
-          {
-            title: "Syntaxe Blade",
-            description: "Moteur de template Laravel",
-            code: '@if($condition)\n  <p>Vrai</p>\n@else\n  <p>Faux</p>\n@endif\n\n@foreach($items as $item)\n  <li>{{ $item->name }}</li>\n@endforeach\n\n@include("partials.header")',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Symfony",
-    icon: <BookOpen className="w-5 h-5" />,
-    sections: [
-      {
-        title: "Console",
-        items: [
-          {
-            title: "Commandes Symfony",
-            description: "Outils de développement",
+            title: "Console Symfony",
+            description: "Commandes de développement",
             code: "php bin/console make:controller\nphp bin/console make:entity\nphp bin/console doctrine:migrations:diff\nphp bin/console doctrine:migrations:migrate\nphp bin/console cache:clear",
           },
         ],
       },
+    ],
+  },
+  {
+    name: "Docker",
+    icon: <Package className="w-5 h-5" />,
+    sections: [
       {
-        title: "Doctrine ORM",
+        title: "Images et conteneurs",
         items: [
           {
-            title: "Entités",
-            description: "Définition des modèles de données",
-            code: "use Doctrine\\ORM\\Mapping as ORM;\n\n#[ORM\\Entity]\nclass User\n{\n    #[ORM\\Id]\n    #[ORM\\GeneratedValue]\n    #[ORM\\Column]\n    private ?int $id = null;\n    \n    #[ORM\\Column(length: 255)]\n    private ?string $email = null;\n    \n    // Getters et setters...\n}",
+            title: "Commandes de base",
+            description: "Gestion des conteneurs Docker",
+            code: "docker build -t mon-app .\ndocker run -p 3000:3000 mon-app\ndocker run -d --name mon-conteneur mon-app\ndocker ps\ndocker ps -a",
+          },
+          {
+            title: "Gestion des images",
+            description: "Manipuler les images Docker",
+            code: "docker images\ndocker pull nginx\ndocker rmi mon-image\ndocker tag mon-app:latest mon-app:v1.0",
           },
         ],
       },
       {
-        title: "Twig Templates",
+        title: "Docker Compose",
         items: [
           {
-            title: "Syntaxe Twig",
-            description: "Moteur de template Symfony",
-            code: '{% if user %}\n  <h1>Bonjour {{ user.name }}!</h1>\n{% endif %}\n\n{% for item in items %}\n  <li>{{ item.title }}</li>\n{% endfor %}\n\n{% include "partials/header.html.twig" %}',
+            title: "Services multiples",
+            description: "Orchestrer plusieurs conteneurs",
+            code: "docker-compose up\ndocker-compose up -d\ndocker-compose down\ndocker-compose logs\ndocker-compose build",
           },
         ],
       },
     ],
   },
   {
-    name: "Cursor AI",
+    name: "Bash/Shell",
     icon: <Terminal className="w-5 h-5" />,
     sections: [
       {
-        title: "Commandes Chat",
+        title: "Navigation",
         items: [
           {
-            title: "Chat avec l'IA",
-            description: "Interagir avec Claude dans Cursor",
-            code: "Cmd/Ctrl + K : Ouvrir le chat\nCmd/Ctrl + L : Chat en ligne\nCmd/Ctrl + Shift + L : Chat en plein écran",
-          },
-          {
-            title: "Génération de code",
-            description: "Demander du code à l'IA",
-            code: '// Exemples de prompts :\n"Crée une fonction pour valider un email"\n"Génère un composant React avec TypeScript"\n"Écris un test unitaire pour cette fonction"',
+            title: "Commandes de base",
+            description: "Navigation dans le système de fichiers",
+            code: "ls -la          # Lister avec détails\ncd /path/to/dir  # Changer de répertoire\npwd             # Répertoire actuel\nmkdir mon-dir   # Créer un dossier\nrm -rf mon-dir  # Supprimer récursivement",
           },
         ],
       },
       {
-        title: "Édition intelligente",
+        title: "Manipulation de fichiers",
         items: [
           {
-            title: "Complétion de code",
-            description: "Aide à la saisie automatique",
-            code: "Tab : Accepter la suggestion\nCtrl + ] : Prochaine suggestion\nCtrl + [ : Suggestion précédente",
+            title: "Copie et déplacement",
+            description: "Gérer les fichiers",
+            code: "cp fichier.txt backup/\ncp -r dossier/ backup/\nmv fichier.txt nouveau-nom.txt\nmv dossier/ /nouveau/chemin/",
           },
           {
-            title: "Refactoring",
-            description: "Modification intelligente du code",
-            code: "Cmd/Ctrl + Shift + R : Refactoriser\nCmd/Ctrl + . : Actions rapides\nCmd/Ctrl + Shift + P : Palette de commandes",
+            title: "Recherche et filtrage",
+            description: "Trouver et filtrer des données",
+            code: 'find . -name "*.js"\ngrep -r "pattern" .\ngrep -i "pattern" fichier.txt\nhead -n 10 fichier.txt\ntail -f fichier.log',
           },
         ],
       },
       {
-        title: "Fonctionnalités avancées",
+        title: "Processus et système",
         items: [
           {
-            title: "Debugging IA",
-            description: "Aide au débogage",
-            code: '// Demander à l\'IA d\'expliquer une erreur :\n"Pourquoi cette erreur se produit ?"\n"Comment corriger ce bug ?"\n"Explique-moi ce code"',
-          },
-          {
-            title: "Documentation",
-            description: "Génération de documentation",
-            code: '// Prompts utiles :\n"Documente cette fonction"\n"Crée un README pour ce projet"\n"Génère des commentaires JSDoc"',
+            title: "Gestion des processus",
+            description: "Surveiller et contrôler les processus",
+            code: "ps aux | grep node\nkill -9 <PID>\ntop\nhtop\njobs\nbg %1\nfg %1",
           },
         ],
       },
     ],
   },
   {
-    name: "Claude & IA",
-    icon: <Zap className="w-5 h-5" />,
+    name: "cURL",
+    icon: <Network className="w-5 h-5" />,
     sections: [
       {
-        title: "Prompts efficaces",
+        title: "Requêtes HTTP",
         items: [
           {
-            title: "Structure d'un prompt",
-            description: "Format recommandé pour de meilleurs résultats",
-            code: "1. CONTEXTE : Décris le projet/technologie\n2. OBJECTIF : Ce que tu veux accomplir\n3. CONTRAINTES : Limites techniques\n4. EXEMPLE : Code existant si applicable\n5. FORMAT : Comment tu veux la réponse",
-          },
-          {
-            title: "Exemples de prompts",
-            description: "Prompts efficaces pour le développement",
-            code: '// Pour du code :\n"Crée une API REST avec Node.js et Express qui gère les utilisateurs avec authentification JWT"\n\n// Pour du debug :\n"J\'ai cette erreur [erreur]. Mon code fait [description]. Comment la résoudre ?"\n\n// Pour de l\'optimisation :\n"Comment optimiser cette fonction pour améliorer les performances ?"',
+            title: "Méthodes de base",
+            description: "GET, POST, PUT, DELETE",
+            code: 'curl https://api.example.com/users\ncurl -X POST https://api.example.com/users \\\n  -H "Content-Type: application/json" \\\n  -d \'{"name": "John"}\'\ncurl -X PUT https://api.example.com/users/1 \\\n  -H "Content-Type: application/json" \\\n  -d \'{"name": "Jane"}\'\ncurl -X DELETE https://api.example.com/users/1',
           },
         ],
       },
       {
-        title: "Bonnes pratiques",
+        title: "Authentification",
         items: [
           {
-            title: "Communication claire",
-            description: "Comment bien communiquer avec l'IA",
-            code: "- Sois spécifique et précis\n- Donne du contexte\n- Une question = une réponse\n- Vérifie et teste le code généré\n- Itère sur les réponses",
-          },
-          {
-            title: "Limitations",
-            description: "Ce que l'IA ne peut pas faire",
-            code: "- Ne peut pas accéder à ton code local\n- Ne connaît pas les dernières mises à jour\n- Peut faire des erreurs de logique\n- Toujours vérifier la sécurité",
+            title: "Headers et tokens",
+            description: "Authentification avec cURL",
+            code: 'curl -H "Authorization: Bearer token123" https://api.example.com/protected\ncurl -u username:password https://api.example.com/protected\ncurl -H "X-API-Key: your-api-key" https://api.example.com/data',
           },
         ],
       },
       {
-        title: "Intégration workflow",
+        title: "Options utiles",
         items: [
           {
-            title: "Dans le développement",
-            description: "Comment intégrer l'IA dans ton workflow",
-            code: "1. Planification : Demande des architectures\n2. Développement : Génération de code\n3. Debug : Résolution de problèmes\n4. Tests : Génération de tests\n5. Documentation : Explication du code",
+            title: "Paramètres courants",
+            description: "Options fréquemment utilisées",
+            code: "curl -v https://api.example.com          # Verbose\ncurl -o fichier.json https://api.example.com  # Sauvegarder\ncurl -L https://example.com                   # Suivre les redirections\ncurl -s https://api.example.com               # Silent mode",
           },
         ],
       },
     ],
   },
   {
-    name: "GitHub Copilot",
-    icon: <GitBranch className="w-5 h-5" />,
+    name: "SQL",
+    icon: <Database className="w-5 h-5" />,
     sections: [
       {
-        title: "Activation",
+        title: "Requêtes de base",
         items: [
           {
-            title: "Comment activer",
-            description: "Activer GitHub Copilot dans ton éditeur",
-            code: "1. Installer l'extension GitHub Copilot\n2. Se connecter avec ton compte GitHub\n3. Vérifier l'abonnement (gratuit pour étudiants)\n4. Redémarrer l'éditeur",
+            title: "CRUD Operations",
+            description: "Create, Read, Update, Delete",
+            code: "-- SELECT\nSELECT * FROM users;\nSELECT name, email FROM users WHERE age > 18;\n\n-- INSERT\nINSERT INTO users (name, email) VALUES ('John', 'john@example.com');\n\n-- UPDATE\nUPDATE users SET name = 'Jane' WHERE id = 1;\n\n-- DELETE\nDELETE FROM users WHERE id = 1;",
           },
         ],
       },
       {
-        title: "Utilisation",
+        title: "Jointures",
         items: [
           {
-            title: "Complétion automatique",
-            description: "Comment utiliser les suggestions",
-            code: "Tab : Accepter la suggestion\nAlt + ] : Suggestion suivante\nAlt + [ : Suggestion précédente\nCtrl + Enter : Voir toutes les suggestions",
-          },
-          {
-            title: "Prompts en commentaires",
-            description: "Guider Copilot avec des commentaires",
-            code: "// Crée une fonction qui calcule la factorielle\n// Génère un composant React avec hooks\n// Écris un test unitaire pour cette fonction\n// Optimise cette boucle pour de meilleures performances",
-          },
-        ],
-      },
-      {
-        title: "Astuces",
-        items: [
-          {
-            title: "Améliorer les suggestions",
-            description: "Comment obtenir de meilleurs résultats",
-            code: "- Écris des commentaires clairs\n- Donne des noms explicites aux variables\n- Utilise des types TypeScript\n- Fournis des exemples d'utilisation",
+            title: "Types de jointures",
+            description: "Relier des tables",
+            code: "-- INNER JOIN\nSELECT u.name, p.title FROM users u\nINNER JOIN posts p ON u.id = p.user_id;\n\n-- LEFT JOIN\nSELECT u.name, p.title FROM users u\nLEFT JOIN posts p ON u.id = p.user_id;\n\n-- RIGHT JOIN\nSELECT u.name, p.title FROM users u\nRIGHT JOIN posts p ON u.id = p.user_id;",
           },
         ],
       },
     ],
   },
   {
-    name: "Outils Modernes",
-    icon: <Globe className="w-5 h-5" />,
+    name: "Python",
+    icon: <Code className="w-5 h-5" />,
     sections: [
       {
-        title: "VS Code Extensions",
+        title: "Environnement virtuel",
+        items: [
+          {
+            title: "Création et activation",
+            description: "Gérer les environnements Python",
+            code: "python -m venv mon-env\n# Windows\nmon-env\\Scripts\\activate\n# Linux/Mac\nsource mon-env/bin/activate\n\npip install -r requirements.txt\npip freeze > requirements.txt",
+          },
+        ],
+      },
+      {
+        title: "Frameworks web",
+        items: [
+          {
+            title: "Django et Flask",
+            description: "Créer des applications web",
+            code: "# Django\ndjango-admin startproject mon-projet\npython manage.py startapp mon-app\npython manage.py runserver\n\n# Flask\npip install flask\npython app.py",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Système",
+    icon: <Monitor className="w-5 h-5" />,
+    sections: [
+      {
+        title: "Linux/Unix",
+        items: [
+          {
+            title: "Permissions",
+            description: "Gérer les permissions de fichiers",
+            code: "chmod 755 fichier.sh    # rwxr-xr-x\nchmod +x script.sh      # Rendre exécutable\nchown user:group fichier # Changer propriétaire\nchgrp group fichier      # Changer groupe",
+          },
+          {
+            title: "Processus et services",
+            description: "Gérer les services système",
+            code: "systemctl start nginx\nsystemctl stop nginx\nsystemctl restart nginx\nsystemctl status nginx\nsystemctl enable nginx",
+          },
+        ],
+      },
+      {
+        title: "Réseau",
+        items: [
+          {
+            title: "Diagnostic réseau",
+            description: "Tester la connectivité",
+            code: "ping google.com\nnslookup google.com\ndig google.com\nnetstat -tulpn\nss -tulpn\ncurl -I https://example.com",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Mobile",
+    icon: <Smartphone className="w-5 h-5" />,
+    sections: [
+      {
+        title: "React Native",
+        items: [
+          {
+            title: "Création de projet",
+            description: "Développer des apps mobiles",
+            code: "npx react-native init MonApp\nnpx react-native run-android\nnpx react-native run-ios\nnpx react-native start",
+          },
+        ],
+      },
+      {
+        title: "Flutter",
+        items: [
+          {
+            title: "Développement Flutter",
+            description: "Framework Google pour mobile",
+            code: "flutter create mon_app\nflutter run\nflutter build apk\nflutter build ios",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Cloud & DevOps",
+    icon: <Cloud className="w-5 h-5" />,
+    sections: [
+      {
+        title: "AWS CLI",
+        items: [
+          {
+            title: "Commandes de base",
+            description: "Interagir avec AWS",
+            code: "aws configure\naws s3 ls\naws s3 cp fichier.txt s3://mon-bucket/\naws ec2 describe-instances\naws lambda list-functions",
+          },
+        ],
+      },
+      {
+        title: "Kubernetes",
+        items: [
+          {
+            title: "Commandes kubectl",
+            description: "Gérer des clusters Kubernetes",
+            code: "kubectl get pods\nkubectl apply -f deployment.yaml\nkubectl logs <pod-name>\nkubectl exec -it <pod-name> -- /bin/bash",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Sécurité",
+    icon: <Shield className="w-5 h-5" />,
+    sections: [
+      {
+        title: "SSL/TLS",
+        items: [
+          {
+            title: "Certificats",
+            description: "Gérer les certificats SSL",
+            code: "openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes\nopenssl x509 -in cert.pem -text -noout\nopenssl s_client -connect example.com:443",
+          },
+        ],
+      },
+      {
+        title: "Chiffrement",
+        items: [
+          {
+            title: "Hachage et chiffrement",
+            description: "Sécuriser les données",
+            code: "openssl dgst -sha256 fichier.txt\nopenssl enc -aes-256-cbc -in fichier.txt -out fichier.enc\nopenssl enc -aes-256-cbc -d -in fichier.enc -out fichier.txt",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Outils de développement",
+    icon: <Settings className="w-5 h-5" />,
+    sections: [
+      {
+        title: "VS Code",
         items: [
           {
             title: "Extensions essentielles",
-            description: "Extensions recommandées pour le développement",
-            code: "- Prettier : Formatage automatique\n- ESLint : Linting JavaScript/TypeScript\n- GitLens : Historique Git avancé\n- Auto Rename Tag : HTML/JSX\n- Bracket Pair Colorizer : Parenthèses colorées",
+            description: "Extensions recommandées",
+            code: "# Extensions populaires\n- Prettier - Code formatter\n- ESLint\n- GitLens\n- Auto Rename Tag\n- Bracket Pair Colorizer\n- Live Server\n- Thunder Client",
           },
         ],
       },
       {
-        title: "Terminal & Shell",
+        title: "Terminal",
         items: [
           {
-            title: "Commandes utiles",
-            description: "Commandes terminal pour développeurs",
-            code: 'ls -la : Lister tous les fichiers\ngrep -r "pattern" . : Recherche récursive\nfind . -name "*.js" : Trouver fichiers JS\nchmod +x script.sh : Rendre exécutable\nps aux | grep node : Processus Node.js',
+            title: "Améliorer le terminal",
+            description: "Outils pour terminal",
+            code: '# Oh My Zsh (Zsh)\nsh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"\n\n# Starship (Prompt)\ncurl -sS https://starship.rs/install.sh | sh\n\n# FZF (Fuzzy finder)\ngit clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf\n~/.fzf/install',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Performance",
+    icon: <Cpu className="w-5 h-5" />,
+    sections: [
+      {
+        title: "Monitoring",
+        items: [
+          {
+            title: "Surveillance système",
+            description: "Outils de monitoring",
+            code: "htop                    # Processus en temps réel\niotop                   # I/O par processus\nnethogs                 # Utilisation réseau par processus\nlsof                    # Fichiers ouverts\nstrace -p <PID>         # Appels système",
           },
         ],
       },
       {
-        title: "Docker & Containers",
+        title: "Optimisation",
         items: [
           {
-            title: "Commandes Docker",
-            description: "Commandes Docker essentielles",
-            code: "docker build -t monapp . : Construire une image\ndocker run -p 3000:3000 monapp : Lancer un conteneur\ndocker ps : Lister les conteneurs actifs\ndocker-compose up -d : Lancer avec docker-compose\ndocker logs conteneur_id : Voir les logs",
+            title: "Performance web",
+            description: "Optimiser les performances",
+            code: "# Lighthouse (audit web)\nnpx lighthouse https://example.com\n\n# Bundle analyzer (JavaScript)\nnpx webpack-bundle-analyzer dist/stats.json\n\n# Image optimization\nnpx imagemin images/* --out-dir=optimized",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: "IA & Outils modernes",
+    icon: <Zap className="w-5 h-5" />,
+    sections: [
+      {
+        title: "GitHub Copilot",
+        items: [
+          {
+            title: "Utilisation",
+            description: "Assistant de codage IA",
+            code: "# Raccourcis clavier\nTab              # Accepter la suggestion\nAlt + ]          # Suggestion suivante\nAlt + [          # Suggestion précédente\nCtrl + Enter     # Voir toutes les suggestions",
+          },
+        ],
+      },
+      {
+        title: "Cursor AI",
+        items: [
+          {
+            title: "Commandes Chat",
+            description: "Interagir avec l'IA",
+            code: "Cmd/Ctrl + K        # Ouvrir le chat\nCmd/Ctrl + L        # Chat en ligne\nCmd/Ctrl + Shift + L # Chat plein écran",
           },
         ],
       },

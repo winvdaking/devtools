@@ -54,6 +54,21 @@ interface SidebarProps {
 
 const toolCategories: ToolCategory[] = [
   {
+    id: "cheatsheets",
+    name: "Cheatsheets Tech",
+    description: "Références des technologies de développement",
+    tools: [
+      {
+        id: "cheatsheets",
+        name: "Cheatsheets",
+        description:
+          "Références rapides pour toutes les technologies de développement",
+        icon: BookOpen,
+        category: "cheatsheets",
+      },
+    ],
+  },
+  {
     id: "formatting",
     name: "Formatage & Conversion",
     description: "Outils de formatage et conversion de données",
@@ -354,21 +369,6 @@ const toolCategories: ToolCategory[] = [
       },
     ],
   },
-  {
-    id: "cheatsheets",
-    name: "Cheatsheets Tech",
-    description: "Références des technologies de développement",
-    tools: [
-      {
-        id: "cheatsheets",
-        name: "Cheatsheets",
-        description:
-          "Références rapides Node.js, PHP, React, Nuxt, Laravel, Symfony, Cursor AI, Claude, GitHub Copilot",
-        icon: BookOpen,
-        category: "cheatsheets",
-      },
-    ],
-  },
 ];
 
 export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
@@ -419,10 +419,12 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">
-                DL
-              </span>
+            <div className="w-8 h-8 rounded-lg overflow-hidden">
+              <img
+                src="https://dorianlopez.fr/avatar.png"
+                alt="Dorian Lopez"
+                className="w-full h-full object-cover"
+              />
             </div>
             <h1 className="text-lg font-semibold font-playfair">
               tools.dlpz.fr
@@ -522,17 +524,20 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
 
         {/* Footer */}
         <div className="p-4 border-t border-border">
-          <a
-            href="https://dorianlopez.fr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            <Zap className="h-4 w-4" />
+          <div className="flex items-center space-x-2">
             <span>
-              Développé par <strong>dorianlopez.fr</strong>
+              Développé par{" "}
+              <a
+                href="https://dorianlopez.fr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold"
+              >
+                <Zap className="h-4 w-4" />
+                dorianlopez.fr
+              </a>
             </span>
-          </a>
+          </div>
         </div>
       </motion.aside>
     </>
