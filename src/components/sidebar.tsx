@@ -42,6 +42,7 @@ import {
   AlertTriangle,
   RefreshCw,
   Package,
+  Home,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -54,6 +55,20 @@ interface SidebarProps {
 }
 
 const toolCategories: ToolCategory[] = [
+  {
+    id: "home",
+    name: "Accueil",
+    description: "Page d'accueil et présentation",
+    tools: [
+      {
+        id: "homepage",
+        name: "Accueil",
+        description: "Page d'accueil et présentation des outils",
+        icon: Home,
+        category: "home",
+      },
+    ],
+  },
   {
     id: "cheatsheets",
     name: "Cheatsheets Tech",
@@ -437,7 +452,7 @@ const toolCategories: ToolCategory[] = [
 export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(["formatting", "encoding", "development", "cheatsheets"])
+    new Set([])
   );
 
   const toggleCategory = (categoryId: string) => {

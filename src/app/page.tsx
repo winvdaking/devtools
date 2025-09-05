@@ -58,6 +58,7 @@ import PythonCheatsheetIndividual from "@/components/tools/python-cheatsheet-ind
 import SqlCheatsheetIndividual from "@/components/tools/sql-cheatsheet-individual";
 import LinuxCheatsheetIndividual from "@/components/tools/linux-cheatsheet-individual";
 import RegexCheatsheetIndividual from "@/components/tools/regex-cheatsheet-individual";
+import Homepage from "@/components/tools/homepage";
 
 // Mapping des outils
 const toolComponents: Record<ToolId, React.ComponentType> = {
@@ -122,10 +123,13 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
 
   // Cheatsheets des technologies
   cheatsheets: Cheatsheets,
+
+  // Page d'accueil
+  homepage: Homepage,
 };
 
 export default function HomePage() {
-  const [activeTool, setActiveTool] = useState<ToolId>("date-formatter");
+  const [activeTool, setActiveTool] = useState<ToolId>("homepage");
 
   const ActiveToolComponent = toolComponents[activeTool];
 

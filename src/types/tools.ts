@@ -64,7 +64,10 @@ export type ToolId =
   | "text-reformulator"
 
   // Cheatsheets des technologies
-  | "cheatsheets";
+  | "cheatsheets"
+
+  // Page d'accueil
+  | "homepage";
 
 export interface Tool {
   id: ToolId;

@@ -3,7 +3,7 @@
  * Affiche un cheatsheet spécifique basé sur son nom
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { allCheatSheets } from "../../data/cheatsheets";
 import {
   BookOpen,
@@ -18,6 +18,8 @@ import {
   Server,
   Monitor,
   Network,
+  Copy,
+  Check,
 } from "lucide-react";
 
 // Mapping des icônes par nom
@@ -43,8 +45,26 @@ interface IndividualCheatsheetProps {
 export default function IndividualCheatsheet({
   cheatsheetName,
 }: IndividualCheatsheetProps) {
+  const [copiedItems, setCopiedItems] = useState<Set<string>>(new Set());
+
   // Trouver le cheatsheet correspondant
   const cheatsheet = allCheatSheets.find((cs) => cs.name === cheatsheetName);
+
+  const copyToClipboard = async (text: string, itemId: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedItems((prev) => new Set(prev).add(itemId));
+      setTimeout(() => {
+        setCopiedItems((prev) => {
+          const newSet = new Set(prev);
+          newSet.delete(itemId);
+          return newSet;
+        });
+      }, 2000);
+    } catch (err) {
+      console.error("Erreur lors de la copie:", err);
+    }
+  };
 
   if (!cheatsheet) {
     return (
@@ -93,19 +113,62 @@ export default function IndividualCheatsheet({
                   </p>
 
                   {item.code && (
-                    <div className="bg-muted rounded p-3 font-mono text-sm overflow-x-auto">
-                      <pre className="whitespace-pre-wrap">{item.code}</pre>
+                    <div className="relative">
+                      <div className="bg-muted rounded p-3 font-mono text-sm overflow-x-auto">
+                        <pre className="whitespace-pre-wrap">{item.code}</pre>
+                      </div>
+                      <button
+                        onClick={() =>
+                          copyToClipboard(
+                            item.code!,
+                            `code-${sectionIndex}-${itemIndex}`
+                          )
+                        }
+                        className="absolute top-2 right-2 p-1.5 rounded-md bg-background/80 hover:bg-background border transition-colors"
+                        title="Copier le code"
+                      >
+                        {copiedItems.has(
+                          `code-${sectionIndex}-${itemIndex}`
+                        ) ? (
+                          <Check className="w-3 h-3 text-green-500" />
+                        ) : (
+                          <Copy className="w-3 h-3" />
+                        )}
+                      </button>
                     </div>
                   )}
 
                   {item.examples && (
                     <div className="mt-3">
                       <p className="text-sm font-medium mb-2">Exemples :</p>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                        {item.examples.map((example, exampleIndex) => (
-                          <li key={exampleIndex}>{example}</li>
-                        ))}
-                      </ul>
+                      <div className="space-y-2">
+                        {item.examples.map((example, exampleIndex) => {
+                          const exampleId = `example-${sectionIndex}-${itemIndex}-${exampleIndex}`;
+                          return (
+                            <div
+                              key={exampleIndex}
+                              className="flex items-center gap-2"
+                            >
+                              <div className="flex-1 bg-muted rounded p-2 font-mono text-xs">
+                                {example}
+                              </div>
+                              <button
+                                onClick={() =>
+                                  copyToClipboard(example, exampleId)
+                                }
+                                className="p-1.5 rounded-md hover:bg-accent transition-colors"
+                                title="Copier l'exemple"
+                              >
+                                {copiedItems.has(exampleId) ? (
+                                  <Check className="w-3 h-3 text-green-500" />
+                                ) : (
+                                  <Copy className="w-3 h-3" />
+                                )}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </div>
