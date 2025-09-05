@@ -34,15 +34,21 @@ fi
 
 print_step "1. Installation des dépendances"
 apt update
-apt install -y nginx certbot python3-certbot-nginx docker.io docker-compose
 
 print_step "2. Configuration du répertoire dlpz.fr"
-mkdir -p /var/www/dlpz/frontend/app
-chown -R www-data:www-data /var/www/dlpz/frontend/app
-chmod -R 755 /var/www/dlpz/frontend/app
-
-# Créer index.html de base si inexistant
-if [ ! -f "/var/www/dlpz/frontend/app/index.html" ]; then
+# Vérifier si le répertoire existe déjà
+if [ -d "/var/www/dlpz/frontend/app" ]; then
+    print_status "Répertoire existant détecté - conservation de votre projet Git"
+    # Ajuster seulement les permissions sans toucher au contenu
+    chown -R www-data:www-data /var/www/dlpz/frontend/app
+    chmod -R 755 /var/www/dlpz/frontend/app
+else
+    print_status "Création du répertoire"
+    mkdir -p /var/www/dlpz/frontend/app
+    chown -R www-data:www-data /var/www/dlpz/frontend/app
+    chmod -R 755 /var/www/dlpz/frontend/app
+    
+    # Créer index.html de base seulement si le répertoire était vide
     cat > /var/www/dlpz/frontend/app/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="fr">
