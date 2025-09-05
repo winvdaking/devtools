@@ -60,8 +60,8 @@ docker-compose ps
 
 # Vérifier que l'application répond
 print_status "Test de l'application..."
-if curl -f http://localhost:3000 > /dev/null 2>&1; then
-    print_status "✅ L'application Next.js répond correctement sur le port 3000"
+if curl -f http://localhost:3001 > /dev/null 2>&1; then
+    print_status "✅ L'application Next.js répond correctement sur le port 3001"
 else
     print_warning "⚠️  L'application Next.js ne répond pas encore. Vérifiez les logs avec: docker-compose logs app"
 fi

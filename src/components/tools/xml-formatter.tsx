@@ -3,9 +3,17 @@
  */
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { FileCode, Copy, Check, FileText, Minus, Zap, AlertCircle } from "lucide-react";
+import {
+  FileCode,
+  Copy,
+  Check,
+  FileText,
+  Minus,
+  Zap,
+  AlertCircle,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -29,20 +37,20 @@ export function XmlFormatter() {
   const sampleXmls = [
     {
       name: "HTML simple",
-      xml: '<html><head><title>Page</title></head><body><h1>Titre</h1><p>Paragraphe</p></body></html>'
+      xml: "<html><head><title>Page</title></head><body><h1>Titre</h1><p>Paragraphe</p></body></html>",
     },
     {
       name: "Configuration",
-      xml: '<config><database><host>localhost</host><port>5432</port><name>mydb</name></database><server><port>3000</port><debug>true</debug></server></config>'
+      xml: "<config><database><host>localhost</host><port>5432</port><name>mydb</name></database><server><port>3000</port><debug>true</debug></server></config>",
     },
     {
       name: "RSS Feed",
-      xml: '<rss version="2.0"><channel><title>Mon Blog</title><link>https://example.com</link><description>Description du blog</description><item><title>Article 1</title><link>https://example.com/1</link><description>Description article 1</description></item></channel></rss>'
+      xml: '<rss version="2.0"><channel><title>Mon Blog</title><link>https://example.com</link><description>Description du blog</description><item><title>Article 1</title><link>https://example.com/1</link><description>Description article 1</description></item></channel></rss>',
     },
     {
       name: "SOAP Request",
-      xml: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><AuthHeader><Username>user</Username><Password>pass</Password></AuthHeader></soap:Header><soap:Body><GetUserRequest><UserId>123</UserId></GetUserRequest></soap:Body></soap:Envelope>'
-    }
+      xml: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><AuthHeader><Username>user</Username><Password>pass</Password></AuthHeader></soap:Header><soap:Body><GetUserRequest><UserId>123</UserId></GetUserRequest></soap:Body></soap:Envelope>',
+    },
   ];
 
   const validateXml = (xml: string): string[] => {
@@ -51,21 +59,24 @@ export function XmlFormatter() {
     try {
       // Vérifier les balises non fermées
       const openTags: string[] = [];
-      const selfClosingTags = ['br', 'hr', 'img', 'input', 'meta', 'link'];
+      const selfClosingTags = ["br", "hr", "img", "input", "meta", "link"];
 
       const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9]*)(?:\s[^>]*)?>/g;
       let match;
 
       while ((match = tagRegex.exec(xml)) !== null) {
         const tagName = match[1];
-        const isClosing = match[0].startsWith('</');
-        const isSelfClosing = match[0].endsWith('/>') || selfClosingTags.includes(tagName);
+        const isClosing = match[0].startsWith("</");
+        const isSelfClosing =
+          match[0].endsWith("/>") || selfClosingTags.includes(tagName);
 
         if (isSelfClosing) continue;
 
         if (isClosing) {
           if (openTags.length === 0 || openTags.pop() !== tagName) {
-            errors.push(`Balise fermante </${tagName}> sans balise ouvrante correspondante`);
+            errors.push(
+              `Balise fermante </${tagName}> sans balise ouvrante correspondante`
+            );
           }
         } else {
           openTags.push(tagName);
@@ -73,18 +84,18 @@ export function XmlFormatter() {
       }
 
       if (openTags.length > 0) {
-        errors.push(`Balises non fermées: ${openTags.join(', ')}`);
+        errors.push(`Balises non fermées: ${openTags.join(", ")}`);
       }
 
       // Vérifier les attributs mal formés
-      const attrRegex = /<[^>]*\s([a-zA-Z][a-zA-Z0-9]*)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/g;
+      const attrRegex =
+        /<[^>]*\s([a-zA-Z][a-zA-Z0-9]*)\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/g;
       while ((match = attrRegex.exec(xml)) !== null) {
-        const attrValue = match[0].split('=')[1];
+        const attrValue = match[0].split("=")[1];
         if (!attrValue.startsWith('"') && !attrValue.startsWith("'")) {
           errors.push(`Attribut ${match[1]} sans guillemets`);
         }
       }
-
     } catch (err) {
       errors.push("Erreur lors de la validation XML");
     }
@@ -111,15 +122,16 @@ export function XmlFormatter() {
       }
 
       // Nettoyer le XML
-      let cleanXml = xml.trim()
-        .replace(/>\s+</g, '><') // Supprimer les espaces entre balises
-        .replace(/\s+/g, ' ') // Normaliser les espaces
-        .replace(/>\s*</g, '><'); // Nettoyer les espaces autour des balises
+      let cleanXml = xml
+        .trim()
+        .replace(/>\s+</g, "><") // Supprimer les espaces entre balises
+        .replace(/\s+/g, " ") // Normaliser les espaces
+        .replace(/>\s*</g, "><"); // Nettoyer les espaces autour des balises
 
       // Formater avec indentation
-      let formatted = '';
+      let formatted = "";
       let indent = 0;
-      const indentStr = ' '.repeat(indentSize);
+      const indentStr = " ".repeat(indentSize);
 
       // Diviser en balises
       const parts = cleanXml.split(/(<\/?[^>]+>)/);
@@ -128,18 +140,18 @@ export function XmlFormatter() {
         const part = parts[i].trim();
         if (!part) continue;
 
-        if (part.startsWith('</')) {
+        if (part.startsWith("</")) {
           // Balise fermante
           indent--;
-          formatted += '\n' + indentStr.repeat(indent) + part;
-        } else if (part.startsWith('<') && !part.endsWith('/>')) {
+          formatted += "\n" + indentStr.repeat(indent) + part;
+        } else if (part.startsWith("<") && !part.endsWith("/>")) {
           // Balise ouvrante
-          formatted += '\n' + indentStr.repeat(indent) + part;
+          formatted += "\n" + indentStr.repeat(indent) + part;
           indent++;
-        } else if (part.startsWith('<') && part.endsWith('/>')) {
+        } else if (part.startsWith("<") && part.endsWith("/>")) {
           // Balise auto-fermante
-          formatted += '\n' + indentStr.repeat(indent) + part;
-        } else if (part !== '<' && part !== '>') {
+          formatted += "\n" + indentStr.repeat(indent) + part;
+        } else if (part !== "<" && part !== ">") {
           // Contenu textuel
           formatted += part;
         }
@@ -169,14 +181,15 @@ export function XmlFormatter() {
         return;
       }
 
-      let minified = xml.trim()
-        .replace(/>\s+</g, '><') // Supprimer les espaces entre balises
-        .replace(/\s+/g, ' ') // Normaliser les espaces
-        .replace(/>\s*</g, '><') // Nettoyer les espaces autour des balises
-        .replace(/\n/g, '') // Supprimer les retours à la ligne
-        .replace(/\t/g, '') // Supprimer les tabulations
-        .replace(/\s*\/>/g, '/>') // Nettoyer les balises auto-fermantes
-        .replace(/>\s*</g, '><'); // Nettoyer les espaces entre balises
+      let minified = xml
+        .trim()
+        .replace(/>\s+</g, "><") // Supprimer les espaces entre balises
+        .replace(/\s+/g, " ") // Normaliser les espaces
+        .replace(/>\s*</g, "><") // Nettoyer les espaces autour des balises
+        .replace(/\n/g, "") // Supprimer les retours à la ligne
+        .replace(/\t/g, "") // Supprimer les tabulations
+        .replace(/\s*\/>/g, "/>") // Nettoyer les balises auto-fermantes
+        .replace(/>\s*</g, "><"); // Nettoyer les espaces entre balises
 
       setMinifiedXml(minified);
     } catch (err) {
@@ -190,7 +203,7 @@ export function XmlFormatter() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const loadSample = (sample: typeof sampleXmls[0]) => {
+  const loadSample = (sample: (typeof sampleXmls)[0]) => {
     setInputXml(sample.xml);
     setFormattedXml("");
     setMinifiedXml("");
@@ -207,12 +220,12 @@ export function XmlFormatter() {
   };
 
   const downloadXml = (content: string, filename: string) => {
-    const blob = new Blob([content], { type: 'application/xml' });
-    const link = document.createElement('a');
+    const blob = new Blob([content], { type: "application/xml" });
+    const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', filename);
-    link.style.visibility = 'hidden';
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -264,9 +277,7 @@ export function XmlFormatter() {
       <Card>
         <CardHeader>
           <CardTitle>Configuration</CardTitle>
-          <CardDescription>
-            Personnalisez le formatage
-          </CardDescription>
+          <CardDescription>Personnalisez le formatage</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
@@ -274,7 +285,11 @@ export function XmlFormatter() {
             <Input
               type="number"
               value={indentSize}
-              onChange={(e) => setIndentSize(Math.max(1, Math.min(8, parseInt(e.target.value) || 2)))}
+              onChange={(e) =>
+                setIndentSize(
+                  Math.max(1, Math.min(8, parseInt(e.target.value) || 2))
+                )
+              }
               min={1}
               max={8}
               className="w-20"
@@ -290,9 +305,7 @@ export function XmlFormatter() {
       <Card>
         <CardHeader>
           <CardTitle>XML d'entrée</CardTitle>
-          <CardDescription>
-            Collez votre XML ici
-          </CardDescription>
+          <CardDescription>Collez votre XML ici</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <Textarea
@@ -331,7 +344,10 @@ export function XmlFormatter() {
           <CardContent>
             <ul className="space-y-1 text-sm">
               {validationErrors.map((error, index) => (
-                <li key={index} className="text-orange-800 dark:text-orange-200">
+                <li
+                  key={index}
+                  className="text-orange-800 dark:text-orange-200"
+                >
                   • {error}
                 </li>
               ))}
@@ -467,9 +483,11 @@ export function XmlFormatter() {
               </div>
               <div className="p-3 bg-muted rounded">
                 <div className="text-2xl font-bold text-primary">
-                  {formattedXml ? formattedXml.split('\n').length : 0}
+                  {formattedXml ? formattedXml.split("\n").length : 0}
                 </div>
-                <div className="text-xs text-muted-foreground">Lignes formatées</div>
+                <div className="text-xs text-muted-foreground">
+                  Lignes formatées
+                </div>
               </div>
             </div>
           </CardContent>
@@ -485,9 +503,10 @@ export function XmlFormatter() {
                 Formateur XML
               </p>
               <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                Formatez et minifiez vos fichiers XML pour une meilleure lisibilité
-                ou pour optimiser la production. Validation automatique des erreurs
-                de syntaxe et support des balises auto-fermantes.
+                Formatez et minifiez vos fichiers XML pour une meilleure
+                lisibilité ou pour optimiser la production. Validation
+                automatique des erreurs de syntaxe et support des balises
+                auto-fermantes.
               </p>
             </div>
           </div>

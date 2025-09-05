@@ -88,7 +88,7 @@ npm install
 npm run dev
 ```
 
-L'application sera accessible sur [http://localhost:3000](http://localhost:3000)
+L'application sera accessible sur [http://localhost:3001](http://localhost:3001)
 
 ### Installation avec Docker
 
@@ -97,7 +97,7 @@ L'application sera accessible sur [http://localhost:3000](http://localhost:3000)
 docker build -t devtools .
 
 # Lancer le conteneur
-docker run -p 3000:3000 devtools
+docker run -p 3001:3000 devtools
 ```
 
 ## 🎯 Utilisation
