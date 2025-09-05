@@ -44,7 +44,7 @@ import {
   Package,
   Home,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ToolId, ToolCategory } from "@/types/tools";
 import { ThemeToggle } from "./ui/theme-toggle";
@@ -454,6 +454,8 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set([])
   );
+  const [needsScroll, setNeedsScroll] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -465,8 +467,54 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
     setExpandedCategories(newExpanded);
   };
 
+  // Vérifier si le scroll est nécessaire
+  useEffect(() => {
+    const checkScrollNeeded = () => {
+      if (navRef.current) {
+        const { scrollHeight, clientHeight } = navRef.current;
+        setNeedsScroll(scrollHeight > clientHeight);
+      }
+    };
+
+    // Vérifier après le rendu initial
+    checkScrollNeeded();
+
+    // Vérifier quand les catégories changent
+    const timeoutId = setTimeout(checkScrollNeeded, 100);
+
+    // Vérifier sur le redimensionnement
+    window.addEventListener("resize", checkScrollNeeded);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", checkScrollNeeded);
+    };
+  }, [expandedCategories]);
+
   return (
     <>
+      {/* Styles pour la scrollbar personnalisée */}
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: hsl(var(--border));
+          border-radius: 3px;
+          transition: background 0.2s ease;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: hsl(var(--muted-foreground) / 0.5);
+        }
+        .custom-scrollbar {
+          scrollbar-width: thin;
+          scrollbar-color: hsl(var(--border)) transparent;
+        }
+      `}</style>
+
       {/* Bouton mobile pour ouvrir la sidebar */}
       <button
         onClick={() => setIsOpen(true)}
@@ -521,9 +569,17 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
           </div>
         </div>
 
-        {/* Navigation avec scroll vertical */}
-        <nav className="flex-1 overflow-y-auto overflow-x-hidden">
-          <div className="p-3 space-y-3">
+        {/* Navigation avec scroll vertical conditionnel */}
+        <nav className="flex-1 overflow-x-hidden">
+          <div
+            ref={navRef}
+            className={cn(
+              "p-3 space-y-3 h-full transition-all duration-200",
+              needsScroll
+                ? "overflow-y-auto custom-scrollbar"
+                : "overflow-y-visible"
+            )}
+          >
             {toolCategories.map((category) => {
               const isExpanded = expandedCategories.has(category.id);
               const Icon = isExpanded ? ChevronDown : ChevronRight;

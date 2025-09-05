@@ -260,6 +260,28 @@ http {
             add_header Expires "0";
         }
 
+        # Types MIME pour les fichiers modernes
+        location ~* \.jsx$ {
+            root /var/www/dlpz/frontend/app;
+            add_header Content-Type "application/javascript";
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+        
+        location ~* \.tsx$ {
+            root /var/www/dlpz/frontend/app;
+            add_header Content-Type "application/javascript";
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+        
+        location ~* \.ts$ {
+            root /var/www/dlpz/frontend/app;
+            add_header Content-Type "application/javascript";
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+
         location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
             root /var/www/dlpz/frontend/app;
             expires 1y;
