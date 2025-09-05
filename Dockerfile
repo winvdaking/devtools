@@ -18,6 +18,9 @@ RUN npm install
 # Copier le code source
 COPY . .
 
+# Créer un dossier public vide si il n'existe pas
+RUN mkdir -p public
+
 # Build de l'application
 RUN npm run build
 
