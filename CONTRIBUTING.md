@@ -14,10 +14,6 @@ Merci de votre intérêt à contribuer à DevTools Hub ! Ce guide vous aidera à
 
 ## 📜 Code de conduite
 
-### Nos engagements
-
-Nous nous engageons à offrir un environnement accueillant et inspirant pour tous, indépendamment de l'âge, de la taille, du handicap, de l'ethnicité, des caractéristiques sexuelles, de l'identité et de l'expression de genre, du niveau d'expérience, de l'éducation, du statut socio-économique, de la nationalité, de l'apparence personnelle, de la race, de la religion ou de l'orientation sexuelle.
-
 ### Comportements attendus
 
 - Utiliser un langage accueillant et inclusif
