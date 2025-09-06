@@ -71,7 +71,7 @@ const toolCategories: ToolCategory[] = [
   },
   {
     id: "cheatsheets",
-    name: "Cheatsheets Tech",
+    name: "Cheatsheets",
     description: "Références des technologies de développement",
     tools: [
       {
@@ -516,15 +516,15 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={cn(
-          "fixed left-0 top-0 z-40 h-full w-60 bg-card border-r border-border transition-transform duration-300",
-          "lg:relative lg:z-0 lg:translate-x-0 lg:w-64",
+          "fixed left-0 top-0 z-40 h-full w-60 bg-card border-r border-border transition-transform duration-300 flex flex-col",
+          "lg:relative lg:z-0 lg:translate-x-0 lg:w-64 lg:h-full",
           "md:w-56",
           "sm:w-52",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border">
+        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <div className="flex items-center space-x-2">
             <div className="w-6 h-6 rounded-lg overflow-hidden">
               <img
@@ -551,8 +551,8 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
         </div>
 
         {/* Navigation avec scroll automatique */}
-        <nav className="flex-1 overflow-x-hidden flex flex-col min-h-0">
-          <div className="p-3 space-y-3 overflow-y-auto custom-scrollbar flex-1">
+        <nav className="flex-1 overflow-hidden flex flex-col">
+          <div className="p-3 space-y-3 overflow-y-auto custom-scrollbar flex-1 min-h-0">
             {toolCategories.map((category) => {
               const isExpanded = expandedCategories.has(category.id);
               const Icon = isExpanded ? ChevronDown : ChevronRight;
