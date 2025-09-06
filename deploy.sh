@@ -249,9 +249,10 @@ http {
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
         limit_req zone=general burst=10 nodelay;
+        client_max_body_size 15M;
 
         location / {
-            root /var/www/dlpz/frontend/app;
+            root /var/www/dlpz/frontend/app/dist;
             index index.html index.htm;
             try_files $uri $uri/ /index.html;
             
