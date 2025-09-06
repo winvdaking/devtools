@@ -471,29 +471,59 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
   useEffect(() => {
     const checkScrollNeeded = () => {
       if (navRef.current) {
-        const { scrollHeight, clientHeight } = navRef.current;
-        setNeedsScroll(scrollHeight > clientHeight);
+        const container = navRef.current;
+        const { scrollHeight, clientHeight } = container;
+
+        // Vérifier si le contenu dépasse la hauteur disponible
+        const hasOverflow = scrollHeight > clientHeight;
+
+        // Vérifier aussi si on est sur mobile (écran < 1024px)
+        const isMobile = window.innerWidth < 1024;
+
+        // Sur mobile, toujours permettre le scroll si nécessaire
+        // Sur desktop, seulement si le contenu dépasse
+        const shouldScroll = isMobile ? hasOverflow : hasOverflow;
+
+        setNeedsScroll(shouldScroll);
       }
     };
 
     // Vérifier après le rendu initial
-    checkScrollNeeded();
+    const initialTimeout = setTimeout(checkScrollNeeded, 50);
 
     // Vérifier quand les catégories changent
-    const timeoutId = setTimeout(checkScrollNeeded, 100);
+    const categoryTimeout = setTimeout(checkScrollNeeded, 150);
 
-    // Vérifier sur le redimensionnement
-    window.addEventListener("resize", checkScrollNeeded);
+    // Vérifier sur le redimensionnement avec debounce
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(checkScrollNeeded, 100);
+    };
+
+    // Observer les changements de taille du contenu
+    const resizeObserver = new ResizeObserver(() => {
+      setTimeout(checkScrollNeeded, 50);
+    });
+
+    if (navRef.current) {
+      resizeObserver.observe(navRef.current);
+    }
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener("resize", checkScrollNeeded);
+      clearTimeout(initialTimeout);
+      clearTimeout(categoryTimeout);
+      clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
     };
   }, [expandedCategories]);
 
   return (
     <>
-      {/* Styles pour la scrollbar personnalisée */}
+      {/* Styles pour la scrollbar personnalisée et responsive */}
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
@@ -512,6 +542,29 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
         .custom-scrollbar {
           scrollbar-width: thin;
           scrollbar-color: hsl(var(--border)) transparent;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 3px;
+          }
+        }
+
+        /* Smooth scrolling */
+        .custom-scrollbar {
+          scroll-behavior: smooth;
+        }
+
+        /* Better touch scrolling on mobile */
+        .custom-scrollbar {
+          -webkit-overflow-scrolling: touch;
         }
       `}</style>
 
@@ -537,8 +590,10 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
         animate={{ x: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={cn(
-          "fixed left-0 top-0 z-40 h-full w-60 bg-card border-r border-border transition-transform duration-300 overflow-hidden",
-          "lg:relative lg:z-0 lg:translate-x-0",
+          "fixed left-0 top-0 z-40 h-full w-60 bg-card border-r border-border transition-transform duration-300",
+          "lg:relative lg:z-0 lg:translate-x-0 lg:w-64",
+          "md:w-56",
+          "sm:w-52",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
@@ -570,15 +625,19 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
         </div>
 
         {/* Navigation avec scroll vertical conditionnel */}
-        <nav className="flex-1 overflow-x-hidden">
+        <nav className="flex-1 overflow-x-hidden flex flex-col">
           <div
             ref={navRef}
             className={cn(
-              "p-3 space-y-3 h-full transition-all duration-200",
+              "p-3 space-y-3 flex-1 transition-all duration-200",
               needsScroll
                 ? "overflow-y-auto custom-scrollbar"
                 : "overflow-y-visible"
             )}
+            style={{
+              maxHeight: needsScroll ? "calc(100vh - 120px)" : "none",
+              minHeight: "200px",
+            }}
           >
             {toolCategories.map((category) => {
               const isExpanded = expandedCategories.has(category.id);
