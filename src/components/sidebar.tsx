@@ -551,8 +551,8 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
         </div>
 
         {/* Navigation avec scroll automatique */}
-        <nav className="flex-1 overflow-x-hidden flex flex-col">
-          <div className="p-3 space-y-3 flex-1 overflow-y-auto custom-scrollbar">
+        <nav className="flex-1 overflow-x-hidden flex flex-col min-h-0">
+          <div className="p-3 space-y-3 overflow-y-auto custom-scrollbar flex-1">
             {toolCategories.map((category) => {
               const isExpanded = expandedCategories.has(category.id);
               const Icon = isExpanded ? ChevronDown : ChevronRight;
@@ -629,8 +629,8 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
           </div>
         </nav>
 
-        {/* Footer */}
-        <div className="px-3 py-2 border-t border-border">
+        {/* Footer - reste en bas */}
+        <div className="px-3 py-2 border-t border-border flex-shrink-0">
           <div className="flex items-center justify-center text-xs text-muted-foreground">
             <a
               href="https://dorianlopez.fr"

@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "dlpz.fr DevTools - Boîte à outils pour développeurs",
+  title: "dlpz.fr - DevTools - Boîte à outils pour développeurs",
   description:
     "Une collection d'outils essentiels pour les développeurs : formatage JSON, conversion de texte, hachage, encodage Base64 et plus encore.",
   keywords: [
