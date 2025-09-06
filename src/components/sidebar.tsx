@@ -631,7 +631,7 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
 
         {/* Footer - reste en bas */}
         <div className="px-3 py-2 border-t border-border flex-shrink-0">
-          <div className="flex items-center justify-center text-xs text-muted-foreground">
+          <div className="flex flex-col items-center justify-center text-xs text-muted-foreground space-y-1">
             <a
               href="https://dorianlopez.fr"
               target="_blank"
@@ -641,6 +641,11 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
               <Zap className="h-3 w-3" />
               <span>dorianlopez.fr</span>
             </a>
+            <div className="text-center">
+              <span>
+                © {new Date().getFullYear()} dlpz.fr - Tous droits réservés.
+              </span>
+            </div>
           </div>
         </div>
       </motion.aside>
