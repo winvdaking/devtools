@@ -433,7 +433,7 @@ export default function TextReformulator() {
               </div>
             </div>
             <div className="bg-card border rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-500">
+              <div className="text-2xl font-bold text-orange-500">
                 {result.readability.score}
               </div>
               <div className="text-sm text-muted-foreground">Lisibilité</div>

@@ -567,15 +567,15 @@ export function DockerConverter() {
         </CardContent>
       </Card>
 
-      <Card className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20">
+      <Card className="border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-950/20">
         <CardContent className="pt-6">
           <div className="flex items-start space-x-2">
-            <Ship className="h-5 w-5 text-blue-600 mt-0.5" />
+            <Ship className="h-5 w-5 text-orange-600 mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+              <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
                 Convertisseur Docker
               </p>
-              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+              <p className="text-sm text-orange-700 dark:text-orange-300 mt-1">
                 Convertissez facilement vos commandes{" "}
                 <code className="font-mono">docker run</code> en fichiers
                 <code className="font-mono">docker-compose.yml</code> pour une

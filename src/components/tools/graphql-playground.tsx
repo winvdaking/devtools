@@ -188,7 +188,7 @@ export default function GraphQLPlayground() {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => loadExample("github")}
-            className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-md hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+            className="px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-md hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors"
           >
             GitHub API
           </button>
@@ -325,11 +325,11 @@ export default function GraphQLPlayground() {
           )}
 
           {response.extensions && (
-            <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-              <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+            <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+              <h4 className="font-medium text-orange-900 dark:text-orange-100 mb-2">
                 Extensions
               </h4>
-              <pre className="text-sm text-blue-800 dark:text-blue-200 overflow-x-auto">
+              <pre className="text-sm text-orange-800 dark:text-orange-200 overflow-x-auto">
                 {formatJSON(response.extensions)}
               </pre>
             </div>
@@ -338,14 +338,14 @@ export default function GraphQLPlayground() {
       )}
 
       {/* Conseils */}
-      <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+      <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
         <div className="flex items-start space-x-3">
-          <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+          <Info className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
           <div className="text-sm">
-            <h3 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+            <h3 className="font-medium text-orange-900 dark:text-orange-100 mb-2">
               Conseils d'utilisation
             </h3>
-            <ul className="space-y-1 text-blue-800 dark:text-blue-200">
+            <ul className="space-y-1 text-orange-800 dark:text-orange-200">
               <li>
                 • Utilisez l'API GitHub avec un token personnel pour plus de
                 requêtes

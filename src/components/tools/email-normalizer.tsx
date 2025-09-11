@@ -444,7 +444,7 @@ export function EmailNormalizer() {
                           {email.isValid ? '✓ Valide' : '✗ Invalide'}
                         </span>
                         {email.suggestions.length > 0 && (
-                          <span className="text-xs text-blue-600 dark:text-blue-400">
+                          <span className="text-xs text-orange-600 dark:text-orange-400">
                             Suggestions disponibles
                           </span>
                         )}
@@ -467,13 +467,13 @@ export function EmailNormalizer() {
 
                       {email.suggestions.length > 0 && (
                         <div className="mt-2">
-                          <div className="text-xs font-medium text-blue-600 dark:text-blue-400 mb-1">
+                          <div className="text-xs font-medium text-orange-600 dark:text-orange-400 mb-1">
                             Suggestions:
                           </div>
                           <div className="space-y-1">
                             {email.suggestions.map((suggestion, idx) => (
                               <div key={idx} className="flex items-center space-x-2">
-                                <span className="text-xs font-mono text-blue-700 dark:text-blue-300">
+                                <span className="text-xs font-mono text-orange-700 dark:text-orange-300">
                                   {suggestion}
                                 </span>
                                 <Button
@@ -545,8 +545,8 @@ export function EmailNormalizer() {
                   </div>
                   <div className="text-xs text-muted-foreground">Invalides</div>
                 </div>
-                <div className="p-3 bg-blue-100 dark:bg-blue-950/20 rounded">
-                  <div className="text-2xl font-bold text-blue-600">
+                <div className="p-3 bg-orange-100 dark:bg-orange-950/20 rounded">
+                  <div className="text-2xl font-bold text-orange-600">
                     {stats.uniqueDomains}
                   </div>
                   <div className="text-xs text-muted-foreground">Domaines uniques</div>

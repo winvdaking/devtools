@@ -223,9 +223,9 @@ export const nextCheatSheet: CheatSheet = {
         {
           title: 'Styled JSX',
           description: 'Styling avec Styled JSX (inclus par défaut)',
-          code: '<div>\n  <p>Hello World</p>\n  <style jsx>{`\n    p {\n      color: blue;\n    }\n  `}</style>\n</div>',
+          code: '<div>\n  <p>Hello World</p>\n  <style jsx>{`\n    p {\n      color: orange;\n    }\n  `}</style>\n</div>',
           examples: [
-            '<style jsx>{` p { color: blue; } `}</style>',
+            '<style jsx>{` p { color: orange; } `}</style>',
             '<style jsx global>{` body { margin: 0; } `}</style>',
             '<style jsx>{`\n  .container {\n    max-width: 1200px;\n    margin: 0 auto;\n  }\n`}</style>'
           ]

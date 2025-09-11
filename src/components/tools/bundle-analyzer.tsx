@@ -71,7 +71,7 @@ export default function BundleAnalyzer() {
   const getTypeColor = (type: BundleFile["type"]) => {
     switch (type) {
       case "js":
-        return "bg-blue-500";
+        return "bg-orange-500";
       case "css":
         return "bg-purple-500";
       case "img":
@@ -152,7 +152,7 @@ export default function BundleAnalyzer() {
             <div className="text-sm text-muted-foreground">Taille totale</div>
           </div>
           <div className="bg-card border rounded-lg p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-orange-600">
               {formatBytes(gzippedTotal)}
             </div>
             <div className="text-sm text-muted-foreground">Taille gzippée</div>
@@ -221,14 +221,14 @@ export default function BundleAnalyzer() {
 
       {/* Conseils d'optimisation */}
       {bundles.length > 0 && (
-        <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+        <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
           <div className="flex items-start space-x-3">
-            <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <Info className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
             <div className="text-sm">
-              <h3 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+              <h3 className="font-medium text-orange-900 dark:text-orange-100 mb-2">
                 Conseils d'optimisation
               </h3>
-              <ul className="space-y-1 text-blue-800 dark:text-blue-200">
+              <ul className="space-y-1 text-orange-800 dark:text-orange-200">
                 <li>
                   • Utilisez la compression gzip/brotli pour réduire la taille
                 </li>

@@ -186,7 +186,7 @@ export default function Homepage() {
           <div className="text-sm text-muted-foreground">Catégories</div>
         </div>
         <div className="bg-card border rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-blue-500">10</div>
+          <div className="text-2xl font-bold text-orange-500">10</div>
           <div className="text-sm text-muted-foreground">Cheatsheets</div>
         </div>
         <div className="bg-card border rounded-lg p-4 text-center">

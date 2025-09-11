@@ -331,7 +331,7 @@ export default function SpellChecker() {
               <div className="text-sm text-muted-foreground">Orthographe</div>
             </div>
             <div className="bg-card border rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-500">
+              <div className="text-2xl font-bold text-orange-500">
                 {result.statistics.grammarErrors}
               </div>
               <div className="text-sm text-muted-foreground">Grammaire</div>
@@ -357,7 +357,7 @@ export default function SpellChecker() {
                           <AlertCircle className="w-5 h-5 text-orange-500" />
                         )}
                         {error.type === "grammar" && (
-                          <AlertCircle className="w-5 h-5 text-blue-500" />
+                          <AlertCircle className="w-5 h-5 text-orange-500" />
                         )}
                         {error.type === "punctuation" && (
                           <AlertCircle className="w-5 h-5 text-purple-500" />

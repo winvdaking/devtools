@@ -377,7 +377,7 @@ export function ChmodCalculator() {
               {/* Propriétaire */}
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
-                  <User className="h-4 w-4 text-blue-600" />
+                  <User className="h-4 w-4 text-orange-600" />
                   <span className="font-medium text-sm">Propriétaire</span>
                 </div>
                 <div className="space-y-2">
@@ -564,7 +564,7 @@ export function ChmodCalculator() {
             {/* Fichier */}
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <FileText className="h-5 w-5 text-blue-600" />
+                <FileText className="h-5 w-5 text-orange-600" />
                 <span className="font-medium">Fichier</span>
               </div>
               <div className="p-3 bg-muted rounded-lg font-mono text-sm">

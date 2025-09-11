@@ -357,7 +357,7 @@ export default function ErrorStackParser() {
                               {frame.functionName}
                             </span>
                             {frame.isAsync && (
-                              <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded">
+                              <span className="text-xs bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 px-2 py-1 rounded">
                                 Async
                               </span>
                             )}
@@ -415,14 +415,14 @@ export default function ErrorStackParser() {
       </div>
 
       {/* Conseils d'utilisation */}
-      <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+      <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
         <div className="flex items-start space-x-3">
-          <Info className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+          <Info className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
           <div className="text-sm">
-            <h3 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+            <h3 className="font-medium text-orange-900 dark:text-orange-100 mb-2">
               Formats supportés
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-blue-800 dark:text-blue-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-orange-800 dark:text-orange-200">
               <div>
                 <strong>Chrome/Node.js:</strong>
                 <ul className="mt-1 space-y-1">

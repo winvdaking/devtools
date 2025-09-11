@@ -441,11 +441,11 @@ export default function ColorPaletteGenerator() {
       </div>
 
       {/* Informations sur les types de palettes */}
-      <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-        <h3 className="font-medium text-blue-900 dark:text-blue-100 mb-3">
+      <div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+        <h3 className="font-medium text-orange-900 dark:text-orange-100 mb-3">
           Types de palettes
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-800 dark:text-blue-200">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-orange-800 dark:text-orange-200">
           <div>
             <strong>Monochromatique:</strong> Variations d'une même couleur
           </div>
