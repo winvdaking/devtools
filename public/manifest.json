@@ -1,0 +1,27 @@
+{
+  "name": "dlpz.fr DevTools - Boîte à outils pour développeurs",
+  "short_name": "DevTools",
+  "description": "Une collection d'outils essentiels pour les développeurs : formatage JSON, conversion de texte, hachage, encodage Base64, cheatsheets et plus encore.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://dorianlopez.fr/avatar.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://dorianlopez.fr/avatar.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["developer", "productivity", "utilities"],
+  "lang": "fr",
+  "dir": "ltr"
+}

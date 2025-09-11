@@ -47,6 +47,22 @@
     --input: 220 14% 20%;
     --ring: 224.3 76.3% 94.1%;
   }
+
+  /* Prévention du FOUC (Flash of Unstyled Content) */
+  html {
+    color-scheme: light dark;
+  }
+
+  /* Optimisation des performances de rendu */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Amélioration de la fluidité des animations */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 @layer base {

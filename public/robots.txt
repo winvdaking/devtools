@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tools.dlpz.fr/sitemap.xml
+
+# Optimisations pour les moteurs de recherche
+Crawl-delay: 1

@@ -6,6 +6,7 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
 import { ToolId } from "@/types/tools";
+import { cn } from "@/lib/utils";
 
 // Import des composants d'outils existants
 import { DateFormatter } from "@/components/tools/date-formatter";
@@ -140,8 +141,14 @@ export default function HomePage() {
 
       {/* Zone de contenu principale */}
       <main className="flex-1 overflow-auto">
-        <div className="container mx-auto p-6 lg:p-8 max-w-7xl">
-          <div key={activeTool}>
+        <div className={cn(
+          "container mx-auto p-4 sm:p-6 lg:p-8",
+          // Largeur optimisée selon le type d'outil
+          activeTool.includes('cheatsheet') || activeTool === 'cheatsheets' 
+            ? "max-w-4xl" // Plus étroit pour les cheatsheets
+            : "max-w-7xl" // Plus large pour les autres outils
+        )}>
+          <div key={activeTool} className="min-h-full">
             <ActiveToolComponent />
           </div>
         </div>

@@ -1,9 +1,10 @@
 /**
  * Composant Sidebar - Navigation principale de l'application
+ * Version refaite avec une meilleure structure et performance
  */
 "use client";
 
-import { motion } from "framer-motion";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Calendar,
   Braces,
@@ -44,7 +45,6 @@ import {
   Package,
   Home,
 } from "lucide-react";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ToolId, ToolCategory } from "@/types/tools";
 import { ThemeToggle } from "./ui/theme-toggle";
@@ -54,6 +54,7 @@ interface SidebarProps {
   onToolSelect: (toolId: ToolId) => void;
 }
 
+// Configuration des catégories d'outils
 const toolCategories: ToolCategory[] = [
   {
     id: "home",
@@ -435,69 +436,138 @@ const toolCategories: ToolCategory[] = [
   },
 ];
 
+// Composant pour un élément de catégorie
+interface CategoryItemProps {
+  category: ToolCategory;
+  isExpanded: boolean;
+  onToggle: () => void;
+  activeTool: ToolId;
+  onToolSelect: (toolId: ToolId) => void;
+  onCloseMobile: () => void;
+}
+
+function CategoryItem({ 
+  category, 
+  isExpanded, 
+  onToggle, 
+  activeTool, 
+  onToolSelect, 
+  onCloseMobile 
+}: CategoryItemProps) {
+  const ChevronIcon = isExpanded ? ChevronDown : ChevronRight;
+
+  return (
+    <div className="space-y-1">
+      {/* Bouton de catégorie */}
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-left hover:bg-accent hover:text-accent-foreground transition-colors group"
+      >
+        <div className="flex items-center space-x-2">
+          <span className="text-sm font-medium">{category.name}</span>
+          <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded-full">
+            {category.tools.length}
+          </span>
+        </div>
+        <ChevronIcon className="h-4 w-4 text-muted-foreground transition-transform group-hover:text-foreground" />
+      </button>
+
+      {/* Liste des outils */}
+      {isExpanded && (
+        <div className="ml-2 space-y-1 border-l border-border pl-3">
+          {category.tools.map((tool) => {
+            const ToolIcon = tool.icon;
+            const isActive = activeTool === tool.id;
+
+            return (
+              <button
+                key={tool.id}
+                onClick={() => {
+                  onToolSelect(tool.id as ToolId);
+                  onCloseMobile();
+                }}
+                className={cn(
+                  "w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-all duration-200",
+                  "hover:bg-accent hover:text-accent-foreground",
+                  isActive
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <ToolIcon className="h-4 w-4 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium truncate">
+                    {tool.name}
+                  </div>
+                  <div className="text-xs truncate opacity-75">
+                    {tool.description}
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Composant principal de la sidebar
 export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set([])
+    new Set(["home", "cheatsheets"])
   );
 
-  const toggleCategory = (categoryId: string) => {
-    const newExpanded = new Set(expandedCategories);
-    if (newExpanded.has(categoryId)) {
-      newExpanded.delete(categoryId);
-    } else {
-      newExpanded.add(categoryId);
-    }
-    setExpandedCategories(newExpanded);
-  };
+  // Gestion de l'ouverture/fermeture des catégories
+  const toggleCategory = useCallback((categoryId: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(categoryId)) {
+        newSet.delete(categoryId);
+      } else {
+        newSet.add(categoryId);
+      }
+      return newSet;
+    });
+  }, []);
+
+  // Fermer la sidebar sur mobile
+  const closeMobile = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  // Gestion du redimensionnement de fenêtre
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Gestion des raccourcis clavier
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   return (
     <>
-      {/* Styles pour la scrollbar personnalisée et responsive */}
-      <style jsx>{`
-        .custom-scrollbar {
-          scrollbar-width: thin;
-          scrollbar-color: hsl(var(--border)) transparent;
-          scroll-behavior: smooth;
-          -webkit-overflow-scrolling: touch;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: hsl(var(--border));
-          border-radius: 3px;
-          transition: background 0.2s ease;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: hsl(var(--muted-foreground) / 0.5);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-          .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .custom-scrollbar::-webkit-scrollbar {
-            width: 3px;
-          }
-        }
-      `}</style>
-
       {/* Bouton mobile pour ouvrir la sidebar */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-card border shadow-md"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-card border shadow-lg hover:shadow-xl transition-shadow"
+        aria-label="Ouvrir le menu"
       >
         <Menu className="h-5 w-5" />
       </button>
@@ -505,150 +575,88 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
       {/* Overlay pour mobile */}
       {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-40"
-          onClick={() => setIsOpen(false)}
+          className="lg:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+          onClick={closeMobile}
         />
       )}
 
       {/* Sidebar */}
-      <motion.aside
-        initial={{ x: -240 }}
-        animate={{ x: 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-full w-60 bg-card border-r border-border transition-transform duration-300 flex flex-col",
-          "lg:relative lg:z-0 lg:translate-x-0 lg:w-64 lg:h-full",
-          "md:w-56",
-          "sm:w-52",
+          "fixed left-0 top-0 z-40 h-full w-72 bg-card border-r border-border flex flex-col",
+          "lg:relative lg:z-0 lg:translate-x-0 lg:w-80",
+          "shadow-xl lg:shadow-none",
+          "transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 rounded-lg overflow-hidden">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-lg overflow-hidden bg-primary/10 flex items-center justify-center">
               <img
                 src="https://dorianlopez.fr/avatar.png"
                 alt="Dorian Lopez"
                 className="w-full h-full object-cover"
               />
             </div>
-            <h1 className="text-sm font-semibold font-playfair">
-              tools.dlpz.fr
-            </h1>
+            <div>
+              <h1 className="text-sm font-semibold font-playfair">
+                tools.dlpz.fr
+              </h1>
+              <p className="text-xs text-muted-foreground">
+                DevTools Hub
+              </p>
+            </div>
           </div>
 
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2">
             <ThemeToggle />
-            {/* Bouton fermer pour mobile */}
             <button
-              onClick={() => setIsOpen(false)}
-              className="lg:hidden p-1 rounded-md hover:bg-accent"
+              onClick={closeMobile}
+              className="lg:hidden p-1.5 rounded-md hover:bg-accent transition-colors"
+              aria-label="Fermer le menu"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        {/* Navigation avec scroll automatique */}
+        {/* Navigation */}
         <nav className="flex-1 overflow-hidden flex flex-col">
-          <div className="p-3 space-y-3 overflow-y-auto custom-scrollbar flex-1 min-h-0">
-            {toolCategories.map((category) => {
-              const isExpanded = expandedCategories.has(category.id);
-              const Icon = isExpanded ? ChevronDown : ChevronRight;
-
-              return (
-                <div key={category.id} className="space-y-1">
-                  <button
-                    onClick={() => toggleCategory(category.id)}
-                    className="w-full flex items-center justify-between px-2 py-1.5 rounded-md text-left hover:bg-accent hover:text-accent-foreground transition-colors"
-                  >
-                    <div className="flex items-center space-x-1.5">
-                      <span className="text-xs font-medium">
-                        {category.name}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        ({category.tools.length})
-                      </span>
-                    </div>
-                    <Icon className="h-3 w-3 text-muted-foreground" />
-                  </button>
-
-                  {isExpanded && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="ml-3 space-y-0.5"
-                    >
-                      {category.tools.map((tool) => {
-                        const ToolIcon = tool.icon;
-                        const isActive = activeTool === tool.id;
-
-                        return (
-                          <motion.button
-                            key={tool.id}
-                            onClick={() => {
-                              onToolSelect(tool.id as ToolId);
-                              setIsOpen(false); // Fermer la sidebar sur mobile après sélection
-                            }}
-                            className={cn(
-                              "w-full flex items-center space-x-2 px-2 py-1.5 rounded-md text-left transition-colors",
-                              isActive
-                                ? "bg-primary text-primary-foreground"
-                                : "hover:bg-accent hover:text-accent-foreground"
-                            )}
-                            whileHover={{ scale: 1.01 }}
-                            whileTap={{ scale: 0.99 }}
-                          >
-                            <ToolIcon className="h-3 w-3 flex-shrink-0" />
-                            <div className="flex-1 min-w-0">
-                              <div className="text-xs font-medium truncate">
-                                {tool.name}
-                              </div>
-                              <div
-                                className={cn(
-                                  "text-xs truncate",
-                                  isActive
-                                    ? "text-primary-foreground/70"
-                                    : "text-muted-foreground"
-                                )}
-                              >
-                                {tool.description}
-                              </div>
-                            </div>
-                          </motion.button>
-                        );
-                      })}
-                    </motion.div>
-                  )}
-                </div>
-              );
-            })}
+          <div className="p-4 space-y-2 overflow-y-auto flex-1">
+            {toolCategories.map((category) => (
+              <CategoryItem
+                key={category.id}
+                category={category}
+                isExpanded={expandedCategories.has(category.id)}
+                onToggle={() => toggleCategory(category.id)}
+                activeTool={activeTool}
+                onToolSelect={onToolSelect}
+                onCloseMobile={closeMobile}
+              />
+            ))}
           </div>
         </nav>
 
-        {/* Footer - reste en bas */}
-        <div className="px-3 py-2 border-t border-border flex-shrink-0">
-          <div className="flex flex-col items-center justify-center text-xs text-muted-foreground space-y-1">
+        {/* Footer */}
+        <div className="p-4 border-t border-border flex-shrink-0">
+          <div className="flex flex-col items-center justify-center text-xs text-muted-foreground space-y-2">
             <a
               href="https://dorianlopez.fr"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-1 hover:text-foreground transition-colors"
+              className="flex items-center space-x-2 hover:text-foreground transition-colors group"
             >
-              <Zap className="h-3 w-3" />
+              <Zap className="h-3 w-3 group-hover:text-primary" />
               <span>dorianlopez.fr</span>
             </a>
             <div className="text-center">
-              <span>
-                © {new Date().getFullYear()} dlpz.fr - Tous droits réservés.
-              </span>
+              <span>dlpz.fr © {new Date().getFullYear()} - Tous droits réservés</span>
             </div>
           </div>
         </div>
-      </motion.aside>
+      </aside>
     </>
   );
 }
