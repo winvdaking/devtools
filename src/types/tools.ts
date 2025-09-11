@@ -26,6 +26,7 @@ export type ToolId =
   | "random-port"
   | "crontab-generator"
   | "slugify"
+  | "qr-generator"
 
   // Utilitaires
   | "url-parser"

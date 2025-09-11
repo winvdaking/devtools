@@ -44,6 +44,7 @@ import {
   RefreshCw,
   Package,
   Home,
+  QrCode,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToolId, ToolCategory } from "@/types/tools";
@@ -299,6 +300,13 @@ const toolCategories: ToolCategory[] = [
         icon: Database,
         category: "generators",
       },
+      {
+        id: "qr-generator",
+        name: "QR Code Generator",
+        description: "Génération de QR Codes personnalisés",
+        icon: QrCode,
+        category: "generators",
+      },
     ],
   },
   {
@@ -516,7 +524,7 @@ function CategoryItem({
 export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(["home", "cheatsheets"])
+    new Set(["home"])
   );
 
   // Gestion de l'ouverture/fermeture des catégories

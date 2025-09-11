@@ -60,6 +60,7 @@ import SqlCheatsheetIndividual from "@/components/tools/sql-cheatsheet-individua
 import LinuxCheatsheetIndividual from "@/components/tools/linux-cheatsheet-individual";
 import RegexCheatsheetIndividual from "@/components/tools/regex-cheatsheet-individual";
 import Homepage from "@/components/tools/homepage";
+import { QRGenerator } from "@/components/tools/qr-generator";
 
 // Mapping des outils
 const toolComponents: Record<ToolId, React.ComponentType> = {
@@ -87,6 +88,7 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "random-port": RandomPortGenerator,
   "crontab-generator": CrontabGenerator,
   slugify: SlugifyString,
+  "qr-generator": QRGenerator,
 
   // Utilitaires
   "url-parser": UrlParser,
