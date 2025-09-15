@@ -36,6 +36,28 @@ import { YamlFormatter } from "@/components/tools/yaml-formatter";
 import { EmailNormalizer } from "@/components/tools/email-normalizer";
 import { RegexTester } from "@/components/tools/regex-tester";
 
+// Composants Markdown
+import { MarkdownToHtml } from "@/components/tools/markdown-to-html";
+import { MarkdownToDiscord } from "@/components/tools/markdown-to-discord";
+import { MarkdownToSlack } from "@/components/tools/markdown-to-slack";
+import { MarkdownToJira } from "@/components/tools/markdown-to-jira";
+
+// Nouveaux composants
+import { AsciiArt } from "@/components/tools/ascii-art";
+import { StringObfuscator } from "@/components/tools/string-obfuscator";
+import { EmojiPicker } from "@/components/tools/emoji-picker";
+import { LoremIpsumGenerator } from "@/components/tools/lorem-ipsum-generator";
+import { ReadmeGenerator } from "@/components/tools/readme-generator";
+import { ChangelogGenerator } from "@/components/tools/changelog-generator";
+import { ResponsiveDesignChecker } from "@/components/tools/responsive-design-checker";
+import { PasswordGenerator } from "@/components/tools/password-generator";
+import { SecurityHeadersChecker } from "@/components/tools/security-headers-checker";
+import { SSLCertificateChecker } from "@/components/tools/ssl-certificate-checker";
+import { PerformanceMonitor } from "@/components/tools/performance-monitor";
+
+// Composants IA
+import { AIChat } from "@/components/tools/ai-chat";
+
 // Nouveaux composants implémentés
 import BundleAnalyzer from "@/components/tools/bundle-analyzer";
 import GraphQLPlayground from "@/components/tools/graphql-playground";
@@ -74,6 +96,24 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "yaml-formatter": YamlFormatter,
   "sql-formatter": SqlFormatter,
   "json-to-csv": JsonToCsv,
+  "markdown-to-html": MarkdownToHtml,
+  "markdown-to-discord": MarkdownToDiscord,
+  "markdown-to-slack": MarkdownToSlack,
+  "markdown-to-jira": MarkdownToJira,
+  "ascii-art": AsciiArt,
+  "string-obfuscator": StringObfuscator,
+  "emoji-picker": EmojiPicker,
+  "lorem-ipsum-generator": LoremIpsumGenerator,
+  "readme-generator": ReadmeGenerator,
+  "changelog-generator": ChangelogGenerator,
+  "responsive-design-checker": ResponsiveDesignChecker,
+  "password-generator": PasswordGenerator,
+  "security-headers-checker": SecurityHeadersChecker,
+  "ssl-certificate-checker": SSLCertificateChecker,
+  "performance-monitor": PerformanceMonitor,
+
+  // Outils d'IA
+  "ai-chat": AIChat,
 
   // Outils d'encodage et sécurité
   "hash-encrypt": HashEncrypt,

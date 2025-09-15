@@ -12,6 +12,24 @@ export { TextConverter } from "./text-converter";
 export { default as SpellChecker } from "./spell-checker";
 export { default as TextReformulator } from "./text-reformulator";
 export { JsonToCsv } from "./json-to-csv";
+export { MarkdownToHtml } from "./markdown-to-html";
+export { MarkdownToDiscord } from "./markdown-to-discord";
+export { MarkdownToSlack } from "./markdown-to-slack";
+export { MarkdownToJira } from "./markdown-to-jira";
+export { AsciiArt } from "./ascii-art";
+export { StringObfuscator } from "./string-obfuscator";
+export { EmojiPicker } from "./emoji-picker";
+export { LoremIpsumGenerator } from "./lorem-ipsum-generator";
+export { ReadmeGenerator } from "./readme-generator";
+export { ChangelogGenerator } from "./changelog-generator";
+export { ResponsiveDesignChecker } from "./responsive-design-checker";
+export { PasswordGenerator } from "./password-generator";
+export { SecurityHeadersChecker } from "./security-headers-checker";
+export { SSLCertificateChecker } from "./ssl-certificate-checker";
+export { PerformanceMonitor } from "./performance-monitor";
+
+// Outils d'IA
+export { AIChat } from "./ai-chat";
 
 // Outils d'encodage et sécurité
 export { HashEncrypt } from "./hash-encrypt";

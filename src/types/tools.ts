@@ -12,6 +12,24 @@ export type ToolId =
   | "yaml-formatter"
   | "sql-formatter"
   | "json-to-csv"
+  | "markdown-to-html"
+  | "markdown-to-discord"
+  | "markdown-to-slack"
+  | "markdown-to-jira"
+  | "ascii-art"
+  | "string-obfuscator"
+  | "emoji-picker"
+  | "lorem-ipsum-generator"
+  | "readme-generator"
+  | "changelog-generator"
+  | "responsive-design-checker"
+  | "password-generator"
+  | "security-headers-checker"
+  | "ssl-certificate-checker"
+  | "performance-monitor"
+
+  // Outils d'IA
+  | "ai-chat"
 
   // Outils d'encodage et sécurité
   | "hash-encrypt"
