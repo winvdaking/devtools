@@ -253,11 +253,10 @@ export function StringObfuscator() {
               </Button>
             </div>
             <Textarea
-              value={inputText}
+              value={showOriginal ? inputText : inputText.replace(/./g, '•')}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Saisissez le texte à obfusquer..."
               className="min-h-[100px] font-mono text-sm"
-              type={showOriginal ? "text" : "password"}
             />
           </div>
 
