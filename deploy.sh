@@ -33,7 +33,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 print_step "1. Installation des dépendances"
-apt update
+#apt update
 
 print_step "2. Configuration du répertoire dlpz.fr"
 # Vérifier si le répertoire existe déjà
