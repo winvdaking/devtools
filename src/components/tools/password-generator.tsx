@@ -24,7 +24,7 @@ export function PasswordGenerator() {
   const [passwordStrength, setPasswordStrength] = useState({
     score: 0,
     level: "Très faible",
-    feedback: []
+    feedback: [] as string[]
   });
 
   // Caractères disponibles

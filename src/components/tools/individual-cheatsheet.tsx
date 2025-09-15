@@ -70,7 +70,7 @@ export default function IndividualCheatsheet({
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-bold font-playfair mb-2">
+          <h2 className="text-2xl font-bold font-kantumruy-pro mb-2">
             Cheatsheet non trouvé
           </h2>
           <p className="text-muted-foreground">

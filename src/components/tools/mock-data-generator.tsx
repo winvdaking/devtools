@@ -338,7 +338,7 @@ export default function MockDataGenerator() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold font-playfair mb-2">
+        <h1 className="text-3xl font-bold font-kantumruy-pro mb-2">
           Mock Data Generator
         </h1>
         <p className="text-muted-foreground">

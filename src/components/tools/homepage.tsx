@@ -255,7 +255,7 @@ export default function Homepage({ onToolSelect }: HomepageProps) {
           <div className="text-2xl font-bold text-primary">
             {toolCategories.reduce((acc, cat) => acc + cat.tools.length, 0)}
           </div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-muted-foreground font-kantumruy-pro">
             Outils disponibles
           </div>
         </div>
@@ -334,7 +334,7 @@ export default function Homepage({ onToolSelect }: HomepageProps) {
 
       {/* Fonctionnalités principales */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold font-playfair text-center">
+        <h2 className="text-2xl font-bold font-kantumruy-pro text-center">
           Fonctionnalités principales
         </h2>
         <div className="grid md:grid-cols-3 gap-6">
