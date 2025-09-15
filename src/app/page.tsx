@@ -191,7 +191,11 @@ export default function HomePage() {
             : "max-w-7xl" // Plus large pour les autres outils
         )}>
           <div key={activeTool} className="min-h-full">
-            <ActiveToolComponent />
+            {activeTool === "homepage" ? (
+              <Homepage onToolSelect={(toolId: string) => setActiveTool(toolId as ToolId)} />
+            ) : (
+              <ActiveToolComponent />
+            )}
           </div>
         </div>
       </main>

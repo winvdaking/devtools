@@ -2,7 +2,7 @@
  * Layout racine de l'application Next.js
  */
 import type { Metadata } from "next";
-import { Poppins, Playfair_Display } from "next/font/google";
+import { Poppins, Playfair_Display, Kantumruy_Pro } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -16,6 +16,13 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-playfair",
+});
+
+const kantumruyPro = Kantumruy_Pro({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-kantumruy-pro",
 });
 
 export const metadata: Metadata = {
@@ -94,7 +101,7 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body
-        className={`${poppins.variable} ${playfair.variable} ${poppins.className}`}
+        className={`${poppins.variable} ${playfair.variable} ${kantumruyPro.variable} ${poppins.className}`}
       >
         <ThemeProvider
           attribute="class"

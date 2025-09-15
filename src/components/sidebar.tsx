@@ -732,7 +732,7 @@ export function Sidebar({ activeTool, onToolSelect }: SidebarProps) {
               />
             </div>
             <div>
-              <h1 className="text-sm font-semibold font-playfair">
+              <h1 className="text-sm font-semibold">
                 tools.dlpz.fr
               </h1>
               <p className="text-xs text-muted-foreground">

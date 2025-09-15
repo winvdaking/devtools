@@ -85,7 +85,8 @@ function hello() {
 
     // Ordered lists - Slack utilise des numéros
     slack = slack.replace(/^\d+\. (.*$)/gim, (match, content) => {
-      const number = match.match(/^\d+/)[0];
+      const numberMatch = match.match(/^\d+/);
+      const number = numberMatch ? numberMatch[0] : '1';
       return `${number}. ${content}`;
     });
 

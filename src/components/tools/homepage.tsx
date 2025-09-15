@@ -37,7 +37,23 @@ import {
   Grid,
   AlertTriangle,
   RefreshCw,
+  Star,
+  Bot,
+  QrCode,
+  Lock,
+  Hash,
+  FileImage,
+  Sparkles,
 } from "lucide-react";
+
+// Outils populaires avec leurs IDs pour la navigation
+const popularTools = [
+  { id: "qr-generator", name: "QR Generator", icon: QrCode, popular: true },
+  { id: "markdown-to-discord", name: "Markdown to Discord", icon: FileText, popular: true },
+  { id: "git-cheatsheet", name: "Git Cheatsheet", icon: GitBranch, popular: true },
+  { id: "ai-chat", name: "Dak1ng IA", icon: Bot, popular: true },
+  { id: "readme-generator", name: "README Generator", icon: FileText, popular: true },
+];
 
 const toolCategories = [
   {
@@ -46,16 +62,16 @@ const toolCategories = [
     description: "Références des technologies de développement",
     icon: BookOpen,
     tools: [
-      { name: "Git", icon: GitBranch },
-      { name: "Docker", icon: Ship },
-      { name: "Bash/Shell", icon: Terminal },
-      { name: "Node.js/npm", icon: Package },
-      { name: "Laravel", icon: Code },
-      { name: "React", icon: Globe },
-      { name: "Python", icon: Code },
-      { name: "SQL", icon: Database },
-      { name: "Linux", icon: Monitor },
-      { name: "Regex", icon: BookOpen },
+      { id: "git-cheatsheet", name: "Git", icon: GitBranch, popular: true },
+      { id: "docker-cheatsheet", name: "Docker", icon: Ship, popular: true },
+      { id: "bash-cheatsheet", name: "Bash/Shell", icon: Terminal, popular: true },
+      { id: "node-cheatsheet", name: "Node.js/npm", icon: Package },
+      { id: "laravel-cheatsheet", name: "Laravel", icon: Code },
+      { id: "react-cheatsheet", name: "React", icon: Globe, popular: true },
+      { id: "python-cheatsheet", name: "Python", icon: Code },
+      { id: "sql-cheatsheet", name: "SQL", icon: Database },
+      { id: "linux-cheatsheet", name: "Linux", icon: Monitor },
+      { id: "regex-cheatsheet", name: "Regex", icon: BookOpen },
     ],
   },
   {
@@ -64,14 +80,14 @@ const toolCategories = [
     description: "Outils de formatage et conversion de données",
     icon: Type,
     tools: [
-      { name: "JSON Formatter", icon: Braces },
-      { name: "XML Formatter", icon: FileCode },
-      { name: "YAML Formatter", icon: FileText },
-      { name: "SQL Formatter", icon: Database },
-      { name: "Text Converter", icon: Type },
-      { name: "Spell Checker", icon: BookOpen },
-      { name: "Text Reformulator", icon: RefreshCw },
-      { name: "JSON to CSV", icon: FileSpreadsheet },
+      { id: "json-formatter", name: "JSON Formatter", icon: Braces, popular: true },
+      { id: "xml-formatter", name: "XML Formatter", icon: FileCode },
+      { id: "yaml-formatter", name: "YAML Formatter", icon: FileText },
+      { id: "sql-formatter", name: "SQL Formatter", icon: Database },
+      { id: "text-converter", name: "Text Converter", icon: Type },
+      { id: "spell-checker", name: "Spell Checker", icon: BookOpen },
+      { id: "text-reformulator", name: "Text Reformulator", icon: RefreshCw },
+      { id: "json-to-csv", name: "JSON to CSV", icon: FileSpreadsheet },
     ],
   },
   {
@@ -80,12 +96,12 @@ const toolCategories = [
     description: "Outils d'encodage, hachage et sécurité",
     icon: Shield,
     tools: [
-      { name: "Base64 Encoder/Decoder", icon: Binary },
-      { name: "Hash & Encrypt", icon: Shield },
-      { name: "URL Encoder/Decoder", icon: Link },
-      { name: "HTML Escape", icon: Code },
-      { name: "Basic Auth Generator", icon: Shield },
-      { name: "JWT Parser", icon: Key },
+      { id: "base64", name: "Base64 Encoder/Decoder", icon: Binary, popular: true },
+      { id: "hash-encrypt", name: "Hash & Encrypt", icon: Hash, popular: true },
+      { id: "url-encoder", name: "URL Encoder/Decoder", icon: Link, popular: true },
+      { id: "html-escape", name: "HTML Escape", icon: Code },
+      { id: "basic-auth", name: "Basic Auth Generator", icon: Shield },
+      { id: "jwt-parser", name: "JWT Parser", icon: Key },
     ],
   },
   {
@@ -94,11 +110,14 @@ const toolCategories = [
     description: "Outils de génération automatique",
     icon: Zap,
     tools: [
-      { name: "UUID Generator", icon: Key },
-      { name: "Random Port Generator", icon: Network },
-      { name: "Crontab Generator", icon: Clock },
-      { name: "Slugify String", icon: Type },
-      { name: "Mock Data Generator", icon: Database },
+      { id: "uuid-generator", name: "UUID Generator", icon: Key, popular: true },
+      { id: "random-port", name: "Random Port Generator", icon: Network },
+      { id: "crontab-generator", name: "Crontab Generator", icon: Clock },
+      { id: "slugify", name: "Slugify String", icon: Type },
+      { id: "mock-data-generator", name: "Mock Data Generator", icon: Database },
+      { id: "password-generator", name: "Password Generator", icon: Lock, popular: true },
+      { id: "qr-generator", name: "QR Generator", icon: QrCode, popular: true },
+      { id: "lorem-ipsum-generator", name: "Lorem Ipsum", icon: Type, popular: true },
     ],
   },
   {
@@ -107,12 +126,12 @@ const toolCategories = [
     description: "Outils pratiques et utilitaires",
     icon: Monitor,
     tools: [
-      { name: "Date Formatter", icon: Calendar },
-      { name: "URL Parser", icon: Globe },
-      { name: "Device Information", icon: Monitor },
-      { name: "Email Normalizer", icon: Mail },
-      { name: "Chmod Calculator", icon: Shield },
-      { name: "Docker Converter", icon: Ship },
+      { id: "date-formatter", name: "Date Formatter", icon: Calendar },
+      { id: "url-parser", name: "URL Parser", icon: Globe },
+      { id: "device-info", name: "Device Information", icon: Monitor },
+      { id: "email-normalizer", name: "Email Normalizer", icon: Mail },
+      { id: "chmod-calculator", name: "Chmod Calculator", icon: Shield },
+      { id: "docker-converter", name: "Docker Converter", icon: Ship },
     ],
   },
   {
@@ -121,12 +140,31 @@ const toolCategories = [
     description: "Outils pour le développement",
     icon: Code,
     tools: [
-      { name: "Bundle Analyzer", icon: BarChart3 },
-      { name: "GraphQL Playground", icon: Webhook },
-      { name: "Color Palette Generator", icon: Palette },
-      { name: "CSS Grid Generator", icon: Grid },
-      { name: "Console Log Beautifier", icon: Terminal },
-      { name: "Error Stack Parser", icon: AlertTriangle },
+      { id: "bundle-analyzer", name: "Bundle Analyzer", icon: BarChart3 },
+      { id: "graphql-playground", name: "GraphQL Playground", icon: Webhook },
+      { id: "color-palette-generator", name: "Color Palette Generator", icon: Palette },
+      { id: "css-grid-generator", name: "CSS Grid Generator", icon: Grid },
+      { id: "console-log-beautifier", name: "Console Log Beautifier", icon: Terminal },
+      { id: "error-stack-parser", name: "Error Stack Parser", icon: AlertTriangle },
+    ],
+  },
+  {
+    id: "ai",
+    name: "Intelligence Artificielle",
+    description: "Outils d'IA et assistants",
+    icon: Bot,
+    tools: [
+      { id: "ai-chat", name: "Dak1ng IA", icon: Bot, popular: true },
+    ],
+  },
+  {
+    id: "creative",
+    name: "Créatif",
+    description: "Outils créatifs et visuels",
+    icon: Sparkles,
+    tools: [
+      { id: "ascii-art", name: "ASCII Art", icon: FileImage, popular: true },
+      { id: "emoji-picker", name: "Emoji Picker", icon: Sparkles },
     ],
   },
   {
@@ -135,15 +173,25 @@ const toolCategories = [
     description: "Aide-mémoire et documentation",
     icon: BookOpen,
     tools: [
-      { name: "MIME Types", icon: FileType },
-      { name: "Keycode Info", icon: Keyboard },
-      { name: "HTTP Status Codes", icon: Globe },
-      { name: "Regex Tester", icon: Search },
+      { id: "mime-types", name: "MIME Types", icon: FileType },
+      { id: "keycode-info", name: "Keycode Info", icon: Keyboard },
+      { id: "http-status", name: "HTTP Status Codes", icon: Globe },
+      { id: "regex-tester", name: "Regex Tester", icon: Search },
     ],
   },
 ];
 
-export default function Homepage() {
+interface HomepageProps {
+  onToolSelect?: (toolId: string) => void;
+}
+
+export default function Homepage({ onToolSelect }: HomepageProps) {
+  const handleToolClick = (toolId: string) => {
+    if (onToolSelect) {
+      onToolSelect(toolId);
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -157,7 +205,7 @@ export default function Homepage() {
             />
           </div>
           <div>
-            <h1 className="text-4xl font-bold font-playfair">tools.dlpz.fr</h1>
+            <h1 className="text-4xl font-kantumruy-pro font-bold">tools.dlpz.fr</h1>
             <p className="text-muted-foreground">
               Boîte à outils pour développeurs
             </p>
@@ -169,9 +217,41 @@ export default function Homepage() {
         </p>
       </div>
 
+      {/* Outils populaires */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 justify-center">
+          <h2 className="text-xl font-bold text-center">Outils populaires</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          {popularTools.map((tool) => {
+            const ToolIcon = tool.icon;
+            return (
+              <button
+                key={tool.id}
+                onClick={() => handleToolClick(tool.id)}
+                className="group relative bg-card border rounded-lg p-4 hover:border-primary/50 hover:shadow-md transition-all duration-200 text-left"
+              >
+                {/* Badge flottant */}
+                <div className="absolute -top-1 -right-1 z-20">
+                  <div className="bg-yellow-400 dark:bg-yellow-500 text-yellow-900 dark:text-yellow-100 text-[9px] px-1.5 py-0.5 rounded-full font-bold shadow-sm border border-yellow-300 dark:border-yellow-400">
+                    Populaire
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <ToolIcon className="w-5 h-5 text-primary" />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium truncate">{tool.name}</div>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Statistiques */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-card border rounded-lg p-4 text-center">
+        <div className="bg-card rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-primary">
             {toolCategories.reduce((acc, cat) => acc + cat.tools.length, 0)}
           </div>
@@ -179,17 +259,17 @@ export default function Homepage() {
             Outils disponibles
           </div>
         </div>
-        <div className="bg-card border rounded-lg p-4 text-center">
+        <div className="bg-card rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-green-500">
             {toolCategories.length}
           </div>
           <div className="text-sm text-muted-foreground">Catégories</div>
         </div>
-        <div className="bg-card border rounded-lg p-4 text-center">
+        <div className="bg-card rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-orange-500">10</div>
           <div className="text-sm text-muted-foreground">Cheatsheets</div>
         </div>
-        <div className="bg-card border rounded-lg p-4 text-center">
+        <div className="bg-card rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-purple-500">100%</div>
           <div className="text-sm text-muted-foreground">Gratuit</div>
         </div>
@@ -197,7 +277,7 @@ export default function Homepage() {
 
       {/* Catégories d'outils */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold font-playfair text-center">
+        <h2 className="text-2xl font-bold text-center">
           Outils disponibles
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -206,7 +286,7 @@ export default function Homepage() {
             return (
               <div
                 key={category.id}
-                className="bg-card border rounded-lg p-6 space-y-4"
+                className="bg-card border-4 rounded-lg p-6 space-y-4"
               >
                 <div className="flex items-center gap-3">
                   <CategoryIcon className="w-6 h-6 text-primary" />
@@ -226,13 +306,17 @@ export default function Homepage() {
                     {category.tools.slice(0, 4).map((tool, index) => {
                       const ToolIcon = tool.icon;
                       return (
-                        <div
+                        <button
                           key={index}
-                          className="flex items-center gap-1 px-2 py-1 bg-muted rounded-md text-xs"
+                          onClick={() => handleToolClick(tool.id)}
+                          className="group relative flex items-center gap-1 px-2 py-1 bg-muted hover:bg-primary/10 rounded-md text-xs transition-colors"
                         >
                           <ToolIcon className="w-3 h-3" />
                           <span>{tool.name}</span>
-                        </div>
+                          {tool.popular && (
+                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-500 rounded-full"></div>
+                          )}
+                        </button>
                       );
                     })}
                     {category.tools.length > 4 && (
