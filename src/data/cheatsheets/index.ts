@@ -20,6 +20,7 @@ import { sqlCheatSheet } from "./sql";
 import { linuxCheatSheet } from "./linux";
 import { regexCheatSheet } from "./regex";
 import { curlCheatSheet } from "./curl";
+import { jsEs6CheatSheet } from "./js-es6";
 
 // Import des types
 import { CheatSheet } from "../../types/cheatsheets";
@@ -60,6 +61,9 @@ export const allCheatSheets: CheatSheet[] = [
 
   // Tools & Utilities
   regexCheatSheet,
+
+  // Programming Languages
+  jsEs6CheatSheet,
 ];
 
 /**
@@ -83,6 +87,7 @@ export const cheatSheetsByName: Record<string, CheatSheet> = {
   Linux: linuxCheatSheet,
   Regex: regexCheatSheet,
   cURL: curlCheatSheet,
+  "JavaScript ES6+": jsEs6CheatSheet,
 };
 
 /**
@@ -98,14 +103,15 @@ export const cheatSheetsByTag: Record<string, CheatSheet[]> = {
   "package-manager": [composerCheatSheet, nodeCheatSheet],
   php: [composerCheatSheet, laravelCheatSheet, symfonyCheatSheet],
   javascript: [
+    jsEs6CheatSheet,
     nodeCheatSheet,
     reactCheatSheet,
     nextCheatSheet,
     vueCheatSheet,
     nuxtCheatSheet,
   ],
-  frontend: [reactCheatSheet, nextCheatSheet, vueCheatSheet, nuxtCheatSheet],
-  backend: [laravelCheatSheet, symfonyCheatSheet, pythonCheatSheet],
+  frontend: [jsEs6CheatSheet, reactCheatSheet, nextCheatSheet, vueCheatSheet, nuxtCheatSheet],
+  backend: [jsEs6CheatSheet, laravelCheatSheet, symfonyCheatSheet, pythonCheatSheet],
   framework: [
     laravelCheatSheet,
     symfonyCheatSheet,
@@ -121,7 +127,10 @@ export const cheatSheetsByTag: Record<string, CheatSheet[]> = {
   database: [sqlCheatSheet],
   sql: [sqlCheatSheet],
   python: [pythonCheatSheet],
-  programming: [pythonCheatSheet],
+  programming: [jsEs6CheatSheet, pythonCheatSheet],
+  "es6": [jsEs6CheatSheet],
+  "es2015": [jsEs6CheatSheet],
+  "modern-js": [jsEs6CheatSheet],
   scripting: [pythonCheatSheet],
   "data-science": [pythonCheatSheet],
   unix: [bashCheatSheet, linuxCheatSheet],

@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, MessageSquare, Eye, EyeOff } from "lucide-react";
+import { DiscordIcon } from "@/components/ui/discord-icon";
 
 // Composant pour l'aperçu Discord basé sur la documentation officielle
 const DiscordPreview = ({ content }: { content: string }) => {
@@ -192,11 +193,54 @@ const DiscordPreview = ({ content }: { content: string }) => {
       // Timestamps <t:timestamp:format>
       { 
         regex: /<t:(\d+):([FRDfrd])>/g, 
-        component: (match: string, timestamp: string, format: string) => (
-          <span key={key++} className="bg-[#4f545c] text-[#dcddde] px-1 rounded text-sm">
-            {new Date(parseInt(timestamp) * 1000).toLocaleString()}
-          </span>
-        )
+        component: (match: string, timestamp: string, format: string) => {
+          const timestampNum = parseInt(timestamp);
+          if (isNaN(timestampNum)) {
+            return <span key={key++} className="text-red-400">Timestamp invalide</span>;
+          }
+          
+          const date = new Date(timestampNum * 1000);
+          if (isNaN(date.getTime())) {
+            return <span key={key++} className="text-red-400">Date invalide</span>;
+          }
+          
+          const formatDate = (format: string) => {
+            if (!format) return date.toLocaleString('fr-FR');
+            switch (format.toLowerCase()) {
+              case 'f': return date.toLocaleString('fr-FR', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+              });
+              case 'd': return date.toLocaleDateString('fr-FR');
+              case 't': return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+              case 'r': 
+                const diffMs = Date.now() - date.getTime();
+                const diffMinutes = Math.floor(diffMs / (1000 * 60));
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                
+                if (diffMinutes < 1) return 'à l\'instant';
+                if (diffMinutes < 60) return `il y a ${diffMinutes} minute${diffMinutes > 1 ? 's' : ''}`;
+                if (diffHours < 24) return `il y a ${diffHours} heure${diffHours > 1 ? 's' : ''}`;
+                return `il y a ${diffDays} jour${diffDays > 1 ? 's' : ''}`;
+              default: return date.toLocaleString('fr-FR');
+            }
+          };
+          
+          return (
+            <span 
+              key={key++} 
+              className="bg-[#4f545c] text-[#dcddde] px-1 rounded text-sm cursor-help"
+              title={`${formatDate(format)} (${date.toLocaleString('fr-FR')})`}
+            >
+              {formatDate(format)}
+            </span>
+          );
+        }
       },
       // Émojis :nom:
       { 
@@ -341,7 +385,18 @@ const DiscordPreview = ({ content }: { content: string }) => {
 };
 
 export function MarkdownToDiscord() {
-  const [markdown, setMarkdown] = useState(`# Titre principal
+  const [currentTimestamp, setCurrentTimestamp] = useState(Math.floor(Date.now() / 1000));
+  
+  // Mettre à jour le timestamp toutes les secondes
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTimestamp(Math.floor(Date.now() / 1000));
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const getDefaultMarkdown = (timestamp: number) => `# Titre principal
 
 ## Sous-titre
 
@@ -378,8 +433,11 @@ avec du formatage
 #général → <#123456789>
 :star: :heart: :fire:
 
-### Timestamps
-<t:1685542800:F> → Timestamp formaté
+### Timestamps Discord
+<t:${timestamp}:F> → Format complet (maintenant)
+<t:${timestamp}:D> → Date seulement  
+<t:${timestamp}:t> → Heure seulement
+<t:${timestamp}:R> → Temps relatif
 
 ### Listes
 - Premier élément
@@ -398,9 +456,21 @@ https://discord.com → URL directe
 | Colonne 1 | Colonne 2 | Colonne 3 |
 |-----------|-----------|-----------|
 | Donnée 1  | Donnée 2  | Donnée 3  |
-| Donnée 4  | Donnée 5  | Donnée 6  |`);
+| Donnée 4  | Donnée 5  | Donnée 6  |`;
 
+  const [markdown, setMarkdown] = useState(() => getDefaultMarkdown(currentTimestamp));
   const [showPreview, setShowPreview] = useState(false);
+
+  // Mettre à jour le contenu par défaut quand le timestamp change
+  React.useEffect(() => {
+    setMarkdown(prev => {
+      // Ne mettre à jour que si c'est encore le contenu par défaut
+      if (prev.includes('Titre principal') && prev.includes('Timestamps Discord')) {
+        return getDefaultMarkdown(currentTimestamp);
+      }
+      return prev;
+    });
+  }, [currentTimestamp]);
 
   // Fonction de conversion Markdown vers Discord basée sur la documentation officielle
   const convertMarkdownToDiscord = (md: string): string => {
@@ -549,7 +619,7 @@ https://discord.com → URL directe
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" />
+            <DiscordIcon className="h-5 w-5" />
             Markdown vers Discord
           </CardTitle>
           <CardDescription>
@@ -646,7 +716,7 @@ https://discord.com → URL directe
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" />
+            <DiscordIcon className="h-5 w-5" />
             Formatage Discord officiel complet
           </CardTitle>
         </CardHeader>

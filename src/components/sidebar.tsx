@@ -53,6 +53,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ToolId, ToolCategory } from "@/types/tools";
 import { ThemeToggle } from "./ui/theme-toggle";
+import { DiscordIcon } from "./ui/discord-icon";
 
 interface SidebarProps {
   activeTool: ToolId;
@@ -172,6 +173,34 @@ const toolCategories: ToolCategory[] = [
     description: "Outils de formatage et conversion de données",
     tools: [
       {
+        id: "markdown-to-html",
+        name: "Markdown to HTML",
+        description: "Conversion Markdown vers HTML",
+        icon: FileText,
+        category: "formatting",
+      },
+      {
+        id: "markdown-to-discord",
+        name: "Markdown to Discord",
+        description: "Conversion Markdown vers Discord",
+        icon: DiscordIcon,
+        category: "formatting",
+      },
+      {
+        id: "markdown-to-slack",
+        name: "Markdown to Slack",
+        description: "Conversion Markdown vers Slack",
+        icon: Hash,
+        category: "formatting",
+      },
+      {
+        id: "markdown-to-jira",
+        name: "Markdown to Jira",
+        description: "Conversion Markdown vers Jira",
+        icon: Bug,
+        category: "formatting",
+      },
+      {
         id: "json-formatter",
         name: "JSON Formatter",
         description: "Formatage et validation JSON",
@@ -225,34 +254,6 @@ const toolCategories: ToolCategory[] = [
         name: "JSON to CSV",
         description: "Conversion JSON vers CSV",
         icon: FileSpreadsheet,
-        category: "formatting",
-      },
-      {
-        id: "markdown-to-html",
-        name: "Markdown to HTML",
-        description: "Conversion Markdown vers HTML",
-        icon: FileText,
-        category: "formatting",
-      },
-      {
-        id: "markdown-to-discord",
-        name: "Markdown to Discord",
-        description: "Conversion Markdown vers Discord",
-        icon: MessageSquare,
-        category: "formatting",
-      },
-      {
-        id: "markdown-to-slack",
-        name: "Markdown to Slack",
-        description: "Conversion Markdown vers Slack",
-        icon: Hash,
-        category: "formatting",
-      },
-      {
-        id: "markdown-to-jira",
-        name: "Markdown to Jira",
-        description: "Conversion Markdown vers Jira",
-        icon: Bug,
         category: "formatting",
       },
       {
