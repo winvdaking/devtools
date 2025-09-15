@@ -82,11 +82,11 @@ function hello() {
     // Unordered lists
     html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
     html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    html = html.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
 
     // Ordered lists
     html = html.replace(/^\d+\. (.*$)/gim, '<li>$1</li>');
-    html = html.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
+    html = html.replace(/(<li>.*<\/li>)/g, '<ol>$1</ol>');
 
     // Tables (basic support)
     const lines = html.split('\n');
