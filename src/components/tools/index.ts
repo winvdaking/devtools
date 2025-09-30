@@ -72,3 +72,10 @@ export { default as ErrorStackParser } from "./error-stack-parser";
 
 // Cheatsheets des technologies
 export { default as Cheatsheets } from "./cheatsheets";
+
+// Jeux
+export { MemoryGame } from "./memory-game";
+export { SnakeGame } from "./snake-game";
+export { Game2048 } from "./game-2048";
+export { SimonSays } from "./simon-says";
+export { TicTacToe } from "./tic-tac-toe";

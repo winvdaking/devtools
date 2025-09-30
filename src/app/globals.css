@@ -63,6 +63,31 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  
+  /* Optimisations tactiles pour mobile et macOS */
+  button, a, [role="button"], [tabindex]:not([tabindex="-1"]) {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  
+  /* Prévention du zoom sur mobile lors du focus des inputs */
+  input, textarea, select {
+    font-size: 16px;
+  }
+  
+  /* Amélioration du scroll sur mobile */
+  html {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Optimisation du will-change pour les animations */
+  .animate-spin, [class*="transition"] {
+    will-change: transform;
+  }
 }
 
 @layer base {

@@ -4,12 +4,28 @@ import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Download, FileText, MessageSquare, Eye, EyeOff } from "lucide-react";
+import { Copy, Download, FileText, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { DiscordIcon } from "@/components/ui/discord-icon";
 
-// Composant pour l'aperçu Discord basé sur la documentation officielle
+// Composant pour l'aperçu Discord ultra-réaliste
 const DiscordPreview = ({ content }: { content: string }) => {
+  const [revealedSpoilers, setRevealedSpoilers] = useState<Set<number>>(new Set());
+  const spoilerCounterRef = React.useRef(0);
+
+  const toggleSpoiler = (index: number) => {
+    setRevealedSpoilers(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
   const formatDiscordContent = (text: string) => {
+    spoilerCounterRef.current = 0;
     const lines = text.split('\n');
     const elements: JSX.Element[] = [];
     let key = 0;
@@ -25,9 +41,8 @@ const DiscordPreview = ({ content }: { content: string }) => {
       // Gestion des citations multilignes >>>
       if (line.trim() === '>>>') {
         if (inMultiQuote) {
-          // Fin de la citation multiligne
           elements.push(
-            <div key={key++} className="border-l-4 border-[#4f545c] pl-3 my-2 text-[#b9bbbe] italic">
+            <div key={key++} className="border-l-4 border-[#4f545c] dark:border-[#4f545c] pl-3 my-1 text-[#b9bbbe]">
               {multiQuoteContent.map((quoteLine, idx) => (
                 <div key={idx}>{formatInlineText(quoteLine)}</div>
               ))}
@@ -36,7 +51,6 @@ const DiscordPreview = ({ content }: { content: string }) => {
           multiQuoteContent = [];
           inMultiQuote = false;
         } else {
-          // Début de la citation multiligne
           inMultiQuote = true;
         }
         continue;
@@ -50,22 +64,20 @@ const DiscordPreview = ({ content }: { content: string }) => {
       // Gestion des blocs de code multi-lignes
       if (line.trim().startsWith('```')) {
         if (inCodeBlock) {
-          // Fin du bloc de code
           elements.push(
-            <div key={key++} className="bg-[#2f3136] p-3 rounded my-2 font-mono text-sm text-[#dcddde]">
+            <div key={key++} className="bg-[#2f3136] dark:bg-[#2f3136] p-2 rounded my-1 font-mono text-sm overflow-x-auto">
               {codeBlockLanguage && (
-                <div className="text-[#8e9297] text-xs mb-2 border-b border-[#4f545c] pb-1">
+                <div className="text-[#b9bbbe] text-xs mb-1 font-sans">
                   {codeBlockLanguage}
                 </div>
               )}
-              <pre className="whitespace-pre-wrap">{codeBlockContent.join('\n')}</pre>
+              <pre className="text-[#dcddde] whitespace-pre overflow-x-auto"><code>{codeBlockContent.join('\n')}</code></pre>
             </div>
           );
           codeBlockContent = [];
           codeBlockLanguage = '';
           inCodeBlock = false;
         } else {
-          // Début du bloc de code
           inCodeBlock = true;
           const language = line.trim().replace('```', '').trim();
           if (language) {
@@ -80,516 +92,569 @@ const DiscordPreview = ({ content }: { content: string }) => {
         continue;
       }
       
-      // Headers
+      // Headers Discord (# ## ###)
       if (line.startsWith('### ')) {
         const title = line.replace('### ', '');
         elements.push(
-          <div key={key++} className="text-[#ffffff] text-lg font-semibold mb-2">
+          <h3 key={key++} className="text-[#dcddde] text-base font-bold mb-1 mt-2">
             {formatInlineText(title)}
-          </div>
+          </h3>
         );
       }
       else if (line.startsWith('## ')) {
         const title = line.replace('## ', '');
         elements.push(
-          <div key={key++} className="text-[#ffffff] text-xl font-semibold mb-2">
+          <h2 key={key++} className="text-[#dcddde] text-lg font-bold mb-1 mt-2">
             {formatInlineText(title)}
-          </div>
+          </h2>
         );
       }
       else if (line.startsWith('# ')) {
         const title = line.replace('# ', '');
         elements.push(
-          <div key={key++} className="text-[#ffffff] text-2xl font-bold mb-2">
+          <h1 key={key++} className="text-[#dcddde] text-xl font-bold mb-2 mt-2">
             {formatInlineText(title)}
-          </div>
+          </h1>
         );
       }
       // Citations simples
       else if (line.startsWith('> ')) {
         const quote = line.replace('> ', '');
         elements.push(
-          <div key={key++} className="border-l-4 border-[#4f545c] pl-3 my-2 text-[#b9bbbe] italic">
+          <div key={key++} className="border-l-4 border-[#4f545c] dark:border-[#4f545c] pl-3 my-1 text-[#b9bbbe]">
             {formatInlineText(quote)}
           </div>
         );
       }
+      // Listes non ordonnées
+      else if (line.match(/^[\-\*\+] /)) {
+        const content = line.replace(/^[\-\*\+] /, '');
+        elements.push(
+          <div key={key++} className="flex items-start gap-2 my-0.5">
+            <span className="text-[#dcddde] mt-0.5">•</span>
+            <span className="text-[#dcddde]">{formatInlineText(content)}</span>
+          </div>
+        );
+      }
+      // Listes ordonnées
+      else if (line.match(/^\d+\. /)) {
+        const match = line.match(/^(\d+)\. (.+)/);
+        if (match) {
+          const [, num, content] = match;
+          elements.push(
+            <div key={key++} className="flex items-start gap-2 my-0.5">
+              <span className="text-[#dcddde]">{num}.</span>
+              <span className="text-[#dcddde]">{formatInlineText(content)}</span>
+            </div>
+          );
+        }
+      }
       // Lignes vides
       else if (line.trim() === '') {
-        elements.push(<div key={key++} className="h-2"></div>);
+        elements.push(<div key={key++} className="h-1"></div>);
       }
-      // Texte normal avec formatage
+      // Texte normal avec formatage inline
       else {
         const formattedLine = formatInlineText(line);
         elements.push(
-          <div key={key++} className="mb-1">
+          <div key={key++} className="text-[#dcddde] my-0.5">
             {formattedLine}
           </div>
         );
       }
     }
 
-    // Gérer le bloc de code restant s'il y en a un
-    if (inCodeBlock && codeBlockContent.length > 0) {
-      elements.push(
-        <div key={key++} className="bg-[#2f3136] p-3 rounded my-2 font-mono text-sm text-[#dcddde]">
-          {codeBlockLanguage && (
-            <div className="text-[#8e9297] text-xs mb-2 border-b border-[#4f545c] pb-1">
-              {codeBlockLanguage}
-            </div>
-          )}
-          <pre className="whitespace-pre-wrap">{codeBlockContent.join('\n')}</pre>
-        </div>
-      );
-    }
-
-    // Gérer la citation multiligne restante
-    if (inMultiQuote && multiQuoteContent.length > 0) {
-      elements.push(
-        <div key={key++} className="border-l-4 border-[#4f545c] pl-3 my-2 text-[#b9bbbe] italic">
-          {multiQuoteContent.map((quoteLine, idx) => (
-            <div key={idx}>{formatInlineText(quoteLine)}</div>
-          ))}
-        </div>
-      );
-    }
-
-    return <div>{elements}</div>;
+    return <div className="leading-relaxed">{elements}</div>;
   };
 
-  const formatInlineText = (text: string) => {
-    const parts: (string | JSX.Element)[] = [];
-    let key = 0;
+  const formatInlineText = (text: string): React.ReactNode => {
+    const parts: React.ReactNode[] = [];
+    let currentIndex = 0;
+    let keyCounter = 0;
 
-    // Regex pour capturer le formatage Discord (ordre important : du plus spécifique au moins spécifique)
+    // Pattern pour tous les formats Discord dans l'ordre de priorité
     const patterns = [
-      // Mentions utilisateur <@ID>
-      { 
-        regex: /<@(\d+)>/g, 
-        component: (match: string, id: string) => (
-          <span key={key++} className="bg-[#5865f2] text-white px-1 rounded text-sm">
+      // Mentions utilisateur <@ID> ou <@!ID>
+      {
+        regex: /<@!?(\d+)>/g,
+        render: (match: RegExpMatchArray) => (
+          <span key={keyCounter++} className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-1 rounded cursor-pointer transition-colors">
             @Utilisateur
           </span>
         )
       },
       // Mentions de rôles <@&ID>
-      { 
-        regex: /<@&(\d+)>/g, 
-        component: (match: string, id: string) => (
-          <span key={key++} className="bg-[#5865f2] text-white px-1 rounded text-sm">
+      {
+        regex: /<@&(\d+)>/g,
+        render: (match: RegExpMatchArray) => (
+          <span key={keyCounter++} className="bg-[#5865f2] hover:bg-[#4752c4] text-white px-1 rounded cursor-pointer transition-colors">
             @Rôle
           </span>
         )
       },
       // Mentions de salons <#ID>
-      { 
-        regex: /<#(\d+)>/g, 
-        component: (match: string, id: string) => (
-          <span key={key++} className="bg-[#5865f2] text-white px-1 rounded text-sm">
+      {
+        regex: /<#(\d+)>/g,
+        render: (match: RegExpMatchArray) => (
+          <span key={keyCounter++} className="bg-[#5865f2] hover:bg-[#4752c4] text-[#00aff4] px-1 rounded cursor-pointer transition-colors">
             #salon
           </span>
         )
       },
       // Timestamps <t:timestamp:format>
-      { 
-        regex: /<t:(\d+):([FRDfrd])>/g, 
-        component: (match: string, timestamp: string, format: string) => {
-          const timestampNum = parseInt(timestamp);
-          if (isNaN(timestampNum)) {
-            return <span key={key++} className="text-red-400">Timestamp invalide</span>;
-          }
+      {
+        regex: /<t:(\d+)(?::([tTdDfFR]))?>/g,
+        render: (match: RegExpMatchArray) => {
+          const timestamp = parseInt(match[1]);
+          const format = match[2] || 'f';
+          const date = new Date(timestamp * 1000);
           
-          const date = new Date(timestampNum * 1000);
-          if (isNaN(date.getTime())) {
-            return <span key={key++} className="text-red-400">Date invalide</span>;
-          }
-          
-          const formatDate = (format: string) => {
-            if (!format) return date.toLocaleString('fr-FR');
-            switch (format.toLowerCase()) {
-              case 'f': return date.toLocaleString('fr-FR', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit' 
-              });
-              case 'd': return date.toLocaleDateString('fr-FR');
+          const formatDate = (fmt: string) => {
+            switch (fmt) {
               case 't': return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-              case 'r': 
+              case 'T': return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+              case 'd': return date.toLocaleDateString('fr-FR');
+              case 'D': return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+              case 'f': return date.toLocaleString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+              case 'F': return date.toLocaleString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+              case 'R': {
                 const diffMs = Date.now() - date.getTime();
-                const diffMinutes = Math.floor(diffMs / (1000 * 60));
-                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                const diffSec = Math.floor(diffMs / 1000);
+                const diffMin = Math.floor(diffSec / 60);
+                const diffHr = Math.floor(diffMin / 60);
+                const diffDay = Math.floor(diffHr / 24);
                 
-                if (diffMinutes < 1) return 'à l\'instant';
-                if (diffMinutes < 60) return `il y a ${diffMinutes} minute${diffMinutes > 1 ? 's' : ''}`;
-                if (diffHours < 24) return `il y a ${diffHours} heure${diffHours > 1 ? 's' : ''}`;
-                return `il y a ${diffDays} jour${diffDays > 1 ? 's' : ''}`;
+                if (diffSec < 60) return 'à l\'instant';
+                if (diffMin < 60) return `il y a ${diffMin} minute${diffMin > 1 ? 's' : ''}`;
+                if (diffHr < 24) return `il y a ${diffHr} heure${diffHr > 1 ? 's' : ''}`;
+                return `il y a ${diffDay} jour${diffDay > 1 ? 's' : ''}`;
+              }
               default: return date.toLocaleString('fr-FR');
             }
           };
           
           return (
             <span 
-              key={key++} 
-              className="bg-[#4f545c] text-[#dcddde] px-1 rounded text-sm cursor-help"
-              title={`${formatDate(format)} (${date.toLocaleString('fr-FR')})`}
+              key={keyCounter++}
+              className="bg-[#4e5058] hover:bg-[#5d5f66] text-[#00aff4] px-1 rounded cursor-help transition-colors"
+              title={date.toLocaleString('fr-FR')}
             >
               {formatDate(format)}
             </span>
           );
         }
       },
-      // Émojis :nom:
-      { 
-        regex: /:(\w+):/g, 
-        component: (match: string, name: string) => (
-          <span key={key++} className="text-lg">
-            :{name}:
-          </span>
+      // Émojis personnalisés <:nom:ID> et <a:nom:ID> (animés)
+      {
+        regex: /<a?:(\w+):(\d+)>/g,
+        render: (match: RegExpMatchArray) => {
+          const isAnimated = match[0].startsWith('<a:');
+          return (
+            <span key={keyCounter++} className="inline-block text-xl mx-0.5" title={`:${match[1]}:`}>
+              {isAnimated ? '✨' : '😀'}
+            </span>
+          );
+        }
+      },
+      // Émojis standard :nom:
+      {
+        regex: /:(\w+):/g,
+        render: (match: RegExpMatchArray) => {
+          const emojiMap: Record<string, string> = {
+            'smile': '😊', 'heart': '❤️', 'fire': '🔥', 'star': '⭐', 
+            'thumbsup': '👍', 'thumbsdown': '👎', 'eyes': '👀', 'thinking': '🤔',
+            'joy': '😂', 'sob': '😭', 'wave': '👋', 'clap': '👏',
+            'rocket': '🚀', 'tada': '🎉', 'warning': '⚠️', 'check': '✅',
+            'x': '❌', 'question': '❓', 'exclamation': '❗', 'zzz': '💤'
+          };
+          const emoji = emojiMap[match[1].toLowerCase()] || `:${match[1]}:`;
+          return <span key={keyCounter++} className="text-xl mx-0.5">{emoji}</span>;
+        }
+      },
+      // Liens masqués [texte](url "titre optionnel")
+      {
+        regex: /\[([^\]]+)\]\(([^\s)]+)(?:\s+"([^"]+)")?\)/g,
+        render: (match: RegExpMatchArray) => (
+          <a 
+            key={keyCounter++}
+            href={match[2]}
+            title={match[3]}
+            className="text-[#00aff4] hover:underline cursor-pointer"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {match[1]}
+          </a>
         )
       },
-      // Spoilers (doivent être traités en premier)
-      { 
-        regex: /\|\|([^|]+)\|\|/g, 
-        component: (match: string) => (
-          <span key={key++} className="bg-[#202225] text-[#202225] hover:text-[#dcddde] cursor-pointer rounded px-1 transition-colors">
-            {match}
-          </span>
+      // URLs automatiques (avec suppression d'embed)
+      {
+        regex: /<(https?:\/\/[^\s>]+)>/g,
+        render: (match: RegExpMatchArray) => (
+          <a 
+            key={keyCounter++}
+            href={match[1]}
+            className="text-[#00aff4] hover:underline cursor-pointer"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {match[1]}
+          </a>
         )
       },
-      // Italique et gras combinés
-      { 
-        regex: /\*\*\*(.*?)\*\*\*/g, 
-        component: (match: string) => (
-          <strong key={key++} className="font-bold text-[#ffffff]">
-            <em className="italic">{match}</em>
+      // URLs simples
+      {
+        regex: /(https?:\/\/[^\s<]+)/g,
+        render: (match: RegExpMatchArray) => (
+          <a 
+            key={keyCounter++}
+            href={match[1]}
+            className="text-[#00aff4] hover:underline cursor-pointer"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {match[1]}
+          </a>
+        )
+      },
+      // Spoilers ||texte||
+      {
+        regex: /\|\|(.+?)\|\|/g,
+        render: (match: RegExpMatchArray) => {
+          const currentSpoilerIdx = spoilerCounterRef.current++;
+          const isRevealed = revealedSpoilers.has(currentSpoilerIdx);
+          return (
+            <span
+              key={keyCounter++}
+              onClick={() => toggleSpoiler(currentSpoilerIdx)}
+              className={`rounded px-1 cursor-pointer transition-all ${
+                isRevealed 
+                  ? 'bg-[#202225] text-[#dcddde]' 
+                  : 'bg-[#202225] text-[#202225] hover:bg-[#3c3f45]'
+              }`}
+            >
+              {match[1]}
+            </span>
+          );
+        }
+      },
+      // Sous-texte -# texte
+      {
+        regex: /^-# (.+)$/gm,
+        render: (match: RegExpMatchArray) => (
+          <div key={keyCounter++} className="text-[#b9bbbe] text-xs italic">
+            {match[1]}
+          </div>
+        )
+      },
+      // Gras et italique combinés ***texte*** ou ___texte___
+      {
+        regex: /\*\*\*(.+?)\*\*\*/g,
+        render: (match: RegExpMatchArray) => (
+          <strong key={keyCounter++} className="font-bold">
+            <em className="italic">{match[1]}</em>
           </strong>
         )
       },
-      { 
-        regex: /___(.*?)___/g, 
-        component: (match: string) => (
-          <strong key={key++} className="font-bold text-[#ffffff]">
-            <em className="italic">{match}</em>
+      {
+        regex: /___(.+?)___/g,
+        render: (match: RegExpMatchArray) => (
+          <strong key={keyCounter++} className="font-bold">
+            <em className="italic">{match[1]}</em>
           </strong>
         )
       },
-      // Gras
-      { 
-        regex: /\*\*(.*?)\*\*/g, 
-        component: (match: string) => (
-          <strong key={key++} className="font-bold text-[#ffffff]">{match}</strong>
+      // Gras souligné **__texte__** ou __**texte**__
+      {
+        regex: /\*\*__(.+?)__\*\*/g,
+        render: (match: RegExpMatchArray) => (
+          <strong key={keyCounter++} className="font-bold underline">
+            {match[1]}
+          </strong>
         )
       },
-      { 
-        regex: /__(.*?)__/g, 
-        component: (match: string) => (
-          <strong key={key++} className="font-bold text-[#ffffff]">{match}</strong>
+      {
+        regex: /__\*\*(.+?)\*\*__/g,
+        render: (match: RegExpMatchArray) => (
+          <strong key={keyCounter++} className="font-bold underline">
+            {match[1]}
+          </strong>
         )
       },
-      // Italique
-      { 
-        regex: /\*(.*?)\*/g, 
-        component: (match: string) => (
-          <em key={key++} className="italic">{match}</em>
+      // Gras **texte** ou __texte__
+      {
+        regex: /\*\*(.+?)\*\*/g,
+        render: (match: RegExpMatchArray) => (
+          <strong key={keyCounter++} className="font-bold">{match[1]}</strong>
         )
       },
-      { 
-        regex: /_(.*?)_/g, 
-        component: (match: string) => (
-          <em key={key++} className="italic">{match}</em>
+      {
+        regex: /__(.+?)__/g,
+        render: (match: RegExpMatchArray) => (
+          <strong key={keyCounter++} className="font-bold">{match[1]}</strong>
         )
       },
-      // Barré
-      { 
-        regex: /~~(.*?)~~/g, 
-        component: (match: string) => (
-          <span key={key++} className="line-through text-[#8e9297]">{match}</span>
+      // Italique *texte* ou _texte_
+      {
+        regex: /\*(.+?)\*/g,
+        render: (match: RegExpMatchArray) => (
+          <em key={keyCounter++} className="italic">{match[1]}</em>
         )
       },
-      // Code inline
-      { 
-        regex: /`([^`]+)`/g, 
-        component: (match: string) => (
-          <code key={key++} className="bg-[#2f3136] px-1 py-0.5 rounded text-[#dcddde] font-mono text-sm">
-            {match}
+      {
+        regex: /_(.+?)_/g,
+        render: (match: RegExpMatchArray) => (
+          <em key={keyCounter++} className="italic">{match[1]}</em>
+        )
+      },
+      // Souligné __texte__ (déjà géré dans gras, mais on le garde pour compatibilité)
+      // Barré ~~texte~~
+      {
+        regex: /~~(.+?)~~/g,
+        render: (match: RegExpMatchArray) => (
+          <span key={keyCounter++} className="line-through opacity-60">{match[1]}</span>
+        )
+      },
+      // Code inline `code`
+      {
+        regex: /`([^`]+)`/g,
+        render: (match: RegExpMatchArray) => (
+          <code key={keyCounter++} className="bg-[#2f3136] dark:bg-[#2f3136] px-1.5 py-0.5 rounded text-[#dcddde] font-mono text-sm">
+            {match[1]}
           </code>
-        )
-      },
-      // Liens [texte](url)
-      { 
-        regex: /\[([^\]]+)\]\(([^)]+)\)/g, 
-        component: (match: string, text: string, url: string) => (
-          <a key={key++} href={url} className="text-[#00aff4] hover:underline" target="_blank" rel="noopener noreferrer">
-            {text}
-          </a>
-        )
-      },
-      // URLs (Discord affiche automatiquement les URLs)
-      { 
-        regex: /(https?:\/\/[^\s]+)/g, 
-        component: (match: string) => (
-          <a key={key++} href={match} className="text-[#00aff4] hover:underline" target="_blank" rel="noopener noreferrer">
-            {match}
-          </a>
         )
       }
     ];
 
-    let lastIndex = 0;
-    let foundMatches = false;
-
-    // Chercher tous les matches
-    const allMatches: Array<{ start: number; end: number; component: JSX.Element; original: string }> = [];
+    // Trouver tous les matches
+    const matches: Array<{
+      index: number;
+      length: number;
+      element: React.ReactNode;
+    }> = [];
 
     patterns.forEach(pattern => {
+      const regex = new RegExp(pattern.regex);
       let match;
-      while ((match = pattern.regex.exec(text)) !== null) {
-        allMatches.push({
-          start: match.index,
-          end: match.index + match[0].length,
-          component: pattern.component(match[1] || match[0], match[2], match[3]),
-          original: match[0]
+      while ((match = regex.exec(text)) !== null) {
+        matches.push({
+          index: match.index,
+          length: match[0].length,
+          element: pattern.render(match)
         });
       }
     });
 
-    // Trier par position
-    allMatches.sort((a, b) => a.start - b.start);
-
-    // Construire le résultat
-    allMatches.forEach(match => {
-      // Ajouter le texte avant le match
-      if (match.start > lastIndex) {
-        parts.push(text.slice(lastIndex, match.start));
+    // Trier par position et filtrer les chevauchements
+    matches.sort((a, b) => a.index - b.index);
+    
+    const filteredMatches: typeof matches = [];
+    let lastEnd = 0;
+    
+    for (const match of matches) {
+      if (match.index >= lastEnd) {
+        filteredMatches.push(match);
+        lastEnd = match.index + match.length;
       }
-      
-      // Ajouter le composant formaté
-      parts.push(match.component);
-      lastIndex = match.end;
-      foundMatches = true;
-    });
-
-    // Ajouter le texte restant
-    if (lastIndex < text.length) {
-      parts.push(text.slice(lastIndex));
     }
 
-    return foundMatches ? parts : text;
+    // Construire le résultat
+    filteredMatches.forEach(match => {
+      if (match.index > currentIndex) {
+        parts.push(text.slice(currentIndex, match.index));
+      }
+      parts.push(match.element);
+      currentIndex = match.index + match.length;
+    });
+
+    if (currentIndex < text.length) {
+      parts.push(text.slice(currentIndex));
+    }
+    
+    return parts.length > 0 ? parts : text;
   };
 
-  return formatDiscordContent(content);
+  return (
+    <div className="p-4 bg-[#36393f] dark:bg-[#36393f] rounded font-['Whitney','Helvetica_Neue','Helvetica','Arial',sans-serif]">
+      {formatDiscordContent(content)}
+    </div>
+  );
 };
 
 export function MarkdownToDiscord() {
   const [currentTimestamp, setCurrentTimestamp] = useState(Math.floor(Date.now() / 1000));
   
-  // Mettre à jour le timestamp toutes les secondes
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTimestamp(Math.floor(Date.now() / 1000));
     }, 1000);
-    
     return () => clearInterval(interval);
   }, []);
   
-  const getDefaultMarkdown = (timestamp: number) => `# Titre principal
+  const getDefaultMarkdown = (timestamp: number) => `# Guide complet du formatage Discord
 
-## Sous-titre
+## Formatage de texte basique
 
-Voici un **texte en gras** et un *texte en italique*.
+**Texte en gras** avec \`**texte**\` ou \`__texte__\`
+*Texte en italique* avec \`*texte*\` ou \`_texte_\`
+***Texte gras et italique*** avec \`***texte***\`
+__**Texte gras et souligné**__ avec \`__**texte**__\`
+~~Texte barré~~ avec \`~~texte~~\`
+\`Code inline\` avec \`\`code\`\`
+||Spoiler masqué|| avec \`||texte||\` (cliquez pour révéler)
 
-### Formatage Discord complet
-- **Gras** : \`**texte**\` ou \`__texte__\`
-- *Italique* : \`*texte*\` ou \`_texte_\`
-- ***Gras et italique*** : \`***texte***\` ou \`___texte___\`
-- ~~Barré~~ : \`~~texte~~\`
-- \`Code inline\` : \`\`code\`\`
-- ||Spoiler|| : \`||texte||\`
+## Titres et structure
 
-### Code avec coloration syntaxique
-\`\`\`javascript
-function hello() {
-  console.log("Hello, World!");
-  return "Discord formatting!";
-}
-\`\`\`
+# Titre niveau 1
+## Titre niveau 2  
+### Titre niveau 3
 
-### Citations
-> Ceci est une citation simple.
+## Citations
+
+> Citation simple sur une ligne
 
 >>>
 Citation multiligne
 sur plusieurs lignes
-avec du formatage
+avec du **formatage** supporté
 >>>
 
-### Mentions et émojis
-@Utilisateur123 → <@123456789>
-@&Admin → <@&987654321>
-#général → <#123456789>
-:star: :heart: :fire:
+## Listes
 
-### Timestamps Discord
-<t:${timestamp}:F> → Format complet (maintenant)
-<t:${timestamp}:D> → Date seulement  
-<t:${timestamp}:t> → Heure seulement
-<t:${timestamp}:R> → Temps relatif
-
-### Listes
+Listes non ordonnées :
 - Premier élément
-- Deuxième élément
-- Troisième élément
+* Deuxième élément
++ Troisième élément
 
+Listes ordonnées :
 1. Premier point
 2. Deuxième point
 3. Troisième point
 
-### Liens et URLs
-[Discord](https://discord.com) → Lien avec texte
-https://discord.com → URL directe
+## Code avec coloration syntaxique
 
-### Tableau (converti en code)
-| Colonne 1 | Colonne 2 | Colonne 3 |
-|-----------|-----------|-----------|
-| Donnée 1  | Donnée 2  | Donnée 3  |
-| Donnée 4  | Donnée 5  | Donnée 6  |`;
+\`\`\`javascript
+function exemple() {
+  console.log("Bonjour Discord !");
+  return { status: "success" };
+}
+\`\`\`
+
+\`\`\`python
+def exemple():
+    print("Support de nombreux langages")
+    return True
+\`\`\`
+
+\`\`\`css
+.discord-style {
+  color: #5865f2;
+  font-family: Whitney, sans-serif;
+}
+\`\`\`
+
+## Mentions et interactions
+
+### Mentions utilisateur
+<@123456789> - Mention d'un utilisateur
+<@!987654321> - Mention d'un utilisateur (format alternatif)
+
+### Mentions de rôles
+<@&555555555> - Mention d'un rôle (ex: @Admin, @Modérateur)
+
+### Mentions de salons
+<#777777777> - Mention d'un salon (ex: #général, #annonces)
+
+## Émojis
+
+### Émojis standards
+:smile: :heart: :fire: :star: :thumbsup: :rocket: :tada:
+:wave: :eyes: :thinking: :joy: :clap: :warning: :check:
+
+### Émojis personnalisés
+<:nom_emoji:123456789> - Émoji personnalisé statique
+<a:nom_anime:987654321> - Émoji personnalisé animé
+
+## Timestamps dynamiques
+
+<t:${timestamp}:t> → Heure courte (ex: 16:20)
+<t:${timestamp}:T> → Heure longue (ex: 16:20:30)
+<t:${timestamp}:d> → Date courte (ex: 20/12/2023)
+<t:${timestamp}:D> → Date longue (ex: 20 décembre 2023)
+<t:${timestamp}:f> → Date et heure courtes (ex: 20 décembre 2023 16:20)
+<t:${timestamp}:F> → Date et heure longues (ex: mercredi 20 décembre 2023 16:20)
+<t:${timestamp}:R> → Temps relatif (ex: il y a 2 minutes)
+
+## Liens et URLs
+
+### Liens avec texte
+[Visiter Discord](https://discord.com)
+[Documentation Discord](https://discord.com/developers/docs "Documentation officielle")
+
+### URLs directes
+https://discord.com - Lien automatique avec aperçu
+
+### Supprimer l'aperçu
+<https://discord.com> - Lien sans aperçu embed
+
+## Sous-texte (nouveau format)
+-# Ceci est un sous-texte en petit et grisé
+
+## Combinaisons avancées
+
+**Vous pouvez combiner** *plusieurs* ***formats*** ~~ensemble~~ avec \`du code\` et des :fire: émojis !
+
+> Citation avec **gras**, *italique*, \`code\` et <@123456789>
+
+## Formatage dans les listes
+
+1. **Premier** élément avec du gras
+2. *Deuxième* élément avec de l'italique
+3. \`Troisième\` élément avec du code
+4. Liste avec <@123456789> mention
+5. Liste avec :star: émoji
+
+## Exemple de message complet
+
+Salut <@123456789> ! :wave:
+
+J'ai mis à jour le canal <#777777777> avec les dernières infos.
+
+**Nouveau** : La fonctionnalité est maintenant disponible !
+*Sortie prévue* : <t:${timestamp + 86400}:R>
+
+Détails techniques :
+\`\`\`typescript
+interface DiscordMessage {
+  content: string;
+  author: User;
+  timestamp: number;
+  mentions: User[];
+}
+\`\`\`
+
+> ⚠️ **Attention** : Pensez à vérifier ||les informations sensibles|| avant de partager.
+
+Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
+
+-# Message envoyé par le bot • <t:${timestamp}:R>`;
 
   const [markdown, setMarkdown] = useState(() => getDefaultMarkdown(currentTimestamp));
-  const [showPreview, setShowPreview] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
 
-  // Mettre à jour le contenu par défaut quand le timestamp change
   React.useEffect(() => {
     setMarkdown(prev => {
-      // Ne mettre à jour que si c'est encore le contenu par défaut
-      if (prev.includes('Titre principal') && prev.includes('Timestamps Discord')) {
+      if (prev.includes('Guide complet du formatage Discord')) {
         return getDefaultMarkdown(currentTimestamp);
       }
       return prev;
     });
   }, [currentTimestamp]);
 
-  // Fonction de conversion Markdown vers Discord basée sur la documentation officielle
   const convertMarkdownToDiscord = (md: string): string => {
-    let discord = md;
-
-    // 1. Headers - Discord supporte les headers avec # ## ###
-    discord = discord.replace(/^### (.*$)/gim, '### $1');
-    discord = discord.replace(/^## (.*$)/gim, '## $1');
-    discord = discord.replace(/^# (.*$)/gim, '# $1');
-
-    // 2. Bold - Discord utilise **texte** ou __texte__
-    discord = discord.replace(/\*\*(.*?)\*\*/g, '**$1**');
-    discord = discord.replace(/__(.*?)__/g, '__$1__');
-
-    // 3. Italic - Discord utilise *texte* ou _texte_
-    discord = discord.replace(/\*(.*?)\*/g, '*$1*');
-    discord = discord.replace(/_(.*?)_/g, '_$1_');
-
-    // 4. Italic et gras combinés - Discord utilise ***texte*** ou ___texte___
-    discord = discord.replace(/\*\*\*(.*?)\*\*\*/g, '***$1***');
-    discord = discord.replace(/___(.*?)___/g, '___$1___');
-
-    // 5. Souligné - Discord utilise __texte__ (déjà traité plus haut)
-    // 6. Barré - Discord utilise ~~texte~~
-    discord = discord.replace(/~~(.*?)~~/g, '~~$1~~');
-
-    // 7. Code blocks - Discord utilise ```langage ou ```
-    discord = discord.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-      if (lang) {
-        return `\`\`\`${lang}\n${code}\n\`\`\``;
-      }
-      return `\`\`\`\n${code}\n\`\`\``;
-    });
-
-    // 8. Inline code - Discord utilise `code`
-    discord = discord.replace(/`([^`]+)`/g, '`$1`');
-
-    // 9. Spoilers - Discord utilise ||texte||
-    discord = discord.replace(/\|\|([^|]+)\|\|/g, '||$1||');
-
-    // 10. Citations simples - Discord utilise > pour les citations
-    discord = discord.replace(/^> (.*$)/gim, '> $1');
-    
-    // 11. Citations multilignes - Discord utilise >>>
-    discord = discord.replace(/^>>>\s*\n([\s\S]*?)\n>>>/gim, '>>>\n$1\n>>>');
-
-    // 12. Liens - Discord supporte [texte](url)
-    discord = discord.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '[$1]($2)');
-
-    // 13. Images - Discord affiche automatiquement les images
-    discord = discord.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '![$1]($2)');
-
-    // 14. Listes non ordonnées - Discord utilise -, *, ou +
-    discord = discord.replace(/^\* (.*$)/gim, '- $1');
-    discord = discord.replace(/^- (.*$)/gim, '- $1');
-    discord = discord.replace(/^\+ (.*$)/gim, '- $1');
-
-    // 15. Listes ordonnées - Discord utilise des numéros
-    discord = discord.replace(/^\d+\. (.*$)/gim, (match, content) => {
-      const numberMatch = match.match(/^\d+/);
-      const number = numberMatch ? numberMatch[0] : '1';
-      return `${number}. ${content}`;
-    });
-
-    // 16. Mentions utilisateur - Discord utilise <@ID>
-    discord = discord.replace(/@(\w+)/g, '<@$1>');
-
-    // 17. Mentions de rôles - Discord utilise <@&ID>
-    discord = discord.replace(/@&(\w+)/g, '<@&$1>');
-
-    // 18. Mentions de salons - Discord utilise <#ID>
-    discord = discord.replace(/#(\w+)/g, '<#$1>');
-
-    // 19. Émojis - Discord utilise :nom:
-    discord = discord.replace(/:(\w+):/g, ':$1:');
-
-    // 20. Timestamps - Discord utilise <t:timestamp:format>
-    discord = discord.replace(/<t:(\d+):([FRDfrd])>/g, '<t:$1:$2>');
-
-    // 21. Tables - Discord ne supporte pas les tableaux, on les convertit en format texte
-    const lines = discord.split('\n');
-    let inTable = false;
-    let tableLines: string[] = [];
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-      
-      if (line.includes('|') && line.split('|').length > 2) {
-        if (!inTable) {
-          inTable = true;
-          tableLines = [];
-        }
-        
-        const cells = line.split('|').slice(1, -1).map(cell => cell.trim());
-        
-        if (cells.some(cell => cell.includes('---'))) {
-          // Header separator, skip
-          continue;
-        }
-        
-        tableLines.push(cells.join(' | '));
-      } else {
-        if (inTable && tableLines.length > 0) {
-          // Convertir le tableau en format texte
-          const tableText = tableLines.join('\n');
-          discord = discord.replace(tableLines.join('\n'), `\`\`\`\n${tableText}\n\`\`\``);
-          inTable = false;
-          tableLines = [];
-        }
-      }
-    }
-
-    // Gérer les tableaux restants
-    if (inTable && tableLines.length > 0) {
-      const tableText = tableLines.join('\n');
-      discord = discord.replace(tableLines.join('\n'), `\`\`\`\n${tableText}\n\`\`\``);
-    }
-
-    return discord;
+    // Discord supporte nativement le Markdown, donc on retourne tel quel
+    // avec quelques ajustements mineurs si nécessaire
+    return md;
   };
 
   const discordOutput = useMemo(() => convertMarkdownToDiscord(markdown), [markdown]);
@@ -614,35 +679,49 @@ https://discord.com → URL directe
     URL.revokeObjectURL(url);
   };
 
+  const resetToDefault = () => {
+    setMarkdown(getDefaultMarkdown(currentTimestamp));
+  };
+
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DiscordIcon className="h-5 w-5" />
-            Markdown vers Discord
+            Markdown vers Discord - Format Complet
           </CardTitle>
           <CardDescription>
-            Convertissez votre contenu Markdown au format Discord avec un aperçu en temps réel
+            Tous les formats Discord supportés avec aperçu en temps réel ultra-réaliste
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Input Markdown */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Markdown</label>
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium">Markdown Discord</label>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={resetToDefault}
+                >
+                  <RefreshCw className="h-4 w-4 mr-1" />
+                  Réinitialiser
+                </Button>
+              </div>
               <Textarea
                 value={markdown}
                 onChange={(e) => setMarkdown(e.target.value)}
-                placeholder="Saisissez votre contenu Markdown ici..."
-                className="min-h-[400px] font-mono text-sm"
+                placeholder="Saisissez votre contenu Markdown Discord ici..."
+                className="min-h-[600px] font-mono text-sm"
               />
             </div>
 
             {/* Output Discord */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">Format Discord</label>
+                <label className="text-sm font-medium">Aperçu Discord</label>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -670,14 +749,14 @@ https://discord.com → URL directe
               </div>
               
               {showPreview ? (
-                <div className="min-h-[400px] p-4 border rounded-md bg-[#36393f] text-[#dcddde] overflow-auto">
+                <div className="min-h-[600px] border rounded-md overflow-auto">
                   <DiscordPreview content={discordOutput} />
                 </div>
               ) : (
                 <Textarea
                   value={discordOutput}
                   readOnly
-                  className="min-h-[400px] font-mono text-sm"
+                  className="min-h-[600px] font-mono text-sm"
                 />
               )}
             </div>
@@ -690,7 +769,7 @@ https://discord.com → URL directe
               className="flex items-center gap-2"
             >
               <Copy className="h-4 w-4" />
-              Copier le texte Discord
+              Copier pour Discord
             </Button>
             <Button
               variant="outline"
@@ -698,7 +777,7 @@ https://discord.com → URL directe
               className="flex items-center gap-2"
             >
               <Download className="h-4 w-4" />
-              Télécharger texte
+              Télécharger .txt
             </Button>
             <Button
               variant="outline"
@@ -706,72 +785,145 @@ https://discord.com → URL directe
               className="flex items-center gap-2"
             >
               <FileText className="h-4 w-4" />
-              Télécharger Markdown
+              Télécharger .md
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Aide */}
+      {/* Guide complet */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <DiscordIcon className="h-5 w-5" />
-            Formatage Discord officiel complet
+            Guide de référence complet Discord
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <h4 className="font-semibold mb-2">Formatage de texte</h4>
-              <ul className="space-y-1 text-muted-foreground">
-                <li><code>**gras**</code> ou <code>__gras__</code> → <strong>gras</strong></li>
-                <li><code>*italique*</code> ou <code>_italique_</code> → <em>italique</em></li>
-                <li><code>***gras italique***</code> → <strong><em>gras italique</em></strong></li>
-                <li><code>~~barré~~</code> → <span className="line-through">barré</span></li>
-                <li><code>`code inline`</code> → <code>code inline</code></li>
-                <li><code>||spoiler||</code> → <span className="bg-gray-200 text-gray-200 hover:text-gray-800 cursor-pointer rounded px-1">spoiler</span></li>
-              </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+            {/* Formatage de texte */}
+            <div className="space-y-2">
+              <h4 className="font-bold text-base mb-3">Formatage de texte</h4>
+              <div className="space-y-1.5">
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">**gras**</code> → <strong>gras</strong></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">__gras__</code> → <strong>gras</strong></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">*italique*</code> → <em>italique</em></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">_italique_</code> → <em>italique</em></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">***gras+italique***</code> → <strong><em>gras+italique</em></strong></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">__**gras+souligné**__</code> → <strong><u>gras+souligné</u></strong></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">~~barré~~</code> → <span className="line-through">barré</span></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">`code`</code> → <code className="bg-muted px-1 py-0.5 rounded">code</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">||spoiler||</code> → spoiler masqué</div>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold mb-2">Blocs et structure</h4>
-              <ul className="space-y-1 text-muted-foreground">
-                <li><code># Titre</code> → <strong>Titre</strong></li>
-                <li><code>```langage</code> → bloc de code avec coloration</li>
-                <li><code>&gt; citation</code> → <span className="border-l-4 border-gray-300 pl-2 italic">citation</span></li>
-                <li><code>&gt;&gt;&gt; multiligne</code> → citation multiligne</li>
-                <li><code>- liste</code> → • liste</li>
-                <li><code>1. liste</code> → 1. liste</li>
-              </ul>
+
+            {/* Structure */}
+            <div className="space-y-2">
+              <h4 className="font-bold text-base mb-3">Structure</h4>
+              <div className="space-y-1.5">
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs"># Titre 1</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">## Titre 2</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">### Titre 3</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&gt; citation</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&gt;&gt;&gt; multiligne</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">- liste</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">1. numérotée</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">-# sous-texte</code></div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">```code```</code></div>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold mb-2">Mentions et émojis</h4>
-              <ul className="space-y-1 text-muted-foreground">
-                <li><code>&lt;@ID&gt;</code> → <span className="bg-blue-500 text-white px-1 rounded text-xs">@Utilisateur</span></li>
-                <li><code>&lt;@&ID&gt;</code> → <span className="bg-blue-500 text-white px-1 rounded text-xs">@Rôle</span></li>
-                <li><code>&lt;#ID&gt;</code> → <span className="bg-blue-500 text-white px-1 rounded text-xs">#Salon</span></li>
-                <li><code>:nom:</code> → :star: :heart: :fire:</li>
-                <li><code>&lt;t:timestamp:F&gt;</code> → timestamp formaté</li>
-              </ul>
+
+            {/* Mentions */}
+            <div className="space-y-2">
+              <h4 className="font-bold text-base mb-3">Mentions</h4>
+              <div className="space-y-1.5">
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;@ID&gt;</code> → mention utilisateur</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;@!ID&gt;</code> → mention (alt.)</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;@&ID&gt;</code> → mention rôle</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;#ID&gt;</code> → mention salon</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">@everyone</code> → tous les membres</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">@here</code> → membres en ligne</div>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold mb-2">Liens et médias</h4>
-              <ul className="space-y-1 text-muted-foreground">
-                <li><code>[texte](url)</code> → <a href="#" className="text-blue-500 hover:underline">texte</a></li>
-                <li><code>![alt](url)</code> → image affichée</li>
-                <li><code>https://url.com</code> → lien automatique</li>
-                <li><code>&lt;url&gt;</code> → lien sans aperçu</li>
-              </ul>
+
+            {/* Émojis */}
+            <div className="space-y-2">
+              <h4 className="font-bold text-base mb-3">Émojis</h4>
+              <div className="space-y-1.5">
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">:smile:</code> → 😊</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">:heart:</code> → ❤️</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">:fire:</code> → 🔥</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">:star:</code> → ⭐</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">:rocket:</code> → 🚀</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;:nom:ID&gt;</code> → émoji perso</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;a:nom:ID&gt;</code> → émoji animé</div>
+              </div>
+            </div>
+
+            {/* Timestamps */}
+            <div className="space-y-2">
+              <h4 className="font-bold text-base mb-3">Timestamps</h4>
+              <div className="space-y-1.5">
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;t:TS:t&gt;</code> → heure courte</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;t:TS:T&gt;</code> → heure longue</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;t:TS:d&gt;</code> → date courte</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;t:TS:D&gt;</code> → date longue</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;t:TS:f&gt;</code> → date+heure courte</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;t:TS:F&gt;</code> → date+heure longue</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;t:TS:R&gt;</code> → relatif</div>
+              </div>
+            </div>
+
+            {/* Liens */}
+            <div className="space-y-2">
+              <h4 className="font-bold text-base mb-3">Liens et URLs</h4>
+              <div className="space-y-1.5">
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">[texte](url)</code> → lien masqué</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">[texte](url "titre")</code> → avec titre</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">https://...</code> → auto avec embed</div>
+                <div><code className="bg-muted px-1.5 py-0.5 rounded text-xs">&lt;https://...&gt;</code> → sans embed</div>
+              </div>
+            </div>
+
+            {/* Langages de code supportés */}
+            <div className="space-y-2 md:col-span-2 lg:col-span-3">
+              <h4 className="font-bold text-base mb-3">Langages de code supportés</h4>
+              <div className="flex flex-wrap gap-2">
+                {['javascript', 'typescript', 'python', 'java', 'c', 'cpp', 'csharp', 'php', 'ruby', 'go', 'rust', 'swift', 'kotlin', 'dart', 'scala', 'r', 'lua', 'bash', 'shell', 'powershell', 'sql', 'html', 'css', 'scss', 'json', 'yaml', 'xml', 'markdown', 'diff', 'dockerfile'].map(lang => (
+                  <code key={lang} className="bg-muted px-2 py-1 rounded text-xs">{lang}</code>
+                ))}
+              </div>
             </div>
           </div>
           
-          <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-            <h4 className="font-semibold mb-2 text-yellow-800 dark:text-yellow-200">⚠️ Limitations Discord</h4>
-            <ul className="space-y-1 text-sm text-yellow-700 dark:text-yellow-300">
-              <li>• Pas de tableaux natifs (convertis en blocs de code)</li>
-              <li>• Limite de 2000 caractères par message</li>
-              <li>• Pas de formatage de texte avancé (couleurs, tailles)</li>
-              <li>• Les émojis personnalisés nécessitent Nitro</li>
+          {/* Limitations */}
+          <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+            <h4 className="font-bold mb-2 text-yellow-900 dark:text-yellow-200 flex items-center gap-2">
+              ⚠️ Limitations Discord
+            </h4>
+            <ul className="space-y-1 text-sm text-yellow-800 dark:text-yellow-300">
+              <li>• Messages limités à 2000 caractères (4000 avec Nitro)</li>
+              <li>• Blocs de code limités à 2000 caractères</li>
+              <li>• Pas de tableaux natifs (utiliser des blocs de code)</li>
+              <li>• Pas de HTML ni CSS custom</li>
+              <li>• Émojis animés réservés aux membres Nitro</li>
+              <li>• Maximum 25 lignes de citation multiligne</li>
+              <li>• Le formatage peut être désactivé dans certains salons</li>
+            </ul>
+          </div>
+
+          {/* Tips et astuces */}
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <h4 className="font-bold mb-2 text-blue-900 dark:text-blue-200 flex items-center gap-2">
+              💡 Astuces Pro
+            </h4>
+            <ul className="space-y-1 text-sm text-blue-800 dark:text-blue-300">
+              <li>• Utilisez <code className="bg-blue-100 dark:bg-blue-950 px-1 rounded">\</code> pour échapper le formatage : <code className="bg-blue-100 dark:bg-blue-950 px-1 rounded">\*pas italique\*</code></li>
+              <li>• Combinez plusieurs formats : <code className="bg-blue-100 dark:bg-blue-950 px-1 rounded">**__*tout*__**</code></li>
+              <li>• Utilisez les timestamps pour les événements : ils s'adaptent au fuseau horaire de chaque utilisateur</li>
+              <li>• Les spoilers fonctionnent dans les embeds de bots</li>
+              <li>• Le sous-texte <code className="bg-blue-100 dark:bg-blue-950 px-1 rounded">-#</code> est parfait pour les notes de bas de page</li>
+              <li>• Générez des timestamps sur <a href="https://hammertime.cyou" target="_blank" rel="noopener noreferrer" className="underline">hammertime.cyou</a></li>
             </ul>
           </div>
         </CardContent>

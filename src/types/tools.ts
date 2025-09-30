@@ -86,7 +86,14 @@ export type ToolId =
   | "cheatsheets"
 
   // Page d'accueil
-  | "homepage";
+  | "homepage"
+
+  // Jeux
+  | "memory-game"
+  | "snake-game"
+  | "game-2048"
+  | "simon-says"
+  | "tic-tac-toe";
 
 export interface Tool {
   id: ToolId;

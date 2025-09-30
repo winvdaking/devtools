@@ -49,6 +49,7 @@ import {
   Bug,
   Smile,
   Shuffle,
+  Gamepad2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToolId, ToolCategory } from "@/types/tools";
@@ -563,6 +564,48 @@ const toolCategories: ToolCategory[] = [
         description: "Testeur d'expressions régulières",
         icon: Search,
         category: "reference",
+      },
+    ],
+  },
+  {
+    id: "games",
+    name: "Jeux",
+    description: "Jeux et divertissements",
+    tools: [
+      {
+        id: "memory-game",
+        name: "Memory Game",
+        description: "Jeu de mémoire avec paires",
+        icon: Gamepad2,
+        category: "games",
+      },
+      {
+        id: "snake-game",
+        name: "Snake",
+        description: "Jeu du serpent classique",
+        icon: Zap,
+        category: "games",
+      },
+      {
+        id: "game-2048",
+        name: "2048",
+        description: "Puzzle de fusion de nombres",
+        icon: Grid,
+        category: "games",
+      },
+      {
+        id: "simon-says",
+        name: "Simon Says",
+        description: "Mémorisation de séquences",
+        icon: Palette,
+        category: "games",
+      },
+      {
+        id: "tic-tac-toe",
+        name: "Tic-Tac-Toe",
+        description: "Morpion avec IA",
+        icon: Hash,
+        category: "games",
       },
     ],
   },
