@@ -29,7 +29,6 @@ export { SSLCertificateChecker } from "./ssl-certificate-checker";
 export { PerformanceMonitor } from "./performance-monitor";
 
 // Outils d'IA
-export { AIChat } from "./ai-chat";
 
 // Outils d'encodage et sécurité
 export { HashEncrypt } from "./hash-encrypt";
