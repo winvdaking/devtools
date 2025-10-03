@@ -65,7 +65,6 @@ const PasswordGenerator = dynamic(() => import("@/components/tools/password-gene
 const SecurityHeadersChecker = dynamic(() => import("@/components/tools/security-headers-checker").then(mod => ({ default: mod.SecurityHeadersChecker })), { loading: LoadingSpinner });
 const SSLCertificateChecker = dynamic(() => import("@/components/tools/ssl-certificate-checker").then(mod => ({ default: mod.SSLCertificateChecker })), { loading: LoadingSpinner });
 const PerformanceMonitor = dynamic(() => import("@/components/tools/performance-monitor").then(mod => ({ default: mod.PerformanceMonitor })), { loading: LoadingSpinner });
-const AIChat = dynamic(() => import("@/components/tools/ai-chat").then(mod => ({ default: mod.AIChat })), { loading: LoadingSpinner });
 const BundleAnalyzer = dynamic(() => import("@/components/tools/bundle-analyzer"), { loading: LoadingSpinner });
 const GraphQLPlayground = dynamic(() => import("@/components/tools/graphql-playground"), { loading: LoadingSpinner });
 const ColorPaletteGenerator = dynamic(() => import("@/components/tools/color-palette-generator"), { loading: LoadingSpinner });
@@ -120,9 +119,6 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "security-headers-checker": SecurityHeadersChecker,
   "ssl-certificate-checker": SSLCertificateChecker,
   "performance-monitor": PerformanceMonitor,
-
-  // Outils d'IA
-  "ai-chat": AIChat,
 
   // Outils d'encodage et sécurité
   "hash-encrypt": HashEncrypt,

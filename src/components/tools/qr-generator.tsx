@@ -8,7 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { QrCode, Download, Copy, RefreshCw, Link, Mail, Phone, MapPin, Calendar, User, AlertTriangle } from "lucide-react";
+import { QrCode, Download, Copy, RefreshCw, Link, Mail, Phone, MapPin, Calendar, User, AlertTriangle, Image as ImageIcon, X } from "lucide-react";
+import { QRCodeSVG } from 'qrcode.react';
 
 interface QRCodeOptions {
   size: number;
@@ -16,20 +17,25 @@ interface QRCodeOptions {
   color: string;
   backgroundColor: string;
   errorCorrectionLevel: 'L' | 'M' | 'Q' | 'H';
+  logoImage: string | null;
+  logoSize: number;
+  excavate: boolean; // Creuser le QR code autour du logo
 }
 
 export function QRGenerator() {
   const [text, setText] = useState("");
-  const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [options, setOptions] = useState<QRCodeOptions>({
     size: 256,
     margin: 4,
     color: "#000000",
     backgroundColor: "#ffffff",
-    errorCorrectionLevel: 'M'
+    errorCorrectionLevel: 'H', // Niveau élevé pour permettre l'ajout d'un logo
+    logoImage: null,
+    logoSize: 60,
+    excavate: true // Activer le creusement par défaut
   });
-  const [isGenerating, setIsGenerating] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const qrRef = useRef<SVGSVGElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Templates prédéfinis
   const templates = [
@@ -72,67 +78,145 @@ export function QRGenerator() {
   ];
 
   const [selectedTemplate, setSelectedTemplate] = useState(templates[0]);
+  const [grayscaleLogoUrl, setGrayscaleLogoUrl] = useState<string | null>(null);
 
-  // Générer le QR Code
-  const generateQRCode = useCallback(async () => {
-    if (!text.trim()) return;
-
-    setIsGenerating(true);
-    try {
-      const fullText = selectedTemplate.prefix + text;
+  // Convertir une image en noir et blanc
+  const convertToGrayscale = useCallback((imageUrl: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
       
-      // Utiliser l'API QR Server pour générer le QR Code
-      const params = new URLSearchParams({
-        data: fullText,
-        size: options.size.toString(),
-        margin: options.margin.toString(),
-        color: options.color.replace('#', ''),
-        bgcolor: options.backgroundColor.replace('#', ''),
-        ecc: options.errorCorrectionLevel
-      });
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        
+        if (!ctx) {
+          reject('Impossible de créer le contexte canvas');
+          return;
+        }
 
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?${params}`;
-      setQrCodeUrl(qrUrl);
-    } catch (error) {
-      console.error('Erreur lors de la génération du QR Code:', error);
-    } finally {
-      setIsGenerating(false);
-    }
-  }, [text, options, selectedTemplate]);
+        // Dessiner l'image
+        ctx.drawImage(img, 0, 0);
+        
+        // Obtenir les données de l'image
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        // Convertir en noir et blanc
+        for (let i = 0; i < data.length; i += 4) {
+          const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          data[i] = gray;     // R
+          data[i + 1] = gray; // G
+          data[i + 2] = gray; // B
+        }
+        
+        ctx.putImageData(imageData, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      
+      img.onerror = () => reject('Erreur de chargement de l\'image');
+      img.src = imageUrl;
+    });
+  }, []);
 
   // Télécharger le QR Code
   const downloadQRCode = useCallback(() => {
-    if (!qrCodeUrl) return;
+    if (!qrRef.current || !text.trim()) return;
 
-    const link = document.createElement('a');
-    link.href = qrCodeUrl;
-    link.download = `qrcode-${Date.now()}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }, [qrCodeUrl]);
+    const svg = qrRef.current;
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    canvas.width = options.size;
+    canvas.height = options.size;
+
+    img.onload = () => {
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        const pngUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = pngUrl;
+        link.download = `qrcode-${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    };
+
+    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+  }, [text, options.size]);
 
   // Copier le QR Code dans le presse-papiers
   const copyQRCode = useCallback(async () => {
-    if (!qrCodeUrl) return;
+    if (!qrRef.current || !text.trim()) return;
 
     try {
-      const response = await fetch(qrCodeUrl);
-      const blob = await response.blob();
-      await navigator.clipboard.write([
-        new ClipboardItem({ 'image/png': blob })
-      ]);
+      const svg = qrRef.current;
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      canvas.width = options.size;
+      canvas.height = options.size;
+
+      img.onload = async () => {
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(async (blob) => {
+            if (blob) {
+              await navigator.clipboard.write([
+                new ClipboardItem({ 'image/png': blob })
+              ]);
+            }
+          });
+        }
+      };
+
+      img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
     } catch (error) {
       console.error('Erreur lors de la copie:', error);
     }
-  }, [qrCodeUrl]);
+  }, [text, options.size]);
 
   // Appliquer un template
   const applyTemplate = (template: typeof templates[0]) => {
     setSelectedTemplate(template);
     setText("");
-    setQrCodeUrl("");
   };
+
+  // Gérer l'upload d'une image et la convertir en noir et blanc
+  const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const imageUrl = event.target?.result as string;
+      try {
+        // Convertir l'image en noir et blanc
+        const bwImageUrl = await convertToGrayscale(imageUrl);
+        setGrayscaleLogoUrl(bwImageUrl);
+        setOptions(prev => ({ ...prev, logoImage: imageUrl }));
+      } catch (error) {
+        console.error('Erreur lors de la conversion en noir et blanc:', error);
+      }
+    };
+    reader.readAsDataURL(file);
+  }, [convertToGrayscale]);
+
+  // Supprimer l'image logo
+  const removeLogoImage = useCallback(() => {
+    setOptions(prev => ({ ...prev, logoImage: null }));
+    setGrayscaleLogoUrl(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -197,23 +281,6 @@ export function QRGenerator() {
               )}
             </div>
 
-            <Button 
-              onClick={generateQRCode} 
-              disabled={!text.trim() || isGenerating}
-              className="w-full"
-            >
-              {isGenerating ? (
-                <>
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                  Génération...
-                </>
-              ) : (
-                <>
-                  <QrCode className="h-4 w-4 mr-2" />
-                  Générer QR Code
-                </>
-              )}
-            </Button>
           </div>
 
           {/* Options d'apparence */}
@@ -290,9 +357,102 @@ export function QRGenerator() {
                 <option value="L">Faible (7%)</option>
                 <option value="M">Moyen (15%)</option>
                 <option value="Q">Élevé (25%)</option>
-                <option value="H">Très élevé (30%)</option>
+                <option value="H">Très élevé (30%) - Recommandé avec logo</option>
               </select>
             </div>
+          </div>
+
+          {/* Logo au centre */}
+          <div className="space-y-4 pt-4 border-t border-border">
+            <h3 className="text-lg font-semibold">Logo au centre (optionnel)</h3>
+            
+            {options.logoImage ? (
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <div className="flex-1 p-2 border border-border rounded-md bg-muted">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <ImageIcon className="h-4 w-4" />
+                        <span className="text-sm">Image chargée</span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={removeLogoImage}
+                        className="h-6 w-6 p-0"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Taille du logo</label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      type="range"
+                      min="30"
+                      max="100"
+                      value={options.logoSize}
+                      onChange={(e) => setOptions(prev => ({ ...prev, logoSize: parseInt(e.target.value) }))}
+                      className="flex-1"
+                    />
+                    <span className="text-sm font-medium w-12">{options.logoSize}px</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="excavate"
+                    checked={options.excavate}
+                    onChange={(e) => setOptions(prev => ({ ...prev, excavate: e.target.checked }))}
+                    className="w-4 h-4 rounded border-border"
+                  />
+                  <label htmlFor="excavate" className="text-sm font-medium cursor-pointer">
+                    Creuser le QR code autour du logo (recommandé)
+                  </label>
+                </div>
+
+                <div className="p-3 bg-muted rounded-md">
+                  <p className="text-xs text-muted-foreground">
+                    ℹ️ Le logo est automatiquement converti en noir et blanc et intégré dans la structure du QR Code. 
+                    Le mode "excavate" creuse le QR code autour de l'image (comme Valorant Champions ou Coinbase One) 
+                    pour une meilleure scannabilité. Le QR Code se met à jour en temps réel.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="logo-upload"
+                />
+                <label htmlFor="logo-upload">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => fileInputRef.current?.click()}
+                    asChild
+                  >
+                    <span>
+                      <ImageIcon className="h-4 w-4 mr-2" />
+                      Ajouter un logo
+                    </span>
+                  </Button>
+                </label>
+                <p className="text-xs text-muted-foreground">
+                  Ajoutez une image qui sera convertie en noir et blanc et intégrée dans le QR Code 
+                  (le QR code sera creusé autour de l'image).
+                </p>
+              </div>
+            )}
           </div>
         </Card>
 
@@ -301,14 +461,23 @@ export function QRGenerator() {
           <h3 className="text-lg font-semibold">Aperçu</h3>
           
           <div className="flex flex-col items-center space-y-4">
-            {qrCodeUrl ? (
+            {text.trim() ? (
               <>
                 <div className="p-4 bg-white rounded-lg shadow-sm">
-                  <img
-                    src={qrCodeUrl}
-                    alt="QR Code généré"
-                    className="max-w-full h-auto"
-                    style={{ maxWidth: '300px' }}
+                  <QRCodeSVG
+                    ref={qrRef}
+                    value={selectedTemplate.prefix + text}
+                    size={options.size}
+                    level={options.errorCorrectionLevel}
+                    marginSize={options.margin}
+                    fgColor={options.color}
+                    bgColor={options.backgroundColor}
+                    imageSettings={grayscaleLogoUrl ? {
+                      src: grayscaleLogoUrl,
+                      height: options.logoSize,
+                      width: options.logoSize,
+                      excavate: options.excavate,
+                    } : undefined}
                   />
                 </div>
                 
@@ -326,7 +495,7 @@ export function QRGenerator() {
             ) : (
               <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
                 <QrCode className="h-16 w-16 mb-4 opacity-50" />
-                <p>Votre QR Code apparaîtra ici</p>
+                <p>Entrez du texte pour générer votre QR Code</p>
               </div>
             )}
           </div>
@@ -357,7 +526,8 @@ export function QRGenerator() {
               <p className="text-sm text-green-700 dark:text-green-300 mt-1">
                 Créez des QR Codes personnalisés avec des templates prédéfinis (URL, Email, Téléphone, 
                 Localisation, Événement, Contact), personnalisation complète des couleurs et taille, 
-                niveaux de correction d'erreur configurables, et actions de téléchargement/copie.
+                niveaux de correction d'erreur configurables, intégration d'un logo au centre (converti automatiquement 
+                en noir et blanc et intégré dans la structure du QR Code), génération en temps réel et actions de téléchargement/copie.
               </p>
             </div>
           </div>
@@ -374,9 +544,10 @@ export function QRGenerator() {
                 Conseils d'optimisation
               </p>
               <p className="text-sm text-orange-700 dark:text-orange-300 mt-1">
-                Utilisez un niveau de correction élevé pour les petits QR Codes, testez toujours 
-                votre QR Code avant utilisation, les QR Codes complexes nécessitent plus d'espace, 
-                et évitez les couleurs trop claires pour une meilleure lisibilité.
+                Utilisez un niveau de correction élevé (H - 30%) lorsque vous ajoutez un logo au centre, 
+                testez toujours votre QR Code avant utilisation, les QR Codes complexes nécessitent plus d'espace, 
+                évitez les couleurs trop claires pour une meilleure lisibilité, et privilégiez des logos simples 
+                et contrastés pour un meilleur résultat.
               </p>
             </div>
           </div>
@@ -387,15 +558,16 @@ export function QRGenerator() {
       <Card className="border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-950/20">
         <CardContent className="pt-6">
           <div className="flex items-start space-x-2">
-            <Link className="h-5 w-5 text-purple-600 mt-0.5" />
+            <ImageIcon className="h-5 w-5 text-purple-600 mt-0.5" />
             <div>
               <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
-                API QR Server
+                Génération côté client avec intégration d'image
               </p>
               <p className="text-sm text-purple-700 dark:text-purple-300 mt-1">
-                Ce générateur utilise l'API QR Server gratuite et fiable. Les QR Codes sont générés 
-                en temps réel avec les paramètres personnalisés (taille, couleurs, correction d'erreur) 
-                et sont disponibles au format PNG haute qualité.
+                Ce générateur utilise la bibliothèque qrcode.react pour générer les QR Codes directement 
+                dans votre navigateur avec une intégration native des images. L'option "excavate" creuse 
+                le QR Code autour de votre logo (comme sur <a href="https://zpao.github.io/qrcode.react/?demo=full" target="_blank" rel="noopener noreferrer" className="underline">qrcode.react</a>), 
+                ce qui garantit une meilleure scannabilité. Vos données ne sont jamais envoyées à un serveur externe.
               </p>
             </div>
           </div>

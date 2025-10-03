@@ -28,9 +28,6 @@ export type ToolId =
   | "ssl-certificate-checker"
   | "performance-monitor"
 
-  // Outils d'IA
-  | "ai-chat"
-
   // Outils d'encodage et sécurité
   | "hash-encrypt"
   | "base64"

@@ -45,7 +45,6 @@ import {
   Package,
   Home,
   QrCode,
-  MessageSquare,
   Bug,
   Smile,
   Shuffle,
@@ -74,20 +73,6 @@ const toolCategories: ToolCategory[] = [
         description: "Page d'accueil et présentation des outils",
         icon: Home,
         category: "home",
-      },
-    ],
-  },
-  {
-    id: "ai",
-    name: "Intelligence Artificielle",
-    description: "Assistant IA pour le développement",
-    tools: [
-      {
-        id: "ai-chat",
-        name: "Chat IA",
-        description: "Chatbot IA assistant",
-        icon: MessageSquare,
-        category: "ai",
       },
     ],
   },

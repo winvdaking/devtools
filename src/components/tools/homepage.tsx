@@ -38,7 +38,6 @@ import {
   AlertTriangle,
   RefreshCw,
   Star,
-  Bot,
   QrCode,
   Lock,
   Hash,
@@ -51,8 +50,8 @@ const popularTools = [
   { id: "qr-generator", name: "QR Generator", icon: QrCode, popular: true },
   { id: "markdown-to-discord", name: "Markdown to Discord", icon: FileText, popular: true },
   { id: "git-cheatsheet", name: "Git Cheatsheet", icon: GitBranch, popular: true },
-  { id: "ai-chat", name: "Dak1ng IA", icon: Bot, popular: true },
   { id: "readme-generator", name: "README Generator", icon: FileText, popular: true },
+  { id: "password-generator", name: "Password Generator", icon: Lock, popular: true },
 ];
 
 const toolCategories = [
@@ -146,15 +145,6 @@ const toolCategories = [
       { id: "css-grid-generator", name: "CSS Grid Generator", icon: Grid },
       { id: "console-log-beautifier", name: "Console Log Beautifier", icon: Terminal },
       { id: "error-stack-parser", name: "Error Stack Parser", icon: AlertTriangle },
-    ],
-  },
-  {
-    id: "ai",
-    name: "Intelligence Artificielle",
-    description: "Outils d'IA et assistants",
-    icon: Bot,
-    tools: [
-      { id: "ai-chat", name: "Dak1ng IA", icon: Bot, popular: true },
     ],
   },
   {
