@@ -91,6 +91,7 @@ const SnakeGame = dynamic(() => import("@/components/tools/snake-game").then(mod
 const Game2048 = dynamic(() => import("@/components/tools/game-2048").then(mod => ({ default: mod.Game2048 })), { loading: LoadingSpinner });
 const SimonSays = dynamic(() => import("@/components/tools/simon-says").then(mod => ({ default: mod.SimonSays })), { loading: LoadingSpinner });
 const TicTacToe = dynamic(() => import("@/components/tools/tic-tac-toe").then(mod => ({ default: mod.TicTacToe })), { loading: LoadingSpinner });
+const ScrollBarComponent = dynamic(() => import("@/app/components/page"), { loading: LoadingSpinner });
 
 // Mapping des outils
 const toolComponents: Record<ToolId, React.ComponentType> = {
@@ -174,6 +175,9 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
 
   // Page d'accueil
   homepage: Homepage,
+
+  // Components UI
+  "scrollbar-component": ScrollBarComponent,
 
   // Jeux
   "memory-game": MemoryGame,

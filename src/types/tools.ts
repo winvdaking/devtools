@@ -85,6 +85,9 @@ export type ToolId =
   // Page d'accueil
   | "homepage"
 
+  // Components UI
+  | "scrollbar-component"
+
   // Jeux
   | "memory-game"
   | "snake-game"
