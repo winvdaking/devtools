@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 export function HtmlEscape() {
   const [inputText, setInputText] = useState("");
@@ -140,14 +140,14 @@ export function HtmlEscape() {
             </div>
 
             <div className="flex space-x-2">
-              <Button onClick={switchMode} variant="outline" size="sm">
+              <Button onClick={switchMode} variant="default" size="sm">
                 <ArrowUpDown className="h-4 w-4 mr-2" />
                 Inverser
               </Button>
-              <Button onClick={loadSample} variant="outline" size="sm">
+              <Button onClick={loadSample} variant="default" size="sm">
                 Exemple
               </Button>
-              <Button onClick={clearAll} variant="outline" size="sm">
+              <Button onClick={clearAll} variant="default" size="sm">
                 Effacer
               </Button>
             </div>
@@ -208,7 +208,7 @@ export function HtmlEscape() {
               />
               {outputText && (
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={copyToClipboard}
                   className="absolute top-2 right-2"

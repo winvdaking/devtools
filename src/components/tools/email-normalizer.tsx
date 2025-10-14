@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 
 interface EmailInfo {
@@ -262,7 +262,7 @@ export function EmailNormalizer() {
             {sampleEmails.map((sample) => (
               <Button
                 key={sample.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadSample(sample)}
                 className="justify-start text-left h-auto p-3"
@@ -372,7 +372,7 @@ export function EmailNormalizer() {
               <FileText className="h-4 w-4 mr-2" />
               Normaliser
             </Button>
-            <Button onClick={clearAll} variant="outline">
+            <Button onClick={clearAll} variant="default">
               <RefreshCw className="h-4 w-4 mr-2" />
               Effacer
             </Button>
@@ -402,7 +402,7 @@ export function EmailNormalizer() {
               </div>
               <div className="flex space-x-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(normalizedEmails.map(e => e.normalized).join('\n'), "emails")}
                 >
@@ -414,7 +414,7 @@ export function EmailNormalizer() {
                   Copier tous
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => downloadEmails(normalizedEmails, "emails_normalized.txt")}
                 >
@@ -477,7 +477,7 @@ export function EmailNormalizer() {
                                   {suggestion}
                                 </span>
                                 <Button
-                                  variant="outline"
+                                  variant="default"
                                   size="sm"
                                   onClick={() => copyToClipboard(suggestion, `suggestion-${index}-${idx}`)}
                                   className="h-5 px-2"
@@ -496,7 +496,7 @@ export function EmailNormalizer() {
                     </div>
 
                     <Button
-                      variant="outline"
+                      variant="default"
                       size="sm"
                       onClick={() => copyToClipboard(email.normalized, `email-${index}`)}
                     >

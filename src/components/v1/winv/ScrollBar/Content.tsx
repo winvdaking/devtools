@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import Scrollbar from "./ScrollBar";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -365,7 +365,7 @@ export default function Scrollbar({
                 {generateInstallCode}
               </SyntaxHighlighter>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(generateInstallCode, "install")}
                 className="absolute top-2 right-2"
@@ -403,7 +403,7 @@ export default function Scrollbar({
                 {generateCode}
               </SyntaxHighlighter>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(generateCode, "usage")}
                 className="absolute top-2 right-2"
@@ -441,7 +441,7 @@ export default function Scrollbar({
                 {generateSourceCode}
               </SyntaxHighlighter>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(generateSourceCode, "source")}
                 className="absolute top-2 right-2"

@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 interface DeviceInfo {
   userAgent: string;
@@ -216,7 +216,7 @@ export function DeviceInformation() {
           <Monitor className="h-6 w-6 text-primary" />
           <h2 className="text-2xl font-bold">Device information</h2>
         </div>
-        <Button onClick={copyAllInfo} variant="outline">
+        <Button onClick={copyAllInfo} variant="default">
           {copied === "all" ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
           Copier tout
         </Button>
@@ -244,7 +244,7 @@ export function DeviceInformation() {
                         </div>
                       </div>
                       <Button
-                        variant="outline"
+                        variant="default"
                         size="sm"
                         onClick={() => copyToClipboard(item.value, item.key)}
                         className="ml-4 flex-shrink-0"

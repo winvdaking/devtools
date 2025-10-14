@@ -6,7 +6,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Trophy, RotateCcw, TrendingUp, Grid3x3 } from "lucide-react";
 
 interface Tile {
@@ -442,19 +442,19 @@ export function Game2048() {
             <Button
               onClick={() => move('up')}
               disabled={gameOver}
-              variant="outline"
+              variant="default"
               size="icon"
             >
               ↑
             </Button>
             <div className="flex gap-2">
-              <Button onClick={() => move('left')} disabled={gameOver} variant="outline" size="icon">
+              <Button onClick={() => move('left')} disabled={gameOver} variant="default" size="icon">
                 ←
               </Button>
-              <Button onClick={() => move('down')} disabled={gameOver} variant="outline" size="icon">
+              <Button onClick={() => move('down')} disabled={gameOver} variant="default" size="icon">
                 ↓
               </Button>
-              <Button onClick={() => move('right')} disabled={gameOver} variant="outline" size="icon">
+              <Button onClick={() => move('right')} disabled={gameOver} variant="default" size="icon">
                 →
               </Button>
             </div>

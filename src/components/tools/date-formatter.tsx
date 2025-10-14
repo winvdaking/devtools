@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 export function DateFormatter() {
   const [inputDate, setInputDate] = useState("");
@@ -98,7 +98,7 @@ export function DateFormatter() {
                   placeholder="YYYY-MM-DD"
                 />
                 <Button
-                  variant="outline"
+                  variant="default"
                   onClick={setCurrentDate}
                   className="px-3"
                 >
@@ -161,7 +161,7 @@ export function DateFormatter() {
             <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
               <span className="font-mono text-lg">{formattedDate}</span>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={copyToClipboard}
                 className="ml-4"

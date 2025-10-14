@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 
 interface RegexMatch {
@@ -282,7 +282,7 @@ export function RegexTester() {
             {sampleRegexes.map((sample) => (
               <Button
                 key={sample.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadSampleRegex(sample)}
                 className="justify-start text-left h-auto p-3"
@@ -315,7 +315,7 @@ export function RegexTester() {
             {sampleTexts.map((sample) => (
               <Button
                 key={sample.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadSampleText(sample)}
                 className="justify-start text-left h-auto p-3"
@@ -452,7 +452,7 @@ export function RegexTester() {
               <Play className="h-4 w-4 mr-2" />
               Tester
             </Button>
-            <Button onClick={clearAll} variant="outline">
+            <Button onClick={clearAll} variant="default">
               <RefreshCw className="h-4 w-4 mr-2" />
               Effacer
             </Button>
@@ -481,7 +481,7 @@ export function RegexTester() {
                 </CardDescription>
               </div>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(matches.map(m => m.match).join('\n'), "matches")}
               >
@@ -526,7 +526,7 @@ export function RegexTester() {
                           )}
                         </div>
                         <Button
-                          variant="outline"
+                          variant="default"
                           size="sm"
                           onClick={() => copyToClipboard(match.match, `match-${index}`)}
                         >

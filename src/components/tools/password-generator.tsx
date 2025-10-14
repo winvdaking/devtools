@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Copy, Download, FileText, Shield, RefreshCw, Eye, EyeOff, CheckCircle, XCircle } from "lucide-react";
 
@@ -304,14 +304,14 @@ export function PasswordGenerator() {
                     className="font-mono text-lg"
                   />
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => copyToClipboard(password)}
                   >
@@ -396,7 +396,7 @@ export function PasswordGenerator() {
                     className="font-mono flex-1"
                   />
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => copyToClipboard(pwd)}
                   >
@@ -407,7 +407,7 @@ export function PasswordGenerator() {
             </div>
             <div className="flex gap-2 mt-4">
               <Button
-                variant="outline"
+                variant="default"
                 onClick={downloadPasswords}
                 className="flex items-center gap-2"
               >
@@ -415,7 +415,7 @@ export function PasswordGenerator() {
                 Télécharger l'historique
               </Button>
               <Button
-                variant="outline"
+                variant="default"
                 onClick={() => setGeneratedPasswords([])}
               >
                 Effacer l'historique

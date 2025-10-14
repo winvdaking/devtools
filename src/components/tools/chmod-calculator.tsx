@@ -22,7 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 
 interface Permission {
@@ -286,7 +286,7 @@ export function ChmodCalculator() {
             {commonPermissions.map((preset) => (
               <Button
                 key={preset.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadPreset(preset)}
                 className="justify-start text-left h-auto p-3"
@@ -488,7 +488,7 @@ export function ChmodCalculator() {
                 placeholder="644"
               />
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(octalValue, "octal")}
               >
@@ -512,7 +512,7 @@ export function ChmodCalculator() {
                 className="font-mono text-lg"
               />
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(symbolicValue, "symbolic")}
               >
@@ -536,7 +536,7 @@ export function ChmodCalculator() {
                 className="font-mono text-lg"
               />
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() =>
                   copyToClipboard(`chmod ${octalValue} fichier`, "command")

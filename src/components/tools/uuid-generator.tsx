@@ -7,7 +7,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Key, Copy, Check, RefreshCw } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/v1/winv"
 import { Input } from "@/components/ui/input"
 
 interface GeneratedItem {
@@ -202,7 +202,7 @@ export function UuidGenerator() {
                   Derniers éléments générés
                 </CardDescription>
               </div>
-              <Button onClick={clearHistory} variant="outline" size="sm">
+              <Button onClick={clearHistory} variant="default" size="sm">
                 Effacer
               </Button>
             </div>
@@ -221,7 +221,7 @@ export function UuidGenerator() {
                     </div>
                   </div>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => copyToClipboard(item.value, item.id)}
                     className="ml-4 flex-shrink-0"

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Settings, Github, Star, Eye, GitBranch } from "lucide-react";
@@ -292,7 +292,7 @@ export function ReadmeGenerator() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">Fonctionnalités</label>
-              <Button variant="outline" size="sm" onClick={addFeature}>
+              <Button variant="default" size="sm" onClick={addFeature}>
                 Ajouter
               </Button>
             </div>
@@ -304,7 +304,7 @@ export function ReadmeGenerator() {
                   placeholder="Fonctionnalité"
                 />
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => removeFeature(index)}
                 >
@@ -347,7 +347,7 @@ export function ReadmeGenerator() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">Sections personnalisées</label>
-              <Button variant="outline" size="sm" onClick={addCustomSection}>
+              <Button variant="default" size="sm" onClick={addCustomSection}>
                 Ajouter
               </Button>
             </div>
@@ -360,7 +360,7 @@ export function ReadmeGenerator() {
                     placeholder="Titre de la section"
                   />
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => removeCustomSection(index)}
                   >
@@ -403,7 +403,7 @@ export function ReadmeGenerator() {
               Copier le README
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(readmeContent, 'README.md', 'text/markdown')}
               className="flex items-center gap-2"
             >

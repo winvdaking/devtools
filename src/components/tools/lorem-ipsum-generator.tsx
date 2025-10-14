@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Type, Shuffle, Settings } from "lucide-react";
@@ -265,7 +265,7 @@ export function LoremIpsumGenerator() {
               {quickPresets.map((preset) => (
                 <Button
                   key={preset.name}
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => {
                     setParagraphs(preset.paragraphs);
@@ -288,7 +288,7 @@ export function LoremIpsumGenerator() {
               Régénérer
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => copyToClipboard(generatedText)}
               className="flex items-center gap-2"
             >
@@ -296,7 +296,7 @@ export function LoremIpsumGenerator() {
               Copier
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(generatedText, 'lorem-ipsum.txt', 'text/plain')}
               className="flex items-center gap-2"
             >

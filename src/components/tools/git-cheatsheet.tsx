@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 interface GitCommand {
   command: string;
@@ -176,7 +176,7 @@ export function GitCheatsheet() {
                         )}
                       </div>
                       <Button
-                        variant="outline"
+                        variant="default"
                         size="sm"
                         onClick={() => copyToClipboard(cmd.command, `${cmd.command}-${index}`)}
                         className="ml-4 flex-shrink-0"

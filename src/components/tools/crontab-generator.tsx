@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 export function CrontabGenerator() {
   const [minute, setMinute] = useState("*");
@@ -227,7 +227,7 @@ export function CrontabGenerator() {
             {presets.map((preset) => (
               <Button
                 key={preset.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadPreset(preset)}
                 className="justify-start text-left h-auto p-3"
@@ -369,7 +369,7 @@ export function CrontabGenerator() {
               {getFullCrontabEntry()}
             </div>
             <Button
-              variant="outline"
+              variant="default"
               size="sm"
               onClick={() => copyToClipboard(getFullCrontabEntry())}
               className="absolute top-2 right-2"

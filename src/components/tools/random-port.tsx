@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 export function RandomPortGenerator() {
   const [generatedPorts, setGeneratedPorts] = useState<number[]>([]);
@@ -181,7 +181,7 @@ export function RandomPortGenerator() {
               <RefreshCw className="h-4 w-4 mr-2" />
               Générer {count} ports
             </Button>
-            <Button onClick={generateSinglePort} variant="outline">
+            <Button onClick={generateSinglePort} variant="default">
               Port unique
             </Button>
           </div>
@@ -202,7 +202,7 @@ export function RandomPortGenerator() {
                 </CardDescription>
               </div>
               {generatedPorts.length > 1 && (
-                <Button onClick={copyAllPorts} variant="outline" size="sm">
+                <Button onClick={copyAllPorts} variant="default" size="sm">
                   {copied === "all" ? (
                     <Check className="h-4 w-4 mr-2" />
                   ) : (
@@ -243,7 +243,7 @@ export function RandomPortGenerator() {
                       )}
                     </div>
                     <Button
-                      variant="outline"
+                      variant="default"
                       size="sm"
                       onClick={() =>
                         copyToClipboard(port.toString(), `port-${index}`)
@@ -305,7 +305,7 @@ export function RandomPortGenerator() {
             ].map((preset) => (
               <Button
                 key={preset.label}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => {
                   setMinPort(preset.min);

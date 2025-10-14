@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 export function JsonToCsv() {
   const [inputJson, setInputJson] = useState("");
@@ -222,7 +222,7 @@ export function JsonToCsv() {
             />
 
             <div className="flex justify-between items-center">
-              <Button onClick={loadSample} variant="outline" size="sm">
+              <Button onClick={loadSample} variant="default" size="sm">
                 Exemple
               </Button>
               <span className="text-sm text-muted-foreground">
@@ -254,7 +254,7 @@ export function JsonToCsv() {
                 {outputCsv && (
                   <div className="absolute top-2 right-2 flex space-x-1">
                     <Button
-                      variant="outline"
+                      variant="default"
                       size="sm"
                       onClick={copyToClipboard}
                     >
@@ -264,7 +264,7 @@ export function JsonToCsv() {
                         <Copy className="h-4 w-4" />
                       )}
                     </Button>
-                    <Button variant="outline" size="sm" onClick={downloadCsv}>
+                    <Button variant="default" size="sm" onClick={downloadCsv}>
                       <Download className="h-4 w-4" />
                     </Button>
                   </div>

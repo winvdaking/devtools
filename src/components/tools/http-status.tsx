@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 interface HttpStatus {
   code: number;
@@ -168,7 +168,7 @@ export function HttpStatusCodes() {
                       </div>
                       <div className="flex space-x-1 ml-4">
                         <Button
-                          variant="outline"
+                          variant="default"
                           size="sm"
                           onClick={() => copyToClipboard(status.code.toString(), `code-${status.code}`)}
                         >

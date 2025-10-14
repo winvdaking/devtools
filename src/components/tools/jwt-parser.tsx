@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 interface JwtParts {
   header: any;
@@ -120,7 +120,7 @@ export function JwtParser() {
           />
           
           <div className="flex justify-between items-center">
-            <Button onClick={loadSample} variant="outline" size="sm">
+            <Button onClick={loadSample} variant="default" size="sm">
               JWT d'exemple
             </Button>
             {error && (
@@ -144,7 +144,7 @@ export function JwtParser() {
                   </CardDescription>
                 </div>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(JSON.stringify(parsedJwt.header, null, 2), "header")}
                 >
@@ -185,7 +185,7 @@ export function JwtParser() {
                   </CardDescription>
                 </div>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(JSON.stringify(parsedJwt.payload, null, 2), "payload")}
                 >
@@ -252,7 +252,7 @@ export function JwtParser() {
                   </CardDescription>
                 </div>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(parsedJwt.signature, "signature")}
                 >

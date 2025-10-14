@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 interface ParsedUrl {
   protocol: string;
@@ -114,7 +114,7 @@ export function UrlParser() {
           />
 
           <div className="flex justify-between items-center">
-            <Button onClick={loadSample} variant="outline" size="sm">
+            <Button onClick={loadSample} variant="default" size="sm">
               URL d'exemple
             </Button>
             {error && <span className="text-sm text-destructive">{error}</span>}
@@ -175,7 +175,7 @@ export function UrlParser() {
                       </div>
                     </div>
                     <Button
-                      variant="outline"
+                      variant="default"
                       size="sm"
                       onClick={() => copyToClipboard(item.value, item.key)}
                       className="ml-4 flex-shrink-0"
@@ -216,7 +216,7 @@ export function UrlParser() {
                           </div>
                         </div>
                         <Button
-                          variant="outline"
+                          variant="default"
                           size="sm"
                           onClick={() =>
                             copyToClipboard(

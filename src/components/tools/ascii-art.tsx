@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Type, Palette, Settings } from "lucide-react";
@@ -636,7 +636,7 @@ export function AsciiArt() {
               {predefinedTexts.map((predefinedText) => (
                 <Button
                   key={predefinedText}
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => setText(predefinedText)}
                 >
@@ -652,14 +652,14 @@ export function AsciiArt() {
               <label className="text-sm font-medium">Aperçu</label>
               <div className="flex gap-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(asciiOutput)}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => downloadFile(asciiOutput, 'ascii-art.txt', 'text/plain')}
                 >
@@ -683,7 +683,7 @@ export function AsciiArt() {
               Copier l'art ASCII
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(asciiOutput, 'ascii-art.txt', 'text/plain')}
               className="flex items-center gap-2"
             >

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Smile, Search, Grid, List } from "lucide-react";
@@ -219,14 +219,14 @@ export function EmojiPicker() {
               <label className="text-sm font-medium">Affichage</label>
               <div className="flex gap-2">
                 <Button
-                  variant={viewMode === "grid" ? "default" : "outline"}
+                  variant={viewMode === "grid" ? "default" : "secondary"}
                   size="sm"
                   onClick={() => setViewMode("grid")}
                 >
                   <Grid className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant={viewMode === "list" ? "default" : "outline"}
+                  variant={viewMode === "list" ? "default" : "secondary"}
                   size="sm"
                   onClick={() => setViewMode("list")}
                 >
@@ -278,21 +278,21 @@ export function EmojiPicker() {
                 </label>
                 <div className="flex gap-2">
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={copySelection}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={downloadSelection}
                   >
                     <Download className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={clearSelection}
                   >
@@ -330,7 +330,7 @@ export function EmojiPicker() {
                   Copier la sélection
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   onClick={downloadSelection}
                   className="flex items-center gap-2"
                 >

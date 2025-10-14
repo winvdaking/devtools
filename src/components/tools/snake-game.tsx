@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Trophy, RotateCcw, TrendingUp, Zap } from "lucide-react";
 
 interface Position {
@@ -265,7 +265,7 @@ export function SnakeGame() {
             <Button
               onClick={() => handleDirectionClick({ x: 0, y: -1 })}
               disabled={!isPlaying || gameOver}
-              variant="outline"
+              variant="default"
               size="icon"
               className="touch-manipulation"
             >
@@ -275,7 +275,7 @@ export function SnakeGame() {
               <Button
                 onClick={() => handleDirectionClick({ x: -1, y: 0 })}
                 disabled={!isPlaying || gameOver}
-                variant="outline"
+                variant="default"
                 size="icon"
                 className="touch-manipulation"
               >
@@ -284,7 +284,7 @@ export function SnakeGame() {
               <Button
                 onClick={() => handleDirectionClick({ x: 0, y: 1 })}
                 disabled={!isPlaying || gameOver}
-                variant="outline"
+                variant="default"
                 size="icon"
                 className="touch-manipulation"
               >
@@ -293,7 +293,7 @@ export function SnakeGame() {
               <Button
                 onClick={() => handleDirectionClick({ x: 1, y: 0 })}
                 disabled={!isPlaying || gameOver}
-                variant="outline"
+                variant="default"
                 size="icon"
                 className="touch-manipulation"
               >

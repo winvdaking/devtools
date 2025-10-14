@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 
 interface DockerRunOptions {
@@ -352,7 +352,7 @@ export function DockerConverter() {
             {sampleCommands.map((sample) => (
               <Button
                 key={sample.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadSample(sample)}
                 className="justify-start text-left h-auto p-3"
@@ -412,7 +412,7 @@ export function DockerConverter() {
               <FileText className="h-4 w-4 mr-2" />
               Convertir
             </Button>
-            <Button onClick={clearAll} variant="outline">
+            <Button onClick={clearAll} variant="default">
               <RefreshCw className="h-4 w-4 mr-2" />
               Effacer
             </Button>
@@ -442,7 +442,7 @@ export function DockerConverter() {
               </div>
               <div className="flex space-x-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(dockerCompose)}
                 >
@@ -453,7 +453,7 @@ export function DockerConverter() {
                   )}
                   Copier
                 </Button>
-                <Button variant="outline" size="sm" onClick={downloadCompose}>
+                <Button variant="default" size="sm" onClick={downloadCompose}>
                   <Download className="h-4 w-4 mr-2" />
                   Télécharger
                 </Button>

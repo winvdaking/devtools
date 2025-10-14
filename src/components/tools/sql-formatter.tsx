@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 
 export function SqlFormatter() {
@@ -176,7 +176,7 @@ export function SqlFormatter() {
             {sampleQueries.map((sample) => (
               <Button
                 key={sample.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadSample(sample)}
                 className="justify-start text-left h-auto p-3"
@@ -250,11 +250,11 @@ export function SqlFormatter() {
               <FileText className="h-4 w-4 mr-2" />
               Formater
             </Button>
-            <Button onClick={() => minifySql(inputSql)} variant="outline">
+            <Button onClick={() => minifySql(inputSql)} variant="default">
               <Minus className="h-4 w-4 mr-2" />
               Minifier
             </Button>
-            <Button onClick={clearAll} variant="outline">
+            <Button onClick={clearAll} variant="default">
               <Zap className="h-4 w-4 mr-2" />
               Effacer
             </Button>
@@ -283,7 +283,7 @@ export function SqlFormatter() {
                 </CardDescription>
               </div>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(formattedSql, "formatted")}
               >
@@ -318,7 +318,7 @@ export function SqlFormatter() {
                 </CardDescription>
               </div>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(minifiedSql, "minified")}
               >

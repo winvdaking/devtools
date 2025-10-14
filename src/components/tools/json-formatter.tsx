@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 export function JsonFormatter() {
   const [inputJson, setInputJson] = useState("");
@@ -102,11 +102,11 @@ export function JsonFormatter() {
                 <Maximize className="h-4 w-4 mr-2" />
                 Formater
               </Button>
-              <Button onClick={minifyJson} variant="outline" className="flex-1">
+              <Button onClick={minifyJson} variant="default" className="flex-1">
                 <Minimize className="h-4 w-4 mr-2" />
                 Minifier
               </Button>
-              <Button onClick={loadSample} variant="outline">
+              <Button onClick={loadSample} variant="default">
                 Exemple
               </Button>
             </div>
@@ -134,7 +134,7 @@ export function JsonFormatter() {
                 />
                 {outputJson && (
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={copyToClipboard}
                     className="absolute top-2 right-2"

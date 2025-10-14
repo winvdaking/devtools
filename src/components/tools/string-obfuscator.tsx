@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Eye, EyeOff, Shuffle, RotateCcw } from "lucide-react";
 
@@ -218,7 +218,7 @@ export function StringObfuscator() {
               <label className="text-sm font-medium">Actions</label>
               <div className="flex gap-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={randomizeText}
                   className="flex items-center gap-2"
@@ -227,7 +227,7 @@ export function StringObfuscator() {
                   Texte aléatoire
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => setInputText("")}
                   className="flex items-center gap-2"
@@ -244,7 +244,7 @@ export function StringObfuscator() {
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">Texte original</label>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => setShowOriginal(!showOriginal)}
               >
@@ -266,14 +266,14 @@ export function StringObfuscator() {
               <label className="text-sm font-medium">Texte obfusqué</label>
               <div className="flex gap-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(obfuscatedText)}
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => downloadFile(obfuscatedText, 'obfuscated.txt', 'text/plain')}
                 >
@@ -314,7 +314,7 @@ export function StringObfuscator() {
               Copier le texte obfusqué
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(obfuscatedText, 'obfuscated.txt', 'text/plain')}
               className="flex items-center gap-2"
             >
@@ -322,7 +322,7 @@ export function StringObfuscator() {
               Télécharger
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(inputText, 'original.txt', 'text/plain')}
               className="flex items-center gap-2"
             >

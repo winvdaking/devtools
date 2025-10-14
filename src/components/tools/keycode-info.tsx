@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 interface KeyInfo {
   key: string;
@@ -175,7 +175,7 @@ export function KeycodeInfo() {
                       {item.value === ' ' ? '(espace)' : item.value}
                     </div>
                     <Button
-                      variant="outline"
+                      variant="default"
                       size="sm"
                       onClick={() => copyToClipboard(item.value, item.label)}
                       className="absolute top-1 right-1"

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { DiscordIcon } from "@/components/ui/discord-icon";
@@ -702,7 +702,7 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium">Markdown Discord</label>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={resetToDefault}
                 >
@@ -724,7 +724,7 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
                 <label className="text-sm font-medium">Aperçu Discord</label>
                 <div className="flex gap-2">
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => setShowPreview(!showPreview)}
                   >
@@ -732,14 +732,14 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
                     {showPreview ? "Code" : "Aperçu"}
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => copyToClipboard(discordOutput)}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => downloadFile(discordOutput, 'discord-message.txt', 'text/plain')}
                   >
@@ -772,7 +772,7 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
               Copier pour Discord
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(discordOutput, 'discord-message.txt', 'text/plain')}
               className="flex items-center gap-2"
             >
@@ -780,7 +780,7 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
               Télécharger .txt
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(markdown, 'source.md', 'text/markdown')}
               className="flex items-center gap-2"
             >

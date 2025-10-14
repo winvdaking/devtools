@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { FileType, Copy, Check, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 interface MimeType {
   extension: string;
@@ -420,7 +420,7 @@ export function MimeTypes() {
                         </div>
                       </div>
                       <Button
-                        variant="outline"
+                        variant="default"
                         size="sm"
                         onClick={() =>
                           copyToClipboard(

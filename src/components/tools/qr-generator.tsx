@@ -6,7 +6,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Textarea } from "@/components/ui/textarea";
 import { QrCode, Download, Copy, RefreshCw, Link, Mail, Phone, MapPin, Calendar, User, AlertTriangle, Image as ImageIcon, X } from "lucide-react";
 import { QRCodeSVG } from 'qrcode.react';
@@ -247,7 +247,7 @@ export function QRGenerator() {
                   return (
                     <Button
                       key={template.name}
-                      variant={selectedTemplate.name === template.name ? "default" : "outline"}
+                      variant={selectedTemplate.name === template.name ? "default" : "secondary"}
                       size="sm"
                       onClick={() => applyTemplate(template)}
                       className="justify-start"
@@ -435,11 +435,9 @@ export function QRGenerator() {
                 />
                 <label htmlFor="logo-upload">
                   <Button
-                    type="button"
-                    variant="outline"
+                    variant="default"
                     className="w-full"
                     onClick={() => fileInputRef.current?.click()}
-                    asChild
                   >
                     <span>
                       <ImageIcon className="h-4 w-4 mr-2" />
@@ -482,11 +480,11 @@ export function QRGenerator() {
                 </div>
                 
                 <div className="flex space-x-2">
-                  <Button onClick={downloadQRCode} variant="outline">
+                  <Button onClick={downloadQRCode} variant="default">
                     <Download className="h-4 w-4 mr-2" />
                     Télécharger
                   </Button>
-                  <Button onClick={copyQRCode} variant="outline">
+                  <Button onClick={copyQRCode} variant="default">
                     <Copy className="h-4 w-4 mr-2" />
                     Copier
                   </Button>

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Bug, Eye, EyeOff } from "lucide-react";
 
@@ -186,7 +186,7 @@ function hello() {
                 <label className="text-sm font-medium">Format Jira</label>
                 <div className="flex gap-2">
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => setShowPreview(!showPreview)}
                   >
@@ -194,14 +194,14 @@ function hello() {
                     {showPreview ? "Code" : "Aperçu"}
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => copyToClipboard(jiraOutput)}
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => downloadFile(jiraOutput, 'jira-content.txt', 'text/plain')}
                   >
@@ -234,7 +234,7 @@ function hello() {
               Copier le texte Jira
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(jiraOutput, 'jira-content.txt', 'text/plain')}
               className="flex items-center gap-2"
             >
@@ -242,7 +242,7 @@ function hello() {
               Télécharger texte
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(markdown, 'source.md', 'text/markdown')}
               className="flex items-center gap-2"
             >

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Shield, CheckCircle, XCircle, AlertTriangle, ExternalLink, Copy, Download, Calendar, Key, Globe } from "lucide-react";
 
@@ -248,7 +248,7 @@ export function SSLCertificateChecker() {
           {/* Actions */}
           <div className="flex gap-2">
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => window.open(url, '_blank')}
               disabled={!url}
               className="flex items-center gap-2"
@@ -259,7 +259,7 @@ export function SSLCertificateChecker() {
             {certificateInfo && (
               <>
                 <Button
-                  variant="outline"
+                  variant="default"
                   onClick={() => copyToClipboard(generateReport())}
                   className="flex items-center gap-2"
                 >
@@ -267,7 +267,7 @@ export function SSLCertificateChecker() {
                   Copier le rapport
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   onClick={downloadReport}
                   className="flex items-center gap-2"
                 >

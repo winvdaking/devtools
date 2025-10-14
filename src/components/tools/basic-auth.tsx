@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 
 export function BasicAuthGenerator() {
   const [username, setUsername] = useState("");
@@ -114,10 +114,10 @@ export function BasicAuthGenerator() {
 
           <div className="flex justify-between items-center">
             <div className="flex space-x-2">
-              <Button onClick={loadSample} variant="outline" size="sm">
+              <Button onClick={loadSample} variant="default" size="sm">
                 Exemple
               </Button>
-              <Button onClick={clearAll} variant="outline" size="sm">
+              <Button onClick={clearAll} variant="default" size="sm">
                 Effacer
               </Button>
             </div>
@@ -143,7 +143,7 @@ export function BasicAuthGenerator() {
                 Authorization: {authString}
               </div>
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() =>
                   copyToClipboard(`Authorization: ${authString}`, "header")
@@ -166,7 +166,7 @@ export function BasicAuthGenerator() {
                     {authString}
                   </div>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => copyToClipboard(authString, "value")}
                     className="absolute top-1 right-1"
@@ -187,7 +187,7 @@ export function BasicAuthGenerator() {
                     {authString.replace("Basic ", "")}
                   </div>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() =>
                       copyToClipboard(

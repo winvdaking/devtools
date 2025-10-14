@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { 
   Monitor, 
@@ -405,7 +405,7 @@ export function ResponsiveDesignChecker() {
             </div>
             <div className="flex items-center gap-2">
               <Button
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={toggleFullscreen}
                 className={`flex items-center gap-2 ${isFullscreen ? 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100' : ''}`}
@@ -455,7 +455,7 @@ export function ResponsiveDesignChecker() {
               <label className="text-sm font-medium">Appareils & Viewports</label>
               <div className="flex items-center gap-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => setShowRulers(!showRulers)}
                   className="flex items-center gap-2"
@@ -464,7 +464,7 @@ export function ResponsiveDesignChecker() {
                   Règles
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={rotateViewport}
                   className="flex items-center gap-2"
@@ -480,7 +480,7 @@ export function ResponsiveDesignChecker() {
               {["Mobile", "Tablet", "Desktop"].map((category) => (
                 <Button
                   key={category}
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   className="text-xs"
                 >
@@ -497,7 +497,7 @@ export function ResponsiveDesignChecker() {
                 return (
                   <Button
                     key={key}
-                    variant={isSelected ? "default" : "outline"}
+                    variant={isSelected ? "default" : "secondary"}
                     size="sm"
                     onClick={() => {
                       setCurrentViewport(key);
@@ -595,7 +595,7 @@ export function ResponsiveDesignChecker() {
           {/* Actions */}
           <div className="flex gap-2 flex-wrap">
             <Button
-              variant="outline"
+              variant="default"
               onClick={resetTests}
               className="flex items-center gap-2"
             >
@@ -603,7 +603,7 @@ export function ResponsiveDesignChecker() {
               Réinitialiser Tests
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={resetAll}
               className="flex items-center gap-2"
             >
@@ -611,7 +611,7 @@ export function ResponsiveDesignChecker() {
               Tout Réinitialiser
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => url && window.open(url, '_blank')}
               disabled={!url}
               className="flex items-center gap-2"

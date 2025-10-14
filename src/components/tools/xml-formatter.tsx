@@ -22,7 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 
 export function XmlFormatter() {
@@ -256,7 +256,7 @@ export function XmlFormatter() {
             {sampleXmls.map((sample) => (
               <Button
                 key={sample.name}
-                variant="outline"
+                variant="default"
                 size="sm"
                 onClick={() => loadSample(sample)}
                 className="justify-start text-left h-auto p-3"
@@ -320,11 +320,11 @@ export function XmlFormatter() {
               <FileText className="h-4 w-4 mr-2" />
               Formater
             </Button>
-            <Button onClick={() => minifyXml(inputXml)} variant="outline">
+            <Button onClick={() => minifyXml(inputXml)} variant="default">
               <Minus className="h-4 w-4 mr-2" />
               Minifier
             </Button>
-            <Button onClick={clearAll} variant="outline">
+            <Button onClick={clearAll} variant="default">
               <Zap className="h-4 w-4 mr-2" />
               Effacer
             </Button>
@@ -378,7 +378,7 @@ export function XmlFormatter() {
               </div>
               <div className="flex space-x-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(formattedXml, "formatted")}
                 >
@@ -390,7 +390,7 @@ export function XmlFormatter() {
                   Copier
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => downloadXml(formattedXml, "formatted.xml")}
                 >
@@ -423,7 +423,7 @@ export function XmlFormatter() {
               </div>
               <div className="flex space-x-2">
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(minifiedXml, "minified")}
                 >
@@ -435,7 +435,7 @@ export function XmlFormatter() {
                   Copier
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="default"
                   size="sm"
                   onClick={() => downloadXml(minifiedXml, "minified.xml")}
                 >

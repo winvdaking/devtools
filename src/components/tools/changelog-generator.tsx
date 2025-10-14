@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Copy, Download, FileText, Calendar, Plus, Trash2, Edit3 } from "lucide-react";
@@ -248,7 +248,7 @@ export function ChangelogGenerator() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">Versions</label>
-              <Button variant="outline" size="sm" onClick={addRelease}>
+              <Button variant="default" size="sm" onClick={addRelease}>
                 <Plus className="h-4 w-4 mr-2" />
                 Ajouter une version
               </Button>
@@ -259,7 +259,7 @@ export function ChangelogGenerator() {
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium">Version {release.version}</h4>
                   <Button
-                    variant="outline"
+                    variant="default"
                     size="sm"
                     onClick={() => removeRelease(releaseIndex)}
                   >
@@ -326,7 +326,7 @@ export function ChangelogGenerator() {
                         className="flex-1"
                       />
                       <Button
-                        variant="outline"
+                        variant="default"
                         size="sm"
                         onClick={() => removeChange(releaseIndex, changeIndex)}
                       >
@@ -355,7 +355,7 @@ export function ChangelogGenerator() {
                       className="flex-1"
                     />
                     <Button
-                      variant="outline"
+                      variant="default"
                       size="sm"
                       onClick={() => addChange(releaseIndex)}
                     >
@@ -390,7 +390,7 @@ export function ChangelogGenerator() {
               Copier le changelog
             </Button>
             <Button
-              variant="outline"
+              variant="default"
               onClick={() => downloadFile(changelogContent, 'CHANGELOG.md', 'text/markdown')}
               className="flex items-center gap-2"
             >
