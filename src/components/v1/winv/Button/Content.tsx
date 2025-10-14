@@ -43,7 +43,7 @@ export const Content = ({ setProgress }: ContentProps) => {
   const [selectedSize, setSelectedSize] = useState("md");
   const [rippleEnabled, setRippleEnabled] = useState(true);
   const [glowEnabled, setGlowEnabled] = useState(true);
-  const [magneticEnabled, setMagneticEnabled] = useState(true);
+  const [magneticEnabled, setMagneticEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const variantOptions = [
@@ -166,10 +166,11 @@ export default function Button({
   tooltip,
   ripple = true,
   glow = true,
-  magnetic = true,
+  magnetic = false,
 }: ButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const [isReleased, setIsReleased] = useState(false);
   const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -179,16 +180,16 @@ export default function Button({
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [15, -15]), { stiffness: 150, damping: 15 });
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-15, 15]), { stiffness: 150, damping: 15 });
 
-  // Gestion des variants et tailles
+  // Gestion des variants
   const getVariantClasses = () => {
-    const baseClasses = "relative flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    const baseClasses = "relative flex items-center justify-center rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
     
     const variants = {
-      default: "bg-white text-gray-900 shadow-sm border border-gray-200 hover:bg-gray-50 focus:ring-gray-500 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700",
-      primary: "bg-blue-600 text-white shadow-sm hover:bg-blue-700 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600",
-      secondary: "bg-gray-100 text-gray-900 shadow-sm hover:bg-gray-200 focus:ring-gray-500 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600",
-      ghost: "text-gray-700 hover:bg-gray-100 focus:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800",
-      destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700 focus:ring-red-500 dark:bg-red-500 dark:hover:bg-red-600",
+      default: "bg-white text-gray-900 shadow-sm border border-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700",
+      primary: "bg-blue-600 text-white shadow-sm hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600",
+      secondary: "bg-gray-100 text-gray-900 shadow-sm hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600",
+      ghost: "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800",
+      destructive: "bg-red-600 text-white shadow-sm hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600",
     };
 
     const sizes = {
@@ -237,6 +238,29 @@ export default function Button({
     mouseY.set(0);
   };
 
+  // Effet de glow
+  const getGlowEffect = () => {
+    if (!glow || !isHovered || disabled || loading) return null;
+
+    const glowColors = {
+      default: "shadow-[0_0_20px_rgba(0,0,0,0.1)]",
+      primary: "shadow-[0_0_20px_rgba(59,130,246,0.3)]",
+      secondary: "shadow-[0_0_20px_rgba(107,114,128,0.2)]",
+      ghost: "shadow-[0_0_20px_rgba(107,114,128,0.1)]",
+      destructive: "shadow-[0_0_20px_rgba(239,68,68,0.3)]",
+    };
+
+    return (
+      <motion.div
+        className={\`absolute inset-0 rounded-lg \${glowColors[variant]} pointer-events-none\`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+      />
+    );
+  };
+
   return (
     <motion.button
       ref={buttonRef}
@@ -248,19 +272,44 @@ export default function Button({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
-      onMouseDown={() => setIsPressed(true)}
-      onMouseUp={() => setIsPressed(false)}
+      onMouseDown={() => {
+        setIsPressed(true);
+        setIsReleased(false);
+      }}
+      onMouseUp={() => {
+        setIsPressed(false);
+        setIsReleased(true);
+        setTimeout(() => setIsReleased(false), 300);
+      }}
       disabled={disabled || loading}
       style={{
         transform: magnetic ? "perspective(1000px)" : undefined,
         rotateX: magnetic ? rotateX : undefined,
         rotateY: magnetic ? rotateY : undefined,
       }}
-      whileHover={magnetic ? { scale: 1.02 } : undefined}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 2px rgba(0,0,0,0.1)" }}
+      whileTap={{ 
+        scale: 0.9,
+        boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 2px rgba(0,0,0,0.1)"
+      }}
+      whileFocus={{ 
+        scale: 0.9,
+        boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 2px rgba(0,0,0,0.1)"
+      }}
+      animate={isReleased ? { 
+        scale: [0.90, 1.05]
+      } : {}}
+      transition={{ 
+        type: "spring", 
+        stiffness: 300, 
+        damping: 20 
+      }}
       title={tooltip}
       aria-disabled={disabled || loading}
     >
+      {/* Effet de glow */}
+      {getGlowEffect()}
+
       {/* Ripples */}
       {ripples.map((ripple) => (
         <motion.div
@@ -278,7 +327,11 @@ export default function Button({
       ))}
 
       {/* Contenu du bouton */}
-      <div className="relative flex items-center justify-center gap-2">
+      <motion.div 
+        className="relative flex items-center justify-center gap-2"
+        animate={isPressed ? { y: 1, scale: 0.95 } : { y: 0, scale: 1 }}
+        transition={{ duration: 0.1 }}
+      >
         {/* Icône de chargement */}
         {loading && (
           <motion.div
@@ -292,8 +345,8 @@ export default function Button({
         {Icon && !loading && (
           <motion.div
             className="flex items-center justify-center"
-            animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
-            transition={{ duration: 0.2 }}
+            animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
+            transition={{ duration: 0.1 }}
           >
             <Icon className="w-4 h-4" />
           </motion.div>
@@ -302,13 +355,29 @@ export default function Button({
         {/* Texte */}
         {children && (
           <motion.span
-            animate={isHovered ? { x: Icon ? 2 : 0 } : { x: 0 }}
-            transition={{ duration: 0.2 }}
+            animate={isHovered ? { scale: 1.02 } : { scale: 1 }}
+            transition={{ duration: 0.1 }}
           >
             {children}
           </motion.span>
         )}
-      </div>
+      </motion.div>
+
+      {/* Effet de pression avec ombre interne */}
+      {(isPressed || isReleased) && (
+        <motion.div
+          className="absolute inset-0 rounded-lg pointer-events-none"
+          style={{
+            background: "linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 100%)",
+            boxShadow: "inset 0 2px 4px rgba(0,0,0,0.1), inset 0 1px 2px rgba(0,0,0,0.1)"
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isPressed ? 1 : 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        />
+      )}
+
     </motion.button>
   );
 }`;
