@@ -50,6 +50,7 @@ import {
   Shuffle,
   Gamepad2,
   Blocks,
+  MousePointer,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToolId, ToolCategory } from "@/types/tools";
@@ -84,9 +85,16 @@ const toolCategories: ToolCategory[] = [
     tools: [
       {
         id: "scrollbar-component",
-        name: "ScrollBar Animée",
+        name: "ScrollBar",
         description: "Scrollbar horizontale avec timeline",
         icon: Blocks,
+        category: "components",
+      },
+      {
+        id: "button-component",
+        name: "Button",
+        description: "Bouton avec effets ripple, glow et magnétique",
+        icon: MousePointer,
         category: "components",
       },
     ],

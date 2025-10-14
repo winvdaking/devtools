@@ -96,10 +96,14 @@ export default function Scrollbar({
               Array.from({ length: 41 }, (_, i) => {
                 const markProgress = (i / 40) * 100;
                 const dist = Math.abs(markProgress - mouseX);
-                const scale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1; // effet de proximité plus prononcé
-                const isBig = i === 0 || i === 40 || i % 5 === 0;
-                const isEnd = i === 0 || i === 40; // traits de début et fin
-                const baseHeight = isEnd ? 14 : isBig ? 16 : 12; // taille de base ajustée
+                const distFromCursor = Math.abs(markProgress - scrollProgress);
+                
+                // Effet de proximité uniquement pour la souris, pas pour le curseur
+                const scale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1;
+                
+                // Les traits de fin (0 et 40) ne sont plus spéciaux, ils suivent la même logique
+                const isBig = i % 5 === 0; // Seuls les traits tous les 5 sont plus gros
+                const baseHeight = isBig ? 16 : 12; // Taille uniforme pour tous les traits normaux
                 
                 return (
                   <div
@@ -114,7 +118,7 @@ export default function Scrollbar({
                     }}
                   />
                 );
-              }), [mouseX])
+              }), [mouseX, scrollProgress])
             }
           </div>
 

@@ -87,6 +87,7 @@ export type ToolId =
 
   // Components UI
   | "scrollbar-component"
+  | "button-component"
 
   // Jeux
   | "memory-game"

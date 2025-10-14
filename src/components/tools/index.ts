@@ -78,3 +78,6 @@ export { SnakeGame } from "./snake-game";
 export { Game2048 } from "./game-2048";
 export { SimonSays } from "./simon-says";
 export { TicTacToe } from "./tic-tac-toe";
+
+// Composants UI
+export { default as ButtonComponent } from "./button-component";
