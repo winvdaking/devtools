@@ -79,7 +79,7 @@ export default function Scrollbar({
         role="presentation"
       >
       <div
-        className="bg-stone-50/95 dark:bg-stone-800/95 backdrop-blur-sm px-3 py-1 border border-stone-200/50 dark:border-stone-700/50"
+        className="bg-stone-50/95 dark:bg-background backdrop-blur-sm px-3 py-1 border border-stone-200/50 dark:border-stone-700/50"
         style={{
           boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
           borderRadius: 16,
