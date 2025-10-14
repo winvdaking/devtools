@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Scroll, Copy, Check, Download, Code, Palette, Settings } from "lucide-react";
 import {
@@ -40,15 +40,18 @@ export const Content = ({ setProgress }: ContentProps) => {
     { value: "top-6 left-6", label: "Haut gauche" },
   ];
 
-  const copyToClipboard = async (text: string, id: string) => {
+  const copyToClipboard = useCallback(async (text: string, id: string) => {
     await navigator.clipboard.writeText(text);
     setCopied(id);
     setTimeout(() => setCopied(null), 2000);
-  };
+  }, []);
 
-  const generateCode = () => {
-    const selectedColorClass = colorOptions.find(c => c.value === selectedColor)?.class || "bg-orange-500 dark:bg-orange-400";
-    
+  const selectedColorClass = useMemo(() => 
+    colorOptions.find(c => c.value === selectedColor)?.class || "bg-orange-500 dark:bg-orange-400",
+    [selectedColor]
+  );
+
+  const generateCode = useMemo(() => {
     return `import Scrollbar from "@/components/v1/winv/ScrollBar/ScrollBar";
 
 export default function MyComponent() {
@@ -67,9 +70,9 @@ export default function MyComponent() {
     </div>
   );
 }`;
-  };
+  }, [selectedPosition, selectedColorClass]);
 
-  const generateInstallCode = () => {
+  const generateInstallCode = useMemo(() => {
     return `// Installation des dépendances
 npm install framer-motion
 
@@ -78,7 +81,151 @@ yarn add framer-motion
 
 // Ou avec pnpm
 pnpm add framer-motion`;
-  };
+  }, []);
+
+  const generateSourceCode = useMemo(() => {
+    return `/**
+ * ScrollBar Component - @winv
+ * Composant de scroll personnalisé avec effets de hover et animations fluides
+ * Optimisé avec Framer Motion et TypeScript
+ */
+import { motion } from "framer-motion";
+import { useState, useEffect, useCallback, useMemo } from "react";
+
+export default function Scrollbar({
+  className = "",
+  currentPosition = "bottom-6 right-6",
+  currentColor = "bg-black dark:bg-white",
+  currentSize = { width: "w-[300px]", height: "h-[32px]" },
+}) {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [mouseX, setMouseX] = useState(0);
+  const [showScrollCard, setShowScrollCard] = useState(true);
+
+  // Calcul du scroll du conteneur
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
+      
+      if (scrollContainer) {
+        const scrollTop = scrollContainer.scrollTop;
+        const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        setScrollProgress(Math.min(100, Math.max(0, progress)));
+      }
+    };
+
+    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
+    if (scrollContainer) {
+      scrollContainer.addEventListener("scroll", handleScroll);
+      handleScroll();
+      
+      return () => {
+        scrollContainer.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
+
+  // Gestion du clic pour scroller vers la position
+  const handleTimelineClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const newProgress = (clickX / rect.width) * 100;
+
+    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
+    if (scrollContainer) {
+      const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+      const newScrollY = (newProgress / 100) * scrollHeight;
+
+      scrollContainer.scrollTo({
+        top: newScrollY,
+        behavior: "smooth",
+      });
+    }
+  }, []);
+
+  // Détection du hover pour effet de proximité
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mousePos = ((e.clientX - rect.left) / rect.width) * 100;
+    setMouseX(mousePos);
+  }, []);
+
+  return (
+          <motion.div
+        className={\`fixed \${currentPosition} z-50 \${className}\`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: showScrollCard ? 1 : 0, y: showScrollCard ? 0 : 20 }}
+        transition={{ duration: 0.25 }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setMouseX(-100);
+        }}
+        aria-hidden={!showScrollCard}
+        role="presentation"
+      >
+      <div
+        className="bg-stone-50/95 dark:bg-background backdrop-blur-sm px-3 py-1 border border-stone-200/50 dark:border-stone-700/50"
+        style={{
+          boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+          borderRadius: 16,
+        }}
+      >
+        <div
+          className={\`relative \${currentSize.width} \${currentSize.height} flex items-center justify-center cursor-pointer\`}
+          onClick={handleTimelineClick}
+          onMouseMove={handleMouseMove}
+        >
+          {/* Traits de la scrollbar */}
+          <div className="absolute inset-0 flex items-center justify-between px-1 pointer-events-none">
+            {useMemo(() => 
+              Array.from({ length: 41 }, (_, i) => {
+                const markProgress = (i / 40) * 100;
+                const dist = Math.abs(markProgress - mouseX);
+                const scale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1;
+                const isBig = i === 0 || i === 40 || i % 5 === 0;
+                const isEnd = i === 0 || i === 40;
+                const baseHeight = isEnd ? 14 : isBig ? 16 : 12;
+                
+                return (
+                  <div
+            key={i}
+                    className={\`w-[2px] rounded-full transition-all duration-150 \${
+                      isBig
+                        ? "bg-black/80 dark:bg-white/80"
+                        : "bg-gray-300 dark:bg-gray-500"
+                    }\`}
+                    style={{
+                      height: baseHeight * scale,
+                    }}
+                  />
+                );
+              }), [mouseX])
+            }
+          </div>
+
+          {/* Curseur de progression */}
+          <div
+            className="absolute pointer-events-none flex items-center"
+            style={{
+              left: \`\${scrollProgress}%\`,
+              transform: "translateX(-50%)",
+              top: 0,
+              bottom: 0,
+            }}
+          >
+            <div
+              className={\`w-[3px] h-[24px] \${currentColor} rounded-full shadow-md\`}
+            />
+          </div>
+        </div>
+      </div>
+          </motion.div>
+  );
+}`;
+  }, []);
 
   return (
     <div className="h-screen overflow-y-scroll">
@@ -89,9 +236,14 @@ pnpm add framer-motion`;
         className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16"
       >
         {/* Header */}
-        <div className="flex items-center space-x-2">
-          <Scroll className="h-6 w-6 text-primary" />
-          <h1 className="text-3xl font-bold">ScrollBar Component</h1>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Scroll className="h-6 w-6 text-primary" />
+            <h1 className="text-3xl font-bold">ScrollBar Component</h1>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            Créé par <span className="font-mono text-primary">@winv</span>
+          </div>
         </div>
 
         {/* Description */}
@@ -99,8 +251,8 @@ pnpm add framer-motion`;
           <CardHeader>
             <CardTitle>Composant ScrollBar interactif</CardTitle>
             <CardDescription>
-              Une ScrollBar personnalisée avec effets de hover, animations fluides et design moderne.
-              Parfait pour améliorer l'expérience utilisateur de vos applications.
+              ScrollBar personnalisée avec effets de hover, animations fluides et design moderne.
+              Optimisée avec Framer Motion et TypeScript. Parfait pour améliorer l'UX.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -197,12 +349,12 @@ pnpm add framer-motion`;
                   fontSize: '0.875rem',
                 }}
               >
-                {generateInstallCode()}
+                {generateInstallCode}
               </SyntaxHighlighter>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => copyToClipboard(generateInstallCode(), "install")}
+                onClick={() => copyToClipboard(generateInstallCode, "install")}
                 className="absolute top-2 right-2"
               >
                 {copied === "install" ? (
@@ -235,12 +387,12 @@ pnpm add framer-motion`;
                   fontSize: '0.875rem',
                 }}
               >
-                {generateCode()}
+                {generateCode}
               </SyntaxHighlighter>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => copyToClipboard(generateCode(), "usage")}
+                onClick={() => copyToClipboard(generateCode, "usage")}
                 className="absolute top-2 right-2"
               >
                 {copied === "usage" ? (
@@ -273,288 +425,12 @@ pnpm add framer-motion`;
                   fontSize: '0.875rem',
                 }}
               >
-                {`import { motion } from "framer-motion";
-import { useState, useEffect, useCallback, useMemo } from "react";
-
-export default function Scrollbar({
-  className = "",
-  currentPosition = "bottom-6 right-6",
-  currentColor = "bg-black dark:bg-white",
-  currentSize = { width: "w-[300px]", height: "h-[32px]" },
-}) {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [mouseX, setMouseX] = useState(0);
-  const [showScrollCard, setShowScrollCard] = useState(true);
-
-  // --- calcul du scroll du conteneur
-  useEffect(() => {
-    const handleScroll = () => {
-      // Trouver le conteneur de scroll (celui avec overflow-y-scroll)
-      const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
-      
-      if (scrollContainer) {
-        const scrollTop = scrollContainer.scrollTop;
-        const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-        setScrollProgress(Math.min(100, Math.max(0, progress)));
-      }
-    };
-
-    // Écouter le scroll du conteneur spécifique
-    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll);
-      handleScroll();
-      
-      return () => {
-        scrollContainer.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, []);
-
-  // --- gestion du clic sur la timeline pour scroller le conteneur
-  const handleTimelineClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const newProgress = (clickX / rect.width) * 100;
-
-    // Trouver le conteneur de scroll et faire défiler
-    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
-    if (scrollContainer) {
-      const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-      const newScrollY = (newProgress / 100) * scrollHeight;
-
-      scrollContainer.scrollTo({
-        top: newScrollY,
-        behavior: "smooth",
-      });
-    }
-  }, []);
-
-  // --- détection du hover pour effet de proximité
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const mousePos = ((e.clientX - rect.left) / rect.width) * 100;
-    setMouseX(mousePos);
-  }, []);
-
-  return (
-      <motion.div
-        className={\`fixed \${currentPosition} z-50 \${className}\`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: showScrollCard ? 1 : 0, y: showScrollCard ? 0 : 20 }}
-        transition={{ duration: 0.25 }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => {
-          setIsHovered(false);
-          setMouseX(-100); // Réinitialiser à une valeur qui ne correspond à aucun trait
-        }}
-        aria-hidden={!showScrollCard}
-        role="presentation"
-      >
-      <div
-        className="bg-stone-50/95 dark:bg-background backdrop-blur-sm px-3 py-1 border border-stone-200/50 dark:border-stone-700/50"
-        style={{
-          boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-          borderRadius: 16,
-        }}
-      >
-        <div
-          className={\`relative \${currentSize.width} \${currentSize.height} flex items-center justify-center cursor-pointer\`}
-          onClick={handleTimelineClick}
-          onMouseMove={handleMouseMove}
-        >
-          {/* --- Traits de la scrollbar --- */}
-          <div className="absolute inset-0 flex items-center justify-between px-1 pointer-events-none">
-            {useMemo(() => 
-              Array.from({ length: 41 }, (_, i) => {
-                const markProgress = (i / 40) * 100;
-                const dist = Math.abs(markProgress - mouseX);
-                const scale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1; // effet de proximité plus prononcé
-                const isBig = i === 0 || i === 40 || i % 5 === 0;
-                const isEnd = i === 0 || i === 40; // traits de début et fin
-                const baseHeight = isEnd ? 14 : isBig ? 16 : 12; // taille de base ajustée
-                
-                return (
-                  <div
-                    key={i}
-                    className={\`w-[2px] rounded-full transition-all duration-150 \${
-                      isBig
-                        ? "bg-black/80 dark:bg-white/80"
-                        : "bg-gray-300 dark:bg-gray-500"
-                    }\`}
-                    style={{
-                      height: baseHeight * scale,
-                    }}
-                  />
-                );
-              }), [mouseX])
-            }
-          </div>
-
-          {/* --- Curseur de progression --- */}
-          <div
-            className="absolute pointer-events-none flex items-center"
-            style={{
-              left: \`\${scrollProgress}%\`,
-              transform: "translateX(-50%)",
-              top: 0,
-              bottom: 0,
-            }}
-          >
-            <div
-              className={\`w-[3px] h-[24px] \${currentColor} rounded-full shadow-md\`}
-            />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}`}
+                {generateSourceCode}
               </SyntaxHighlighter>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => copyToClipboard(`import { motion } from "framer-motion";
-import { useState, useEffect, useCallback, useMemo } from "react";
-
-export default function Scrollbar({
-  className = "",
-  currentPosition = "bottom-6 right-6",
-  currentColor = "bg-black dark:bg-white",
-  currentSize = { width: "w-[300px]", height: "h-[32px]" },
-}) {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [mouseX, setMouseX] = useState(0);
-  const [showScrollCard, setShowScrollCard] = useState(true);
-
-  // --- calcul du scroll du conteneur
-  useEffect(() => {
-    const handleScroll = () => {
-      // Trouver le conteneur de scroll (celui avec overflow-y-scroll)
-      const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
-      
-      if (scrollContainer) {
-        const scrollTop = scrollContainer.scrollTop;
-        const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-        setScrollProgress(Math.min(100, Math.max(0, progress)));
-      }
-    };
-
-    // Écouter le scroll du conteneur spécifique
-    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll);
-      handleScroll();
-      
-      return () => {
-        scrollContainer.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, []);
-
-  // --- gestion du clic sur la timeline pour scroller le conteneur
-  const handleTimelineClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const newProgress = (clickX / rect.width) * 100;
-
-    // Trouver le conteneur de scroll et faire défiler
-    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
-    if (scrollContainer) {
-      const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-      const newScrollY = (newProgress / 100) * scrollHeight;
-
-      scrollContainer.scrollTo({
-        top: newScrollY,
-        behavior: "smooth",
-      });
-    }
-  }, []);
-
-  // --- détection du hover pour effet de proximité
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const mousePos = ((e.clientX - rect.left) / rect.width) * 100;
-    setMouseX(mousePos);
-  }, []);
-
-  return (
-      <motion.div
-        className={\`fixed \${currentPosition} z-50 \${className}\`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: showScrollCard ? 1 : 0, y: showScrollCard ? 0 : 20 }}
-        transition={{ duration: 0.25 }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => {
-          setIsHovered(false);
-          setMouseX(-100); // Réinitialiser à une valeur qui ne correspond à aucun trait
-        }}
-        aria-hidden={!showScrollCard}
-        role="presentation"
-      >
-      <div
-        className="bg-stone-50/95 dark:bg-stone-800/95 backdrop-blur-sm px-3 py-1 border border-stone-200/50 dark:border-stone-700/50"
-        style={{
-          boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-          borderRadius: 16,
-        }}
-      >
-        <div
-          className={\`relative \${currentSize.width} \${currentSize.height} flex items-center justify-center cursor-pointer\`}
-          onClick={handleTimelineClick}
-          onMouseMove={handleMouseMove}
-        >
-          {/* --- Traits de la scrollbar --- */}
-          <div className="absolute inset-0 flex items-center justify-between px-1 pointer-events-none">
-            {useMemo(() => 
-              Array.from({ length: 41 }, (_, i) => {
-                const markProgress = (i / 40) * 100;
-                const dist = Math.abs(markProgress - mouseX);
-                const scale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1; // effet de proximité plus prononcé
-                const isBig = i === 0 || i === 40 || i % 5 === 0;
-                const isEnd = i === 0 || i === 40; // traits de début et fin
-                const baseHeight = isEnd ? 14 : isBig ? 16 : 12; // taille de base ajustée
-                
-                return (
-                  <div
-                    key={i}
-                    className={\`w-[2px] rounded-full transition-all duration-150 \${
-                      isBig
-                        ? "bg-black/80 dark:bg-white/80"
-                        : "bg-gray-300 dark:bg-gray-500"
-                    }\`}
-                    style={{
-                      height: baseHeight * scale,
-                    }}
-                  />
-                );
-              }), [mouseX])
-            }
-          </div>
-
-          {/* --- Curseur de progression --- */}
-          <div
-            className="absolute pointer-events-none flex items-center"
-            style={{
-              left: \`\${scrollProgress}%\`,
-              transform: "translateX(-50%)",
-              top: 0,
-              bottom: 0,
-            }}
-          >
-            <div
-              className={\`w-[3px] h-[24px] \${currentColor} rounded-full shadow-md\`}
-            />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}`, "source")}
+                onClick={() => copyToClipboard(generateSourceCode, "source")}
                 className="absolute top-2 right-2"
               >
                 {copied === "source" ? (
@@ -598,29 +474,12 @@ export default function Scrollbar({
             </div>
           </CardContent>
         </Card>
-
-        {/* Espace pour la démo */}
-        <div className="h-96 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-background dark:to-muted rounded-lg flex items-center justify-center text-lg font-medium">
-          <div className="text-center space-y-2">
-            <Code className="h-12 w-12 mx-auto text-blue-500" />
-            <p>Section de démonstration</p>
-            <p className="text-sm text-muted-foreground">Scroll pour voir la ScrollBar en action</p>
-          </div>
-        </div>
-
-        <div className="h-96 bg-gradient-to-br from-green-100 to-green-200 dark:from-background dark:to-muted rounded-lg flex items-center justify-center text-lg font-medium">
-          <div className="text-center space-y-2">
-            <Download className="h-12 w-12 mx-auto text-green-500" />
-            <p>Prêt à utiliser</p>
-            <p className="text-sm text-muted-foreground">Copiez le code et intégrez-le dans votre projet</p>
-          </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
       {/* ScrollBar de démonstration */}
       <Scrollbar 
         currentPosition={selectedPosition}
-        currentColor={colorOptions.find(c => c.value === selectedColor)?.class || "bg-orange-500 dark:bg-orange-400"}
+        currentColor={selectedColorClass}
         currentSize={{ width: "w-[300px]", height: "h-[30px]" }}
       />
     </div>
