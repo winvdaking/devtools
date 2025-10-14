@@ -170,7 +170,7 @@ export default function Scrollbar({
         className="bg-stone-50/95 dark:bg-background backdrop-blur-sm px-3 py-1 border border-stone-200/50 dark:border-stone-700/50"
         style={{
           boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-          borderRadius: 16,
+          borderRadius: 14,
         }}
       >
         <div
@@ -184,14 +184,27 @@ export default function Scrollbar({
               Array.from({ length: 41 }, (_, i) => {
                 const markProgress = (i / 40) * 100;
                 const dist = Math.abs(markProgress - mouseX);
-                const scale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1;
-                const isBig = i === 0 || i === 40 || i % 5 === 0;
-                const isEnd = i === 0 || i === 40;
-                const baseHeight = isEnd ? 14 : isBig ? 16 : 12;
+                const distFromCursor = Math.abs(markProgress - scrollProgress);
+                
+                // Effet de proximité pour la souris
+                const mouseScale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1;
+                
+                // Effet de proximité identique pour le curseur de progression
+                const cursorScale = distFromCursor < 2 ? 1.8 : distFromCursor < 5 ? 1.4 : 1;
+                
+                // Prendre le plus grand des deux effets
+                const rawScale = Math.max(mouseScale, cursorScale);
+                
+                // Les traits de fin (0 et 40) ne sont plus spéciaux, ils suivent la même logique
+                const isBig = i % 5 === 0; // Seuls les traits tous les 5 sont plus gros
+                const baseHeight = isBig ? 16 : 12; // Taille uniforme pour tous les traits normaux
+                
+                // Limiter l'effet de proximité pour les traits "bigs"
+                const scale = isBig ? Math.min(rawScale, 1.2) : rawScale;
                 
                 return (
                   <div
-            key={i}
+                    key={i}
                     className={\`w-[2px] rounded-full transition-all duration-150 \${
                       isBig
                         ? "bg-black/80 dark:bg-white/80"
@@ -202,7 +215,7 @@ export default function Scrollbar({
                     }}
                   />
                 );
-              }), [mouseX])
+              }), [mouseX, scrollProgress])
             }
           </div>
 
@@ -217,7 +230,7 @@ export default function Scrollbar({
             }}
           >
             <div
-              className={\`w-[3px] h-[24px] \${currentColor} rounded-full shadow-md\`}
+              className={\`w-[4px] h-[24px] \${currentColor} rounded-full shadow-md\`}
             />
           </div>
         </div>
@@ -441,6 +454,7 @@ export default function Scrollbar({
               </Button>
             </div>
           </CardContent>
+          
         </Card>
 
         {/* Fonctionnalités */}
