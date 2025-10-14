@@ -153,7 +153,7 @@ export function SimonSays() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -164,7 +164,7 @@ export function SimonSays() {
             Mémorisez et reproduisez la séquence de couleurs. À quel niveau arriverez-vous ?
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
           {/* Niveau actuel */}
           <div className="flex justify-between items-center">
             <div className="text-center">

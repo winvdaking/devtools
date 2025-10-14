@@ -156,7 +156,7 @@ export function SqlFormatter() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-6"
+      className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16"
     >
       <div className="flex items-center space-x-2">
         <Database className="h-6 w-6 text-primary" />

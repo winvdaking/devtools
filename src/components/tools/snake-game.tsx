@@ -183,7 +183,7 @@ export function SnakeGame() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -194,7 +194,7 @@ export function SnakeGame() {
             Utilisez les flèches du clavier ou les boutons pour diriger le serpent. Ne touchez pas les murs !
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
           {/* Score actuel */}
           <div className="flex justify-between items-center">
             <div className="text-center">

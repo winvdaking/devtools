@@ -48,16 +48,16 @@ import {
 // Outils populaires avec leurs IDs pour la navigation
 const popularTools = [
   { id: "qr-generator", name: "QR Generator", icon: QrCode, popular: true },
-  { id: "markdown-to-discord", name: "Markdown to Discord", icon: FileText, popular: true },
-  { id: "git-cheatsheet", name: "Git Cheatsheet", icon: GitBranch, popular: true },
-  { id: "readme-generator", name: "README Generator", icon: FileText, popular: true },
+  { id: "markdown-to-discord", name: "Markdown vers Discord", icon: FileText, popular: true },
+  { id: "git-cheatsheet", name: "Cheatsheet Git", icon: GitBranch, popular: true },
+  { id: "readme-generator", name: "Générateur README", icon: FileText, popular: true },
   { id: "password-generator", name: "Password Generator", icon: Lock, popular: true },
 ];
 
 const toolCategories = [
   {
     id: "cheatsheets",
-    name: "Cheatsheets Tech",
+    name: "Cheatsheets",
     description: "Références des technologies de développement",
     icon: BookOpen,
     tools: [
@@ -83,9 +83,9 @@ const toolCategories = [
       { id: "xml-formatter", name: "XML Formatter", icon: FileCode },
       { id: "yaml-formatter", name: "YAML Formatter", icon: FileText },
       { id: "sql-formatter", name: "SQL Formatter", icon: Database },
-      { id: "text-converter", name: "Text Converter", icon: Type },
-      { id: "spell-checker", name: "Spell Checker", icon: BookOpen },
-      { id: "text-reformulator", name: "Text Reformulator", icon: RefreshCw },
+      { id: "text-converter", name: "Convertisseur de Texte", icon: Type },
+      { id: "spell-checker", name: "Correcteur Orthographique", icon: BookOpen },
+      { id: "text-reformulator", name: "Reformulateur de Texte", icon: RefreshCw },
       { id: "json-to-csv", name: "JSON to CSV", icon: FileSpreadsheet },
     ],
   },
@@ -95,11 +95,11 @@ const toolCategories = [
     description: "Outils d'encodage, hachage et sécurité",
     icon: Shield,
     tools: [
-      { id: "base64", name: "Base64 Encoder/Decoder", icon: Binary, popular: true },
-      { id: "hash-encrypt", name: "Hash & Encrypt", icon: Hash, popular: true },
+      { id: "base64", name: "Encodeur/Décodeur Base64", icon: Binary, popular: true },
+      { id: "hash-encrypt", name: "Hachage & Chiffrement", icon: Hash, popular: true },
       { id: "url-encoder", name: "URL Encoder/Decoder", icon: Link, popular: true },
       { id: "html-escape", name: "HTML Escape", icon: Code },
-      { id: "basic-auth", name: "Basic Auth Generator", icon: Shield },
+      { id: "basic-auth", name: "Générateur Basic Auth", icon: Shield },
       { id: "jwt-parser", name: "JWT Parser", icon: Key },
     ],
   },
@@ -110,10 +110,10 @@ const toolCategories = [
     icon: Zap,
     tools: [
       { id: "uuid-generator", name: "UUID Generator", icon: Key, popular: true },
-      { id: "random-port", name: "Random Port Generator", icon: Network },
-      { id: "crontab-generator", name: "Crontab Generator", icon: Clock },
-      { id: "slugify", name: "Slugify String", icon: Type },
-      { id: "mock-data-generator", name: "Mock Data Generator", icon: Database },
+      { id: "random-port", name: "Générateur de Ports", icon: Network },
+      { id: "crontab-generator", name: "Générateur Crontab", icon: Clock },
+      { id: "slugify", name: "Générateur de Slug", icon: Type },
+      { id: "mock-data-generator", name: "Générateur de Données", icon: Database },
       { id: "password-generator", name: "Password Generator", icon: Lock, popular: true },
       { id: "qr-generator", name: "QR Generator", icon: QrCode, popular: true },
       { id: "lorem-ipsum-generator", name: "Lorem Ipsum", icon: Type, popular: true },
@@ -125,12 +125,12 @@ const toolCategories = [
     description: "Outils pratiques et utilitaires",
     icon: Monitor,
     tools: [
-      { id: "date-formatter", name: "Date Formatter", icon: Calendar },
+      { id: "date-formatter", name: "Formateur de Dates", icon: Calendar },
       { id: "url-parser", name: "URL Parser", icon: Globe },
-      { id: "device-info", name: "Device Information", icon: Monitor },
-      { id: "email-normalizer", name: "Email Normalizer", icon: Mail },
-      { id: "chmod-calculator", name: "Chmod Calculator", icon: Shield },
-      { id: "docker-converter", name: "Docker Converter", icon: Ship },
+      { id: "device-info", name: "Info Appareil", icon: Monitor },
+      { id: "email-normalizer", name: "Normalisateur Email", icon: Mail },
+      { id: "chmod-calculator", name: "Calculateur Chmod", icon: Shield },
+      { id: "docker-converter", name: "Convertisseur Docker", icon: Ship },
     ],
   },
   {
@@ -139,12 +139,12 @@ const toolCategories = [
     description: "Outils pour le développement",
     icon: Code,
     tools: [
-      { id: "bundle-analyzer", name: "Bundle Analyzer", icon: BarChart3 },
+      { id: "bundle-analyzer", name: "Analyseur de Bundle", icon: BarChart3 },
       { id: "graphql-playground", name: "GraphQL Playground", icon: Webhook },
-      { id: "color-palette-generator", name: "Color Palette Generator", icon: Palette },
-      { id: "css-grid-generator", name: "CSS Grid Generator", icon: Grid },
-      { id: "console-log-beautifier", name: "Console Log Beautifier", icon: Terminal },
-      { id: "error-stack-parser", name: "Error Stack Parser", icon: AlertTriangle },
+      { id: "color-palette-generator", name: "Générateur de Palette", icon: Palette },
+      { id: "css-grid-generator", name: "Générateur CSS Grid", icon: Grid },
+      { id: "console-log-beautifier", name: "Beautificateur de Logs", icon: Terminal },
+      { id: "error-stack-parser", name: "Analyseur d'Erreurs", icon: AlertTriangle },
     ],
   },
   {
@@ -154,7 +154,7 @@ const toolCategories = [
     icon: Sparkles,
     tools: [
       { id: "ascii-art", name: "ASCII Art", icon: FileImage, popular: true },
-      { id: "emoji-picker", name: "Emoji Picker", icon: Sparkles },
+      { id: "emoji-picker", name: "Sélecteur d'Émojis", icon: Sparkles },
     ],
   },
   {
@@ -164,9 +164,9 @@ const toolCategories = [
     icon: BookOpen,
     tools: [
       { id: "mime-types", name: "MIME Types", icon: FileType },
-      { id: "keycode-info", name: "Keycode Info", icon: Keyboard },
+      { id: "keycode-info", name: "Info Touches Clavier", icon: Keyboard },
       { id: "http-status", name: "HTTP Status Codes", icon: Globe },
-      { id: "regex-tester", name: "Regex Tester", icon: Search },
+      { id: "regex-tester", name: "Testeur Regex", icon: Search },
     ],
   },
 ];
@@ -183,7 +183,7 @@ export default function Homepage({ onToolSelect }: HomepageProps) {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-4 sm:p-8 md:p-12 lg:p-16">
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-3 mb-4">

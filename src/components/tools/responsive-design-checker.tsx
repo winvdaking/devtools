@@ -381,7 +381,7 @@ export function ResponsiveDesignChecker() {
   };
 
   return (
-    <div className={`space-y-6 ${isFullscreen ? 'h-screen overflow-y-auto p-4 bg-gray-50' : ''}`} ref={containerRef}>
+    <div className={`space-y-6 p-4 sm:p-8 md:p-12 lg:p-16 ${isFullscreen ? 'h-screen overflow-y-auto p-4 bg-gray-50' : ''}`} ref={containerRef}>
       {/* Indicateur plein écran */}
       {isFullscreen && (
         <div className="fixed top-4 right-4 z-50 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">

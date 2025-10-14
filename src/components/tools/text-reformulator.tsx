@@ -337,7 +337,7 @@ export default function TextReformulator() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
       <div>
         <h2 className="text-2xl font-bold font-kantumruy-pro mb-2">
           Reformulateur de Texte

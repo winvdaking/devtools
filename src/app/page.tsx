@@ -200,7 +200,7 @@ export default function HomePage() {
       {/* Zone de contenu principale */}
       <main className="flex-1 overflow-auto">
         <div className={cn(
-          "container mx-auto p-4 sm:p-6 lg:p-8",
+          "container mx-auto",
           // Largeur optimisée selon le type d'outil
           activeTool.includes('cheatsheet') || activeTool === 'cheatsheets' 
             ? "max-w-4xl" // Plus étroit pour les cheatsheets

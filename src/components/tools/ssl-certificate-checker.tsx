@@ -214,7 +214,7 @@ export function SSLCertificateChecker() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">

@@ -79,7 +79,7 @@ const toolCategories: ToolCategory[] = [
   },
   {
     id: "components",
-    name: "Components UI",
+    name: "Composants UI",
     description: "Composants UI réutilisables",
     tools: [
       {
@@ -175,7 +175,7 @@ const toolCategories: ToolCategory[] = [
     tools: [
       {
         id: "bundle-analyzer",
-        name: "Bundle Analyzer",
+        name: "Analyseur de Bundle",
         description: "Analyse de la taille des bundles",
         icon: BarChart3,
         category: "development",
@@ -189,7 +189,7 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "color-palette-generator",
-        name: "Color Palette Generator",
+        name: "Générateur de Palette",
         description: "Génération de palettes de couleurs",
         icon: Palette,
         category: "development",
@@ -203,28 +203,28 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "console-log-beautifier",
-        name: "Console Log Beautifier",
+        name: "Beautificateur de Logs",
         description: "Formatage des logs console",
         icon: Terminal,
         category: "development",
       },
       {
         id: "error-stack-parser",
-        name: "Error Stack Parser",
+        name: "Analyseur d'Erreurs",
         description: "Analyse des traces d'erreur",
         icon: AlertTriangle,
         category: "development",
       },
       {
         id: "responsive-design-checker",
-        name: "Responsive Design Checker",
+        name: "Vérificateur Responsive",
         description: "Vérificateur de design responsive",
         icon: Monitor,
         category: "development",
       },
       {
         id: "performance-monitor",
-        name: "Performance Monitor",
+        name: "Moniteur de Performance",
         description: "Moniteur de performance web",
         icon: BarChart3,
         category: "development",
@@ -238,14 +238,14 @@ const toolCategories: ToolCategory[] = [
     tools: [
       {
         id: "base64",
-        name: "Base64 Encoder/Decoder",
+        name: "Encodeur/Décodeur Base64",
         description: "Encodage/décodage Base64",
         icon: Binary,
         category: "encoding",
       },
       {
         id: "hash-encrypt",
-        name: "Hash & Encrypt",
+        name: "Hachage & Chiffrement",
         description: "Hachage et chiffrement",
         icon: Shield,
         category: "encoding",
@@ -266,7 +266,7 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "basic-auth",
-        name: "Basic Auth Generator",
+        name: "Générateur Basic Auth",
         description: "Génération d'authentification basique",
         icon: Shield,
         category: "encoding",
@@ -280,14 +280,14 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "password-generator",
-        name: "Password Generator",
+        name: "Générateur de Mots de Passe",
         description: "Générateur de mots de passe sécurisés",
         icon: Shield,
         category: "encoding",
       },
       {
         id: "security-headers-checker",
-        name: "Security Headers Checker",
+        name: "Vérificateur d'En-têtes",
         description: "Vérificateur d'en-têtes de sécurité",
         icon: Shield,
         category: "encoding",
@@ -308,28 +308,28 @@ const toolCategories: ToolCategory[] = [
     tools: [
       {
         id: "markdown-to-html",
-        name: "Markdown to HTML",
+        name: "Markdown vers HTML",
         description: "Conversion Markdown vers HTML",
         icon: FileText,
         category: "formatting",
       },
       {
         id: "markdown-to-discord",
-        name: "Markdown to Discord",
+        name: "Markdown vers Discord",
         description: "Conversion Markdown vers Discord",
         icon: DiscordIcon,
         category: "formatting",
       },
       {
         id: "markdown-to-slack",
-        name: "Markdown to Slack",
+        name: "Markdown vers Slack",
         description: "Conversion Markdown vers Slack",
         icon: Hash,
         category: "formatting",
       },
       {
         id: "markdown-to-jira",
-        name: "Markdown to Jira",
+        name: "Markdown vers Jira",
         description: "Conversion Markdown vers Jira",
         icon: Bug,
         category: "formatting",
@@ -364,7 +364,7 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "text-converter",
-        name: "Text Converter",
+        name: "Convertisseur de Texte",
         description: "Conversion et transformation de texte",
         icon: Type,
         category: "formatting",
@@ -399,7 +399,7 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "changelog-generator",
-        name: "Changelog Generator",
+        name: "Générateur de Changelog",
         description: "Générateur de changelogs",
         icon: Calendar,
         category: "formatting",
@@ -420,28 +420,28 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "random-port",
-        name: "Random Port Generator",
+        name: "Générateur de Ports",
         description: "Génération de ports aléatoires",
         icon: Network,
         category: "generators",
       },
       {
         id: "crontab-generator",
-        name: "Crontab Generator",
+        name: "Générateur Crontab",
         description: "Génération d'expressions cron",
         icon: Clock,
         category: "generators",
       },
       {
         id: "slugify",
-        name: "Slugify String",
+        name: "Générateur de Slug",
         description: "Génération de slugs URL",
         icon: Hash,
         category: "generators",
       },
       {
         id: "mock-data-generator",
-        name: "Mock Data Generator",
+        name: "Générateur de Données",
         description: "Génération de données de test",
         icon: Database,
         category: "generators",
@@ -462,21 +462,21 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "string-obfuscator",
-        name: "String Obfuscator",
+        name: "Obfuscateur de Texte",
         description: "Obfuscation et chiffrement de texte",
         icon: Shuffle,
         category: "generators",
       },
       {
         id: "emoji-picker",
-        name: "Emoji Picker",
+        name: "Sélecteur d'Émojis",
         description: "Sélecteur d'émojis et icônes",
         icon: Smile,
         category: "generators",
       },
       {
         id: "lorem-ipsum-generator",
-        name: "Lorem Ipsum Generator",
+        name: "Générateur Lorem Ipsum",
         description: "Génération de texte de remplissage",
         icon: FileText,
         category: "generators",
@@ -490,7 +490,7 @@ const toolCategories: ToolCategory[] = [
     tools: [
       {
         id: "memory-game",
-        name: "Memory Game",
+        name: "Jeu de Mémoire",
         description: "Jeu de mémoire avec paires",
         icon: Gamepad2,
         category: "games",
@@ -511,14 +511,14 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "simon-says",
-        name: "Simon Says",
+        name: "Simon Dit",
         description: "Mémorisation de séquences",
         icon: Palette,
         category: "games",
       },
       {
         id: "tic-tac-toe",
-        name: "Tic-Tac-Toe",
+        name: "Morpion",
         description: "Morpion avec IA",
         icon: Hash,
         category: "games",
@@ -539,7 +539,7 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "keycode-info",
-        name: "Keycode Info",
+        name: "Info Touches Clavier",
         description: "Informations sur les touches clavier",
         icon: Keyboard,
         category: "reference",
@@ -553,7 +553,7 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "regex-tester",
-        name: "Regex Tester",
+        name: "Testeur Regex",
         description: "Testeur d'expressions régulières",
         icon: Search,
         category: "reference",
@@ -567,7 +567,7 @@ const toolCategories: ToolCategory[] = [
     tools: [
       {
         id: "date-formatter",
-        name: "Date Formatter",
+        name: "Formateur de Dates",
         description: "Formatage et conversion de dates",
         icon: Calendar,
         category: "utilities",
@@ -581,28 +581,28 @@ const toolCategories: ToolCategory[] = [
       },
       {
         id: "device-info",
-        name: "Device Information",
+        name: "Info Appareil",
         description: "Informations sur l'appareil",
         icon: Monitor,
         category: "utilities",
       },
       {
         id: "email-normalizer",
-        name: "Email Normalizer",
+        name: "Normalisateur Email",
         description: "Normalisation d'adresses email",
         icon: Mail,
         category: "utilities",
       },
       {
         id: "chmod-calculator",
-        name: "Chmod Calculator",
+        name: "Calculateur Chmod",
         description: "Calculateur de permissions Unix",
         icon: Shield,
         category: "utilities",
       },
       {
         id: "docker-converter",
-        name: "Docker Converter",
+        name: "Convertisseur Docker",
         description: "Convertisseur de formats Docker",
         icon: Ship,
         category: "utilities",

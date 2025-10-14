@@ -1,125 +1,139 @@
-"use client";
-
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
-interface ScrollBarProps {
-  activeSection?: number;
-  showScrollCard?: boolean;
-}
-
-export const ScrollBar = ({ activeSection = 0, showScrollCard = false }: ScrollBarProps = {}) => {
+export default function Scrollbar({
+  className = "",
+  currentPosition = "bottom-6 right-6",
+  currentColor = "bg-black dark:bg-white",
+  currentSize = { width: "w-[300px]", height: "h-[32px]" },
+}) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [mouseX, setMouseX] = useState(0);
+  const [showScrollCard, setShowScrollCard] = useState(true);
 
-  // Calculer le pourcentage de scroll
+  // --- calcul du scroll du conteneur
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      setScrollProgress(Math.min(100, Math.max(0, progress)));
+      // Trouver le conteneur de scroll (celui avec overflow-y-scroll)
+      const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
+      
+      if (scrollContainer) {
+        const scrollTop = scrollContainer.scrollTop;
+        const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+        setScrollProgress(Math.min(100, Math.max(0, progress)));
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial call
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Écouter le scroll du conteneur spécifique
+    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
+    if (scrollContainer) {
+      scrollContainer.addEventListener("scroll", handleScroll);
+      handleScroll();
+      
+      return () => {
+        scrollContainer.removeEventListener("scroll", handleScroll);
+      };
+    }
   }, []);
 
-  // Suivre la position de la souris
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  // --- gestion du clic sur la timeline pour scroller le conteneur
+  const handleTimelineClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = (x / rect.width) * 100;
-    setMouseX(percentage);
-  };
+    const clickX = e.clientX - rect.left;
+    const newProgress = (clickX / rect.width) * 100;
 
-  // Gérer le clic sur la timeline
-  const handleTimelineClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Trouver le conteneur de scroll et faire défiler
+    const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
+    if (scrollContainer) {
+      const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+      const newScrollY = (newProgress / 100) * scrollHeight;
+
+      scrollContainer.scrollTo({
+        top: newScrollY,
+        behavior: "smooth",
+      });
+    }
+  }, []);
+
+  // --- détection du hover pour effet de proximité
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = (x / rect.width) * 100;
-    const scrollTo = (percentage / 100) * (document.documentElement.scrollHeight - window.innerHeight);
-    window.scrollTo({ top: scrollTo, behavior: "smooth" });
-  };
-
-  // Générer les traits verticaux (timeline marks)
-  const timelineMarks = Array.from({ length: 40 }, (_, i) => i);
+    const mousePos = ((e.clientX - rect.left) / rect.width) * 100;
+    setMouseX(mousePos);
+  }, []);
 
   return (
-    <>
-      {/* ScrollBar horizontale - Carte blanche avec timeline */}
       <motion.div
-        className="fixed bottom-4 right-4 z-50"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        className={`fixed ${currentPosition} z-50 ${className}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: showScrollCard ? 1 : 0, y: showScrollCard ? 0 : 20 }}
+        transition={{ duration: 0.25 }}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setMouseX(-100); // Réinitialiser à une valeur qui ne correspond à aucun trait
+        }}
+        aria-hidden={!showScrollCard}
+        role="presentation"
       >
-        {/* Carte blanche cassée avec bordures légèrement arrondies */}
-        <motion.div
-          className="bg-stone-50/95 dark:bg-stone-800/95 backdrop-blur-sm px-4 py-1 border border-stone-200/50 dark:border-stone-700/50"
-          style={{
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04)",
-            borderRadius: "16px",
-          }}
+      <div
+        className="bg-stone-50/95 dark:bg-stone-800/95 backdrop-blur-sm px-3 py-1 border border-stone-200/50 dark:border-stone-700/50"
+        style={{
+          boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+          borderRadius: 16,
+        }}
+      >
+        <div
+          className={`relative ${currentSize.width} ${currentSize.height} flex items-center justify-center cursor-pointer`}
+          onClick={handleTimelineClick}
+          onMouseMove={handleMouseMove}
         >
-          {/* Timeline horizontale avec traits */}
-          <div 
-            className="relative w-[240px] h-8 flex items-center justify-center cursor-pointer"
-            onClick={handleTimelineClick}
-            onMouseMove={handleMouseMove}
-          >
-            {/* Traits verticaux */}
-            <div className="absolute inset-0 flex items-center justify-between px-1">
-              {timelineMarks.map((mark, index) => {
-                const markProgress = (mark / (timelineMarks.length - 1)) * 100;
-                const isNearMouse = isHovered && Math.abs(markProgress - mouseX) < 4;
-                // Premier et dernier trait sont toujours grands, puis tous les 5
-                const isBigMark = index === 0 || index === timelineMarks.length - 1 || mark % 5 === 0;
+          {/* --- Traits de la scrollbar --- */}
+          <div className="absolute inset-0 flex items-center justify-between px-1 pointer-events-none">
+            {useMemo(() => 
+              Array.from({ length: 41 }, (_, i) => {
+                const markProgress = (i / 40) * 100;
+                const dist = Math.abs(markProgress - mouseX);
+                const scale = dist < 2 ? 1.8 : dist < 5 ? 1.4 : 1; // effet de proximité plus prononcé
+                const isBig = i === 0 || i === 40 || i % 5 === 0;
+                const isEnd = i === 0 || i === 40; // traits de début et fin
+                const baseHeight = isEnd ? 14 : isBig ? 16 : 12; // taille de base ajustée
                 
                 return (
-                  <motion.div
-                    key={mark}
-                    className={`w-[1.5px] rounded-full transition-all duration-200 ${
-                      isBigMark
-                        ? "bg-black/50 dark:bg-white/50"
+                  <div
+                    key={i}
+                    className={`w-[2px] rounded-full transition-all duration-150 ${
+                      isBig
+                        ? "bg-black/80 dark:bg-white/80"
                         : "bg-gray-300 dark:bg-gray-500"
                     }`}
                     style={{
-                      height: isNearMouse
-                        ? "24px" 
-                        : isBigMark
-                        ? "16px" 
-                        : "12px",
+                      height: baseHeight * scale,
                     }}
-                    animate={{
-                      scaleY: isNearMouse ? 1.2 : 1,
-                    }}
-                    transition={{ duration: 0.15 }}
                   />
                 );
-              })}
-            </div>
-
-            {/* Curseur orange à la position de scroll */}
-            <div
-              className="absolute pointer-events-none flex items-center"
-              style={{ 
-                left: `${scrollProgress}%`,
-                top: "0",
-                bottom: "0",
-                transform: "translateX(-50%)"
-              }}
-            >
-              <div className="w-[3px] h-[28px] bg-orange-500 dark:bg-orange-400 rounded-full shadow-md" />
-            </div>
+              }), [mouseX])
+            }
           </div>
-        </motion.div>
-      </motion.div>
-    </>
-  );
-};
 
+          {/* --- Curseur de progression --- */}
+          <div
+            className="absolute pointer-events-none flex items-center"
+            style={{
+              left: `${scrollProgress}%`,
+              transform: "translateX(-50%)",
+              top: 0,
+              bottom: 0,
+            }}
+          >
+            <div
+              className={`w-[3px] h-[24px] ${currentColor} rounded-full shadow-md`}
+            />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}

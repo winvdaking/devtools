@@ -193,7 +193,7 @@ console.debug("Processing request", { method: "GET", url: "/api/users" })
   const filteredLogs = beautifiedLogs.filter((log) => logLevels[log.level]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
       <div className="text-center">
         <h1 className="text-3xl font-bold font-kantumruy-pro mb-2">
           Console Log Beautifier

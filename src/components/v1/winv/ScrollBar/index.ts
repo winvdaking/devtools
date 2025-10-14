@@ -1,3 +1,2 @@
-export { ScrollBar } from "./ScrollBar";
+export { default as ScrollBar } from "./ScrollBar";
 export { Content } from "./Content";
-

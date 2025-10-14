@@ -183,7 +183,7 @@ export function TicTacToe() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -194,7 +194,7 @@ export function TicTacToe() {
             Battez l'IA au morpion ! Vous êtes X, l'IA est O.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
           {/* Statistiques */}
           <div className="grid grid-cols-3 gap-4">
             <Card className="bg-green-500/10">

@@ -171,7 +171,7 @@ export function MemoryGame() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -182,7 +182,7 @@ export function MemoryGame() {
             Trouvez toutes les paires d'emojis en un minimum de coups !
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 p-4 sm:p-8 md:p-12 lg:p-16">
           {/* Statistiques du jeu actuel */}
           <div className="grid grid-cols-3 gap-4">
             <Card className="bg-muted/50">
