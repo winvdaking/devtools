@@ -5,6 +5,7 @@
 
 import { useState } from "react";
 import { Play, RotateCcw, Info } from "lucide-react";
+import Button from "@/components/v1/winv/Button/Button";
 
 interface GraphQLResponse {
   data?: any;
@@ -186,24 +187,30 @@ export default function GraphQLPlayground() {
       <div className="bg-card border rounded-lg p-4">
         <h3 className="font-medium mb-3">Exemples rapides</h3>
         <div className="flex flex-wrap gap-2">
-          <button
+          <Button
             onClick={() => loadExample("github")}
             className="px-3 py-1 text-sm bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-md hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors"
+            variant="secondary"
+            size="sm"
           >
             GitHub API
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => loadExample("countries")}
             className="px-3 py-1 text-sm bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-md hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
+            variant="secondary"
+            size="sm"
           >
             Countries API
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={() => loadExample("rickandmorty")}
             className="px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-md hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
           >
             Rick & Morty API
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -267,22 +274,24 @@ export default function GraphQLPlayground() {
 
       {/* Boutons d'action */}
       <div className="flex items-center space-x-3">
-        <button
+        <Button
+          variant="primary"
           onClick={executeQuery}
           disabled={loading}
-          className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors"
+          className="space-x-2 px-4 py-2 bg-primary dark:bg-primary text-primary-foreground dark:text-foreground rounded-lg hover:bg-primary/90 dark:hover:bg-primary/75 disabled:opacity-50 transition-colors"
+          icon={Play}
         >
-          <Play className="h-4 w-4" />
           <span>{loading ? "Exécution..." : "Exécuter la requête"}</span>
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={clearAll}
-          className="flex items-center space-x-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+          variant="secondary"
+          className="space-x-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+          icon={RotateCcw}
         >
-          <RotateCcw className="h-4 w-4" />
           <span>Effacer</span>
-        </button>
+        </Button>
       </div>
 
       {/* Erreur */}

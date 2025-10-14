@@ -97,17 +97,18 @@ export function BasicAuthGenerator() {
                   placeholder="password123"
                   className="font-mono pr-10"
                 />
-                <button
-                  type="button"
+                <Button
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  variant="ghost"
+                  size="xs"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4 text-muted-foreground" />
                   ) : (
                     <Eye className="h-4 w-4 text-muted-foreground" />
                   )}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

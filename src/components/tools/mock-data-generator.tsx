@@ -5,6 +5,7 @@
 
 import { useState } from "react";
 import { Copy, Download, RefreshCw, Settings, EyeOff } from "lucide-react";
+import { Button } from "@/components/v1/winv";
 
 interface FieldConfig {
   id: string;
@@ -351,9 +352,11 @@ export default function MockDataGenerator() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold">Configuration des champs</h3>
           <div className="flex items-center space-x-2">
-            <button
+            <Button
               onClick={() => setShowSettings(!showSettings)}
               className="flex items-center space-x-2 px-3 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+              variant="secondary"
+              size="sm"
             >
               {showSettings ? (
                 <EyeOff className="h-4 w-4" />
@@ -361,13 +364,15 @@ export default function MockDataGenerator() {
                 <Settings className="h-4 w-4" />
               )}
               <span>{showSettings ? "Masquer" : "Paramètres"}</span>
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={addField}
               className="px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+              variant="primary"
+              size="sm"
             >
               + Ajouter un champ
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -549,12 +554,14 @@ export default function MockDataGenerator() {
 
       {/* Génération */}
       <div className="text-center">
-        <button
+        <Button
           onClick={generateData}
           className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-lg font-medium"
+          variant="primary"
+          size="lg"
         >
           Générer {recordCount} enregistrements
-        </button>
+        </Button>
       </div>
 
       {/* Résultats */}

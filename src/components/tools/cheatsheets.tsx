@@ -18,6 +18,7 @@ import {
   Monitor,
   Network,
 } from "lucide-react";
+import { Button } from "@/components/v1/winv";
 
 // Import des cheatsheets depuis les fichiers séparés
 import { allCheatSheets } from "../../data/cheatsheets";
@@ -86,7 +87,7 @@ export default function Cheatsheets() {
       {/* Onglets */}
       <div className="flex flex-wrap gap-2 border-b">
         {cheatsheets.map((cheatsheet, index) => (
-          <button
+          <Button
             key={cheatsheet.name}
             onClick={() => setActiveTab(index)}
             className={`flex items-center gap-2 px-4 py-2 rounded-t-lg transition-colors ${
@@ -94,10 +95,12 @@ export default function Cheatsheets() {
                 ? "bg-primary text-primary-foreground"
                 : "hover:bg-muted"
             }`}
+            variant="ghost"
+            size="sm"
           >
             {cheatsheet.icon}
             {cheatsheet.name}
-          </button>
+          </Button>
         ))}
       </div>
 

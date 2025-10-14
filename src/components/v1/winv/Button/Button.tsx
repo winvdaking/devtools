@@ -7,8 +7,9 @@ import { LucideIcon } from "lucide-react";
 interface ButtonProps {
   children?: React.ReactNode;
   icon?: LucideIcon;
+  classIcon?: string;
   variant?: "default" | "primary" | "secondary" | "ghost" | "destructive";
-  size?: "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   className?: string;
   onClick?: () => void;
   disabled?: boolean;
@@ -22,6 +23,7 @@ interface ButtonProps {
 export default function Button({
   children,
   icon: Icon,
+  classIcon = "",
   variant = "default",
   size = "md",
   className = "",
@@ -47,7 +49,7 @@ export default function Button({
 
   // Gestion des variants
   const getVariantClasses = () => {
-    const baseClasses = "relative flex items-center justify-center rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+    const baseClasses = "flex items-center justify-center rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
     
     const variants = {
       default: "bg-white text-gray-900 shadow-sm border border-gray-200 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700 dark:hover:bg-gray-700",
@@ -58,9 +60,10 @@ export default function Button({
     };
 
     const sizes = {
-      sm: "h-8 px-3 text-sm",
-      md: "h-10 px-4 text-sm",
-      lg: "h-12 px-6 text-base",
+      xs: "h-6 px-1.5 text-sm",
+      sm: "h-8 px-2 text-sm",
+      md: "h-10 px-3 text-sm",
+      lg: "h-12 px-4 text-base",
     };
 
     return `${baseClasses} ${variants[variant]} ${sizes[size]}`;
@@ -209,18 +212,18 @@ export default function Button({
         {/* Icône */}
         {Icon && !loading && (
           <motion.div
-            className="flex items-center justify-center"
-            animate={isHovered ? { scale: 1.05 } : { scale: 1 }}
+            animate={isHovered ? { scale: 1.02 } : { scale: 1 }}
             transition={{ duration: 0.1 }}
+            style={{ transformOrigin: "center" }}
           >
-            <Icon className="w-4 h-4" />
+            <Icon className={`w-4 h-4 ${classIcon}`} />
           </motion.div>
         )}
 
         {/* Texte */}
         {children && (
           <motion.span
-            animate={isHovered ? { scale: 1.02 } : { scale: 1 }}
+            animate={isHovered ? { scale: 1.01 } : { scale: 1 }}
             transition={{ duration: 0.1 }}
           >
             {children}

@@ -21,6 +21,7 @@ import {
   Copy,
   Check,
 } from "lucide-react";
+import Button from "../v1/winv/Button/Button";
 
 // Mapping des icônes par nom
 const iconMap: Record<string, React.ReactNode> = {
@@ -117,15 +118,16 @@ export default function IndividualCheatsheet({
                       <div className="bg-muted rounded p-3 font-mono text-sm overflow-x-auto">
                         <pre className="whitespace-pre-wrap">{item.code}</pre>
                       </div>
-                      <button
+                      <Button
+                        size="xs"
                         onClick={() =>
                           copyToClipboard(
                             item.code!,
                             `code-${sectionIndex}-${itemIndex}`
                           )
                         }
-                        className="absolute top-2 right-2 p-1.5 rounded-md bg-background/80 hover:bg-background border transition-colors"
-                        title="Copier le code"
+                        className="absolute top-2 right-2 rounded-md bg-background/80 hover:bg-background border transition-colors"
+                        tooltip="Copier le code"
                       >
                         {copiedItems.has(
                           `code-${sectionIndex}-${itemIndex}`
@@ -134,7 +136,7 @@ export default function IndividualCheatsheet({
                         ) : (
                           <Copy className="w-3 h-3" />
                         )}
-                      </button>
+                      </Button>
                     </div>
                   )}
 
@@ -152,19 +154,20 @@ export default function IndividualCheatsheet({
                               <div className="flex-1 bg-muted rounded p-2 font-mono text-xs">
                                 {example}
                               </div>
-                              <button
+                              <Button
+                                size="xs"
                                 onClick={() =>
                                   copyToClipboard(example, exampleId)
                                 }
                                 className="p-1.5 rounded-md hover:bg-accent transition-colors"
-                                title="Copier l'exemple"
+                                tooltip="Copier l'exemple"
                               >
                                 {copiedItems.has(exampleId) ? (
                                   <Check className="w-3 h-3 text-green-500" />
                                 ) : (
                                   <Copy className="w-3 h-3" />
                                 )}
-                              </button>
+                              </Button>
                             </div>
                           );
                         })}

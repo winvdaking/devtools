@@ -266,7 +266,7 @@ export function SnakeGame() {
               onClick={() => handleDirectionClick({ x: 0, y: -1 })}
               disabled={!isPlaying || gameOver}
               variant="default"
-              size="icon"
+              size="sm"
               className="touch-manipulation"
             >
               ↑
@@ -276,7 +276,7 @@ export function SnakeGame() {
                 onClick={() => handleDirectionClick({ x: -1, y: 0 })}
                 disabled={!isPlaying || gameOver}
                 variant="default"
-                size="icon"
+                size="sm"
                 className="touch-manipulation"
               >
                 ←
@@ -285,7 +285,7 @@ export function SnakeGame() {
                 onClick={() => handleDirectionClick({ x: 0, y: 1 })}
                 disabled={!isPlaying || gameOver}
                 variant="default"
-                size="icon"
+                size="sm"
                 className="touch-manipulation"
               >
                 ↓
@@ -294,7 +294,7 @@ export function SnakeGame() {
                 onClick={() => handleDirectionClick({ x: 1, y: 0 })}
                 disabled={!isPlaying || gameOver}
                 variant="default"
-                size="icon"
+                size="sm"
                 className="touch-manipulation"
               >
                 →

@@ -5,6 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { Copy, Download, RefreshCw, Eye, EyeOff } from "lucide-react";
+import Button from "@/components/v1/winv/Button/Button";
 
 interface Color {
   hex: string;
@@ -335,13 +336,15 @@ export default function ColorPaletteGenerator() {
               className="flex-1 px-3 py-2 border rounded-lg bg-background font-mono text-sm"
               placeholder="#3B82F6"
             />
-            <button
+            <Button
               onClick={randomColor}
-              className="px-3 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
-              title="Couleur aléatoire"
+              className="space-x-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+              variant="secondary"
+              icon={RefreshCw}
+              tooltip="Couleur aléatoire"
             >
-              <RefreshCw className="h-4 w-4" />
-            </button>
+              <span>Couleur aléatoire</span>
+            </Button>
           </div>
         </div>
 
@@ -364,17 +367,14 @@ export default function ColorPaletteGenerator() {
         </div>
 
         <div className="flex items-end">
-          <button
+          <Button
             onClick={() => setShowNames(!showNames)}
-            className="flex items-center space-x-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+            className="space-x-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+            variant="secondary"
+            icon={showNames ? EyeOff : Eye}
           >
-            {showNames ? (
-              <EyeOff className="h-4 w-4" />
-            ) : (
-              <Eye className="h-4 w-4" />
-            )}
-            <span>{showNames ? "Masquer noms" : "Afficher noms"}</span>
-          </button>
+            {showNames ? "Masquer noms" : "Afficher noms"}
+          </Button>
         </div>
       </div>
 
@@ -431,13 +431,15 @@ export default function ColorPaletteGenerator() {
 
       {/* Actions */}
       <div className="flex justify-center space-x-3">
-        <button
+        <Button
           onClick={downloadPalette}
-          className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          variant="primary"
+          
+          className="space-x-2 px-4 py-2 bg-primary dark:bg-primary text-primary-foreground dark:text-foreground rounded-lg hover:bg-primary/90 dark:hover:bg-primary/75 transition-colors"
+          icon={Download}
         >
-          <Download className="h-4 w-4" />
-          <span>Télécharger CSS</span>
-        </button>
+          Télécharger CSS
+        </Button>
       </div>
 
       {/* Informations sur les types de palettes */}

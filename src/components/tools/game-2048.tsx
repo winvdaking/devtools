@@ -443,18 +443,18 @@ export function Game2048() {
               onClick={() => move('up')}
               disabled={gameOver}
               variant="default"
-              size="icon"
+              size="sm"
             >
               ↑
             </Button>
             <div className="flex gap-2">
-              <Button onClick={() => move('left')} disabled={gameOver} variant="default" size="icon">
+              <Button onClick={() => move('left')} disabled={gameOver} variant="default" size="sm">
                 ←
               </Button>
-              <Button onClick={() => move('down')} disabled={gameOver} variant="default" size="icon">
+              <Button onClick={() => move('down')} disabled={gameOver} variant="default" size="sm">
                 ↓
               </Button>
-              <Button onClick={() => move('right')} disabled={gameOver} variant="default" size="icon">
+              <Button onClick={() => move('right')} disabled={gameOver} variant="default" size="sm">
                 →
               </Button>
             </div>

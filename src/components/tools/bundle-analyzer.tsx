@@ -5,6 +5,7 @@
 
 import { useState } from "react";
 import { Upload, Trash2, Info } from "lucide-react";
+import Button from "@/components/v1/winv/Button/Button";
 
 interface BundleFile {
   name: string;
@@ -165,13 +166,15 @@ export default function BundleAnalyzer() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Analyse des bundles</h2>
-            <button
+            <Button
               onClick={clearAll}
               className="flex items-center space-x-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+              variant="destructive"
+              size="sm"
             >
               <Trash2 className="h-4 w-4" />
               <span>Effacer tout</span>
-            </button>
+            </Button>
           </div>
 
           <div className="space-y-2">
@@ -206,12 +209,14 @@ export default function BundleAnalyzer() {
                       </div>
                     )}
                   </div>
-                  <button
+                  <Button
                     onClick={() => removeBundle(index)}
                     className="p-1 text-muted-foreground hover:text-destructive transition-colors"
+                    variant="destructive"
+                    size="sm"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}

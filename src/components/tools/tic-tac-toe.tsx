@@ -235,15 +235,17 @@ export function TicTacToe() {
             <div className="inline-block bg-muted/50 p-4 rounded-lg">
               <div className="grid grid-cols-3 gap-2">
                 {board.map((cell, index) => (
-                  <button
+                  <Button
                     key={index}
                     onClick={() => handleCellClick(index)}
                     disabled={!!cell || !!winner || !isPlayerTurn}
                     className="w-20 h-20 bg-card border-2 border-border rounded-lg flex items-center justify-center hover:bg-accent transition-all disabled:cursor-not-allowed touch-manipulation"
+                    variant="ghost"
+                    size="lg"
                   >
                     {cell === 'X' && <XIcon className="h-12 w-12 text-blue-500" strokeWidth={3} />}
                     {cell === 'O' && <Circle className="h-12 w-12 text-red-500" strokeWidth={3} />}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

@@ -250,13 +250,15 @@ export function EmojiPicker() {
                 : "grid-cols-1"
             }`}>
               {filteredEmojis.map((emoji, index) => (
-                <button
+                <Button
                   key={index}
                   onClick={() => addToSelection(emoji)}
                   className={`p-2 rounded-md hover:bg-accent transition-colors text-2xl ${
                     viewMode === "list" ? "flex items-center gap-2" : ""
                   }`}
-                  title={`Cliquer pour ajouter: ${emoji}`}
+                  tooltip={`Cliquer pour ajouter: ${emoji}`}
+                  variant="ghost"
+                  size="xs"
                 >
                   {emoji}
                   {viewMode === "list" && (
@@ -264,7 +266,7 @@ export function EmojiPicker() {
                       {emoji}
                     </span>
                   )}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -304,14 +306,16 @@ export function EmojiPicker() {
               <div className="p-4 border rounded-md bg-muted">
                 <div className="flex flex-wrap gap-2">
                   {selectedEmojis.map((emoji, index) => (
-                    <button
+                    <Button
                       key={index}
                       onClick={() => removeFromSelection(index)}
                       className="p-1 rounded hover:bg-background transition-colors text-2xl"
-                      title="Cliquer pour supprimer"
+                      tooltip="Cliquer pour supprimer"
+                      variant="ghost"
+                      size="xs"
                     >
                       {emoji}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>

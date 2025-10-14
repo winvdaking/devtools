@@ -116,8 +116,7 @@ export function Base64() {
             </div>
             
             <div className="flex space-x-2">
-              <Button onClick={switchMode} variant="default" size="sm">
-                <ArrowUpDown className="h-4 w-4 mr-2" />
+              <Button onClick={switchMode} variant="default" size="sm" icon={ArrowUpDown}>
                 Inverser
               </Button>
               <Button onClick={loadSample} variant="default" size="sm">
@@ -194,8 +193,8 @@ export function Base64() {
                     size="sm"
                     onClick={copyToClipboard}
                     className="absolute top-2 right-2"
+                    icon={copied ? Check : Copy}
                   >
-                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   </Button>
                 )}
               </div>
