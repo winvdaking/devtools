@@ -287,12 +287,12 @@ export function RegexTester() {
                 onClick={() => loadSampleRegex(sample)}
                 className="justify-start text-left h-auto p-3"
               >
-                <div>
-                  <div className="font-medium">{sample.name}</div>
-                  <div className="text-xs text-muted-foreground font-mono">
+                <div className="w-full">
+                  <div className="font-medium mb-1">{sample.name}</div>
+                  <div className="text-xs text-muted-foreground font-mono break-all text-left">
                     {sample.regex}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-muted-foreground text-left">
                     {sample.description}
                   </div>
                 </div>
@@ -320,9 +320,9 @@ export function RegexTester() {
                 onClick={() => loadSampleText(sample)}
                 className="justify-start text-left h-auto p-3"
               >
-                <div>
-                  <div className="font-medium">{sample.name}</div>
-                  <div className="text-xs text-muted-foreground">
+                <div className="w-full">
+                  <div className="font-medium mb-1">{sample.name}</div>
+                  <div className="text-xs text-muted-foreground text-left">
                     {sample.text.split('\n')[0]}...
                   </div>
                 </div>
@@ -448,12 +448,10 @@ export function RegexTester() {
           />
 
           <div className="flex flex-wrap gap-2">
-            <Button onClick={testRegex} className="flex-1">
-              <Play className="h-4 w-4 mr-2" />
+            <Button onClick={testRegex} className="flex-1" icon={Play}>
               Tester
             </Button>
-            <Button onClick={clearAll} variant="default">
-              <RefreshCw className="h-4 w-4 mr-2" />
+            <Button onClick={clearAll} variant="default" icon={RefreshCw}>
               Effacer
             </Button>
           </div>
@@ -484,12 +482,8 @@ export function RegexTester() {
                 variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(matches.map(m => m.match).join('\n'), "matches")}
-              >
-                {copied === "matches" ? (
-                  <Check className="h-4 w-4 mr-2" />
-                ) : (
-                  <Copy className="h-4 w-4 mr-2" />
-                )}
+                icon={copied === "matches" ? Check : Copy}
+              > 
                 Copier toutes
               </Button>
             </div>
@@ -527,14 +521,9 @@ export function RegexTester() {
                         </div>
                         <Button
                           variant="default"
-                          size="sm"
                           onClick={() => copyToClipboard(match.match, `match-${index}`)}
+                          icon={copied === `match-${index}` ? Check : Copy}
                         >
-                          {copied === `match-${index}` ? (
-                            <Check className="h-4 w-4 mr-2" />
-                          ) : (
-                            <Copy className="h-4 w-4 mr-2" />
-                          )}
                           Copier
                         </Button>
                       </div>

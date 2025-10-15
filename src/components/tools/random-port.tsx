@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Network, Copy, Check, RefreshCw } from "lucide-react";
+import { Network, Copy, Check, RefreshCw, Plus } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -177,11 +177,10 @@ export function RandomPortGenerator() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Button onClick={generatePorts} className="flex-1">
-              <RefreshCw className="h-4 w-4 mr-2" />
+            <Button onClick={generatePorts} className="flex-1" icon={RefreshCw}>
               Générer {count} ports
             </Button>
-            <Button onClick={generateSinglePort} variant="default">
+            <Button onClick={generateSinglePort} variant="default" icon={Plus}>
               Port unique
             </Button>
           </div>
@@ -202,12 +201,7 @@ export function RandomPortGenerator() {
                 </CardDescription>
               </div>
               {generatedPorts.length > 1 && (
-                <Button onClick={copyAllPorts} variant="default" size="sm">
-                  {copied === "all" ? (
-                    <Check className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Copy className="h-4 w-4 mr-2" />
-                  )}
+                <Button onClick={copyAllPorts} variant="default" icon={copied === "all" ? Check : Copy}>
                   Copier tous
                 </Button>
               )}
@@ -245,15 +239,11 @@ export function RandomPortGenerator() {
                     <Button
                       variant="default"
                       size="sm"
+                      icon={copied === `port-${index}` ? Check : Copy}
                       onClick={() =>
                         copyToClipboard(port.toString(), `port-${index}`)
                       }
                     >
-                      {copied === `port-${index}` ? (
-                        <Check className="h-4 w-4" />
-                      ) : (
-                        <Copy className="h-4 w-4" />
-                      )}
                     </Button>
                   </div>
                 );
@@ -306,7 +296,6 @@ export function RandomPortGenerator() {
               <Button
                 key={preset.label}
                 variant="default"
-                size="sm"
                 onClick={() => {
                   setMinPort(preset.min);
                   setMaxPort(preset.max);

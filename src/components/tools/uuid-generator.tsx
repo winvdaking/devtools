@@ -5,7 +5,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Key, Copy, Check, RefreshCw } from "lucide-react"
+import { Key, Copy, Check, RefreshCw, Trash2 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/v1/winv"
 import { Input } from "@/components/ui/input"
@@ -180,9 +180,8 @@ export function UuidGenerator() {
                 <Button
                   onClick={() => generateItem(generator.id)}
                   className="w-full"
-                  size="sm"
+                  icon={RefreshCw}
                 >
-                  <RefreshCw className="h-4 w-4 mr-2" />
                   Générer
                 </Button>
               </div>
@@ -202,7 +201,7 @@ export function UuidGenerator() {
                   Derniers éléments générés
                 </CardDescription>
               </div>
-              <Button onClick={clearHistory} variant="default" size="sm">
+              <Button onClick={clearHistory} variant="default" icon={Trash2}>
                 Effacer
               </Button>
             </div>
@@ -222,15 +221,10 @@ export function UuidGenerator() {
                   </div>
                   <Button
                     variant="default"
-                    size="sm"
+                    icon={copied === item.id ? Check : Copy}
                     onClick={() => copyToClipboard(item.value, item.id)}
                     className="ml-4 flex-shrink-0"
                   >
-                    {copied === item.id ? (
-                      <Check className="h-4 w-4" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
                   </Button>
                 </div>
               ))}

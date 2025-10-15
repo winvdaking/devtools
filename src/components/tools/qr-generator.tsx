@@ -251,8 +251,8 @@ export function QRGenerator() {
                       size="sm"
                       onClick={() => applyTemplate(template)}
                       className="justify-start"
+                      icon={Icon}
                     >
-                      <Icon className="h-4 w-4 mr-2" />
                       {template.name}
                     </Button>
                   );
@@ -438,9 +438,9 @@ export function QRGenerator() {
                     variant="default"
                     className="w-full"
                     onClick={() => fileInputRef.current?.click()}
+                    icon={ImageIcon}
                   >
                     <span>
-                      <ImageIcon className="h-4 w-4 mr-2" />
                       Ajouter un logo
                     </span>
                   </Button>
@@ -480,12 +480,10 @@ export function QRGenerator() {
                 </div>
                 
                 <div className="flex space-x-2">
-                  <Button onClick={downloadQRCode} variant="default">
-                    <Download className="h-4 w-4 mr-2" />
+                  <Button onClick={downloadQRCode} variant="default" icon={Download}>
                     Télécharger
                   </Button>
-                  <Button onClick={copyQRCode} variant="default">
-                    <Copy className="h-4 w-4 mr-2" />
+                  <Button onClick={copyQRCode} variant="default" icon={Copy}>
                     Copier
                   </Button>
                 </div>

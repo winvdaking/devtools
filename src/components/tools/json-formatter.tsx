@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Braces, Copy, Check, Minimize, Maximize } from "lucide-react";
+import { Braces, Copy, Check, Minimize, Maximize, FileText } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -98,17 +98,15 @@ export function JsonFormatter() {
             />
 
             <div className="flex flex-wrap gap-2">
-              <Button onClick={formatJson} className="flex-1">
-                <Maximize className="h-4 w-4 mr-2" />
+              <Button onClick={formatJson} className="flex-1" icon={Maximize}>
                 Formater
               </Button>
-              <Button onClick={minifyJson} variant="default" className="flex-1">
-                <Minimize className="h-4 w-4 mr-2" />
+              <Button onClick={minifyJson} variant="default" className="flex-1" icon={Minimize}>
                 Minifier
               </Button>
-              <Button onClick={loadSample} variant="default">
+              <Button onClick={loadSample} variant="default" icon={FileText}>
                 Exemple
-              </Button>
+              </Button> 
             </div>
           </CardContent>
         </Card>

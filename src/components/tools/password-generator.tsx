@@ -289,8 +289,7 @@ export function PasswordGenerator() {
 
           {/* Génération */}
           <div className="space-y-4">
-            <Button onClick={generatePassword} className="w-full">
-              <RefreshCw className="h-4 w-4 mr-2" />
+            <Button onClick={generatePassword} className="w-full" icon={RefreshCw}>
               Générer un mot de passe
             </Button>
 

@@ -222,7 +222,7 @@ export function JsonToCsv() {
             />
 
             <div className="flex justify-between items-center">
-              <Button onClick={loadSample} variant="default" size="sm">
+              <Button onClick={loadSample} variant="default">
                 Exemple
               </Button>
               <span className="text-sm text-muted-foreground">

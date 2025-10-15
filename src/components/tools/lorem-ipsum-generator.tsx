@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/v1/winv";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Download, FileText, Type, Shuffle, Settings } from "lucide-react";
+import { Copy, Download, FileText, Type, Shuffle, Settings, Clock } from "lucide-react";
 
 export function LoremIpsumGenerator() {
   const [paragraphs, setParagraphs] = useState(3);
@@ -266,12 +266,12 @@ export function LoremIpsumGenerator() {
                 <Button
                   key={preset.name}
                   variant="default"
-                  size="sm"
                   onClick={() => {
                     setParagraphs(preset.paragraphs);
                     setWords(preset.words);
                   }}
-                >
+                  icon={Clock}>
+                
                   {preset.name}
                 </Button>
               ))}
@@ -283,24 +283,24 @@ export function LoremIpsumGenerator() {
             <Button
               onClick={regenerateText}
               className="flex items-center gap-2"
+              icon={Shuffle}
             >
-              <Shuffle className="h-4 w-4" />
               Régénérer
             </Button>
             <Button
               variant="default"
               onClick={() => copyToClipboard(generatedText)}
               className="flex items-center gap-2"
+              icon={Copy}
             >
-              <Copy className="h-4 w-4" />
               Copier
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(generatedText, 'lorem-ipsum.txt', 'text/plain')}
               className="flex items-center gap-2"
+              icon={Download}
             >
-              <Download className="h-4 w-4" />
               Télécharger
             </Button>
           </div>

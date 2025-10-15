@@ -72,8 +72,6 @@ const CSSGridGenerator = dynamic(() => import("@/components/tools/css-grid-gener
 const MockDataGenerator = dynamic(() => import("@/components/tools/mock-data-generator"), { loading: LoadingSpinner });
 const ConsoleLogBeautifier = dynamic(() => import("@/components/tools/console-log-beautifier"), { loading: LoadingSpinner });
 const ErrorStackParser = dynamic(() => import("@/components/tools/error-stack-parser"), { loading: LoadingSpinner });
-const SpellChecker = dynamic(() => import("@/components/tools/spell-checker"), { loading: LoadingSpinner });
-const TextReformulator = dynamic(() => import("@/components/tools/text-reformulator"), { loading: LoadingSpinner });
 const Cheatsheets = dynamic(() => import("@/components/tools/cheatsheets"), { loading: LoadingSpinner });
 const GitCheatsheetIndividual = dynamic(() => import("@/components/tools/git-cheatsheet-individual"), { loading: LoadingSpinner });
 const DockerCheatsheetIndividual = dynamic(() => import("@/components/tools/docker-cheatsheet-individual"), { loading: LoadingSpinner });
@@ -100,8 +98,6 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "date-formatter": DateFormatter,
   "json-formatter": JsonFormatter,
   "text-converter": TextConverter,
-  "spell-checker": SpellChecker,
-  "text-reformulator": TextReformulator,
   "xml-formatter": XmlFormatter,
   "yaml-formatter": YamlFormatter,
   "sql-formatter": SqlFormatter,
@@ -129,7 +125,7 @@ const toolComponents: Record<ToolId, React.ComponentType> = {
   "html-escape": HtmlEscape,
   "basic-auth": BasicAuthGenerator,
   "jwt-parser": JwtParser,
-
+  
   // Générateurs
   "uuid-generator": UuidGenerator,
   "random-port": RandomPortGenerator,

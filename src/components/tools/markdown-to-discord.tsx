@@ -703,10 +703,9 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
                 <label className="text-sm font-medium">Markdown Discord</label>
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={resetToDefault}
+                  icon={RefreshCw}
                 >
-                  <RefreshCw className="h-4 w-4 mr-1" />
                   Réinitialiser
                 </Button>
               </div>
@@ -725,25 +724,22 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
                 <div className="flex gap-2">
                   <Button
                     variant="default"
-                    size="sm"
                     onClick={() => setShowPreview(!showPreview)}
+                    icon={showPreview ? EyeOff : Eye}
                   >
-                    {showPreview ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     {showPreview ? "Code" : "Aperçu"}
                   </Button>
                   <Button
                     variant="default"
-                    size="sm"
                     onClick={() => copyToClipboard(discordOutput)}
+                    icon={Copy}
                   >
-                    <Copy className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="default"
-                    size="sm"
                     onClick={() => downloadFile(discordOutput, 'discord-message.txt', 'text/plain')}
+                    icon={Download}
                   >
-                    <Download className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -767,24 +763,24 @@ Plus d'infos sur [Discord.com](https://discord.com) ! :rocket:
             <Button
               onClick={() => copyToClipboard(discordOutput)}
               className="flex items-center gap-2"
+              icon={Copy}
             >
-              <Copy className="h-4 w-4" />
               Copier pour Discord
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(discordOutput, 'discord-message.txt', 'text/plain')}
               className="flex items-center gap-2"
+              icon={Download}
             >
-              <Download className="h-4 w-4" />
               Télécharger .txt
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(markdown, 'source.md', 'text/markdown')}
               className="flex items-center gap-2"
+              icon={FileText}
             >
-              <FileText className="h-4 w-4" />
               Télécharger .md
             </Button>
           </div>

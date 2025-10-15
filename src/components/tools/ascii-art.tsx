@@ -678,16 +678,15 @@ export function AsciiArt() {
             <Button
               onClick={() => copyToClipboard(asciiOutput)}
               className="flex items-center gap-2"
-            >
-              <Copy className="h-4 w-4" />
+              icon={Copy}>
               Copier l'art ASCII
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(asciiOutput, 'ascii-art.txt', 'text/plain')}
               className="flex items-center gap-2"
+              icon={Download}
             >
-              <Download className="h-4 w-4" />
               Télécharger
             </Button>
           </div>

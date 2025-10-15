@@ -267,9 +267,9 @@ export function EmailNormalizer() {
                 onClick={() => loadSample(sample)}
                 className="justify-start text-left h-auto p-3"
               >
-                <div>
-                  <div className="font-medium">{sample.name}</div>
-                  <div className="text-xs text-muted-foreground">
+                <div className="w-full">
+                  <div className="font-medium mb-1">{sample.name}</div>
+                  <div className="text-xs text-muted-foreground text-left">
                     {sample.emails.split('\n')[0]}...
                   </div>
                 </div>
@@ -368,12 +368,10 @@ export function EmailNormalizer() {
           />
 
           <div className="flex flex-wrap gap-2">
-            <Button onClick={processEmails} className="flex-1">
-              <FileText className="h-4 w-4 mr-2" />
+            <Button onClick={processEmails} className="flex-1" icon={FileText}>
               Normaliser
             </Button>
-            <Button onClick={clearAll} variant="default">
-              <RefreshCw className="h-4 w-4 mr-2" />
+            <Button onClick={clearAll} variant="default" icon={RefreshCw}>
               Effacer
             </Button>
           </div>

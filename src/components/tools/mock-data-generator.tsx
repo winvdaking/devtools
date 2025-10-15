@@ -4,7 +4,7 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Download, RefreshCw, Settings, EyeOff } from "lucide-react";
+import { Copy, Download, RefreshCw, Settings, EyeOff, Plus, Trash2, Check } from "lucide-react";
 import { Button } from "@/components/v1/winv";
 
 interface FieldConfig {
@@ -356,22 +356,17 @@ export default function MockDataGenerator() {
               onClick={() => setShowSettings(!showSettings)}
               className="flex items-center space-x-2 px-3 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
               variant="secondary"
-              size="sm"
+              icon={showSettings ? EyeOff : Settings}
             >
-              {showSettings ? (
-                <EyeOff className="h-4 w-4" />
-              ) : (
-                <Settings className="h-4 w-4" />
-              )}
               <span>{showSettings ? "Masquer" : "Paramètres"}</span>
             </Button>
             <Button
               onClick={addField}
               className="px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
               variant="primary"
-              size="sm"
+              icon={Plus}
             >
-              + Ajouter un champ
+              Ajouter un champ
             </Button>
           </div>
         </div>
@@ -395,13 +390,14 @@ export default function MockDataGenerator() {
                 />
               </div>
               <div className="flex items-end">
-                <button
+                <Button
                   onClick={resetFields}
                   className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
-                >
-                  <RefreshCw className="h-4 w-4" />
-                  <span>Réinitialiser</span>
-                </button>
+                  variant="secondary"
+                  icon={RefreshCw}
+                  >
+                  Réinitialiser
+                </Button>
               </div>
             </div>
           </div>
@@ -539,12 +535,14 @@ export default function MockDataGenerator() {
                 )}
 
                 <div className="flex justify-end">
-                  <button
+                  <Button
                     onClick={() => removeField(field.id)}
                     className="px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-lg transition-colors"
+                    variant="destructive"
+                    icon={Trash2}
                   >
                     Supprimer
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -558,7 +556,7 @@ export default function MockDataGenerator() {
           onClick={generateData}
           className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-lg font-medium"
           variant="primary"
-          size="lg"
+          icon={RefreshCw}  
         >
           Générer {recordCount} enregistrements
         </Button>
@@ -572,20 +570,21 @@ export default function MockDataGenerator() {
               Données générées ({generatedData.length} enregistrements)
             </h3>
             <div className="flex items-center space-x-2">
-              <button
+              <Button
                 onClick={copyData}
                 className="flex items-center space-x-2 px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors"
+                icon={copied ? Check : Copy}
               >
-                <Copy className="h-4 w-4" />
                 <span>{copied ? "Copié !" : "Copier JSON"}</span>
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={downloadData}
                 className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                icon={Download}
+                variant="secondary"
               >
-                <Download className="h-4 w-4" />
                 <span>Télécharger</span>
-              </button>
+              </Button>
             </div>
           </div>
 

@@ -222,8 +222,8 @@ export function StringObfuscator() {
                   size="sm"
                   onClick={randomizeText}
                   className="flex items-center gap-2"
+                  icon={Shuffle}
                 >
-                  <Shuffle className="h-4 w-4" />
                   Texte aléatoire
                 </Button>
                 <Button
@@ -231,8 +231,8 @@ export function StringObfuscator() {
                   size="sm"
                   onClick={() => setInputText("")}
                   className="flex items-center gap-2"
+                  icon={RotateCcw}
                 >
-                  <RotateCcw className="h-4 w-4" />
                   Effacer
                 </Button>
               </div>
@@ -247,8 +247,8 @@ export function StringObfuscator() {
                 variant="default"
                 size="sm"
                 onClick={() => setShowOriginal(!showOriginal)}
+                icon={showOriginal ? EyeOff : Eye}
               >
-                {showOriginal ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 {showOriginal ? "Masquer" : "Afficher"}
               </Button>
             </div>
@@ -269,15 +269,15 @@ export function StringObfuscator() {
                   variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(obfuscatedText)}
+                  icon={Copy}
                 >
-                  <Copy className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="default"
                   size="sm"
                   onClick={() => downloadFile(obfuscatedText, 'obfuscated.txt', 'text/plain')}
+                  icon={Download}
                 >
-                  <Download className="h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -309,24 +309,24 @@ export function StringObfuscator() {
             <Button
               onClick={() => copyToClipboard(obfuscatedText)}
               className="flex items-center gap-2"
+              icon={Copy}
             >
-              <Copy className="h-4 w-4" />
               Copier le texte obfusqué
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(obfuscatedText, 'obfuscated.txt', 'text/plain')}
               className="flex items-center gap-2"
+              icon={Download}
             >
-              <Download className="h-4 w-4" />
               Télécharger
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(inputText, 'original.txt', 'text/plain')}
               className="flex items-center gap-2"
+              icon={FileText}
             >
-              <FileText className="h-4 w-4" />
               Télécharger original
             </Button>
           </div>

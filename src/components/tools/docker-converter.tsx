@@ -353,13 +353,12 @@ export function DockerConverter() {
               <Button
                 key={sample.name}
                 variant="default"
-                size="sm"
                 onClick={() => loadSample(sample)}
                 className="justify-start text-left h-auto p-3"
               >
-                <div>
-                  <div className="font-medium">{sample.name}</div>
-                  <div className="text-xs text-muted-foreground font-mono truncate">
+                <div className="w-full">
+                  <div className="font-medium mb-1">{sample.name}</div>
+                  <div className="text-xs text-muted-foreground font-mono break-all text-left">
                     {sample.command}
                   </div>
                 </div>
@@ -408,12 +407,10 @@ export function DockerConverter() {
           />
 
           <div className="flex flex-wrap gap-2">
-            <Button onClick={convertCommand} className="flex-1">
-              <FileText className="h-4 w-4 mr-2" />
+            <Button onClick={convertCommand} className="flex-1" icon={FileText}>
               Convertir
             </Button>
-            <Button onClick={clearAll} variant="default">
-              <RefreshCw className="h-4 w-4 mr-2" />
+            <Button onClick={clearAll} variant="default" icon={RefreshCw}>
               Effacer
             </Button>
           </div>
@@ -445,16 +442,11 @@ export function DockerConverter() {
                   variant="default"
                   size="sm"
                   onClick={() => copyToClipboard(dockerCompose)}
+                  icon={copied ? Check : Copy}
                 >
-                  {copied ? (
-                    <Check className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Copy className="h-4 w-4 mr-2" />
-                  )}
-                  Copier
+                  
                 </Button>
-                <Button variant="default" size="sm" onClick={downloadCompose}>
-                  <Download className="h-4 w-4 mr-2" />
+                <Button variant="default" size="sm" onClick={downloadCompose} icon={FileText}>
                   Télécharger
                 </Button>
               </div>

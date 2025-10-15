@@ -257,13 +257,12 @@ export function XmlFormatter() {
               <Button
                 key={sample.name}
                 variant="default"
-                size="sm"
                 onClick={() => loadSample(sample)}
-                className="justify-start text-left h-auto p-3"
+                className="justify-start text-left h-auto p-3 overflow-hidden"
               >
-                <div>
-                  <div className="font-medium">{sample.name}</div>
-                  <div className="text-xs text-muted-foreground font-mono truncate">
+                <div className="w-full">
+                  <div className="font-medium mb-1">{sample.name}</div>
+                  <div className="text-xs text-muted-foreground font-mono break-all text-left">
                     {sample.xml}
                   </div>
                 </div>
@@ -317,15 +316,12 @@ export function XmlFormatter() {
 
           <div className="flex flex-wrap gap-2">
             <Button onClick={() => formatXml(inputXml)} className="flex-1">
-              <FileText className="h-4 w-4 mr-2" />
               Formater
             </Button>
             <Button onClick={() => minifyXml(inputXml)} variant="default">
-              <Minus className="h-4 w-4 mr-2" />
               Minifier
             </Button>
             <Button onClick={clearAll} variant="default">
-              <Zap className="h-4 w-4 mr-2" />
               Effacer
             </Button>
           </div>
@@ -379,22 +375,16 @@ export function XmlFormatter() {
               <div className="flex space-x-2">
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => copyToClipboard(formattedXml, "formatted")}
+                  icon={copied === "formatted" ? Check : Copy}
                 >
-                  {copied === "formatted" ? (
-                    <Check className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Copy className="h-4 w-4 mr-2" />
-                  )}
                   Copier
                 </Button>
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => downloadXml(formattedXml, "formatted.xml")}
+                  icon={FileText}
                 >
-                  <FileText className="h-4 w-4 mr-2" />
                   Télécharger
                 </Button>
               </div>
@@ -424,22 +414,16 @@ export function XmlFormatter() {
               <div className="flex space-x-2">
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => copyToClipboard(minifiedXml, "minified")}
+                  icon={copied === "minified" ? Check : Copy}
                 >
-                  {copied === "minified" ? (
-                    <Check className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Copy className="h-4 w-4 mr-2" />
-                  )}
                   Copier
                 </Button>
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => downloadXml(minifiedXml, "minified.xml")}
+                  icon={FileText}
                 >
-                  <FileText className="h-4 w-4 mr-2" />
                   Télécharger
                 </Button>
               </div>

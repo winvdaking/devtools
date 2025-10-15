@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Code, Copy, Check, ArrowUpDown } from "lucide-react";
+import { Code, Copy, Check, ArrowUpDown, FileText, Trash2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -124,14 +124,15 @@ export function HtmlEscape() {
             <div className="flex items-center space-x-2">
               <span className="text-sm font-medium">Mode :</span>
               <Button
-                variant={mode === "escape" ? "default" : "outline"}
+                variant={mode === "escape" ? "default" : "secondary"}
                 size="sm"
                 onClick={() => setMode("escape")}
+                icon={Code}
               >
                 Échapper
               </Button>
               <Button
-                variant={mode === "unescape" ? "default" : "outline"}
+                variant={mode === "unescape" ? "default" : "secondary"}
                 size="sm"
                 onClick={() => setMode("unescape")}
               >
@@ -140,14 +141,17 @@ export function HtmlEscape() {
             </div>
 
             <div className="flex space-x-2">
-              <Button onClick={switchMode} variant="default" size="sm">
-                <ArrowUpDown className="h-4 w-4 mr-2" />
+              <Button onClick={switchMode} variant="default"
+                icon={ArrowUpDown}>
                 Inverser
               </Button>
-              <Button onClick={loadSample} variant="default" size="sm">
+              <Button onClick={loadSample} variant="default"
+                icon={FileText}>
                 Exemple
               </Button>
-              <Button onClick={clearAll} variant="default" size="sm">
+              <Button onClick={clearAll} variant="default"
+                icon={Trash2}
+                >
                 Effacer
               </Button>
             </div>
@@ -212,12 +216,8 @@ export function HtmlEscape() {
                   size="sm"
                   onClick={copyToClipboard}
                   className="absolute top-2 right-2"
+                  icon={copied ? Check : Copy}
                 >
-                  {copied ? (
-                    <Check className="h-4 w-4" />
-                  ) : (
-                    <Copy className="h-4 w-4" />
-                  )}
                 </Button>
               )}
             </div>

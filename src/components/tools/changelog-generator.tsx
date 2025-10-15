@@ -248,8 +248,7 @@ export function ChangelogGenerator() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium">Versions</label>
-              <Button variant="default" size="sm" onClick={addRelease}>
-                <Plus className="h-4 w-4 mr-2" />
+              <Button variant="default" size="sm" onClick={addRelease} icon={Plus}>
                 Ajouter une version
               </Button>
             </div>
@@ -262,8 +261,8 @@ export function ChangelogGenerator() {
                     variant="default"
                     size="sm"
                     onClick={() => removeRelease(releaseIndex)}
+                    icon={Trash2}
                   >
-                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
 
@@ -329,8 +328,8 @@ export function ChangelogGenerator() {
                         variant="default"
                         size="sm"
                         onClick={() => removeChange(releaseIndex, changeIndex)}
+                        icon={Trash2}
                       >
-                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   ))}
@@ -358,8 +357,8 @@ export function ChangelogGenerator() {
                       variant="default"
                       size="sm"
                       onClick={() => addChange(releaseIndex)}
+                      icon={Plus}
                     >
-                      <Plus className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
@@ -384,17 +383,16 @@ export function ChangelogGenerator() {
           <div className="flex gap-2">
             <Button
               onClick={() => copyToClipboard(changelogContent)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2" 
+              icon={Copy}
             >
-              <Copy className="h-4 w-4" />
               Copier le changelog
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(changelogContent, 'CHANGELOG.md', 'text/markdown')}
               className="flex items-center gap-2"
-            >
-              <Download className="h-4 w-4" />
+              icon={Download}>
               Télécharger
             </Button>
           </div>

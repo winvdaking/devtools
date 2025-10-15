@@ -287,16 +287,15 @@ export function ChmodCalculator() {
               <Button
                 key={preset.name}
                 variant="default"
-                size="sm"
                 onClick={() => loadPreset(preset)}
                 className="justify-start text-left h-auto p-3"
               >
-                <div>
-                  <div className="font-medium">{preset.name}</div>
-                  <div className="text-xs text-muted-foreground font-mono">
+                <div className="w-full">
+                  <div className="font-medium mb-1">{preset.name}</div>
+                  <div className="text-xs text-muted-foreground font-mono text-left">
                     {preset.octal} ({preset.symbolic})
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-muted-foreground text-left">
                     {preset.desc}
                   </div>
                 </div>
@@ -491,13 +490,8 @@ export function ChmodCalculator() {
                 variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(octalValue, "octal")}
+                icon={copied === "octal" ? Check : Copy}
               >
-                {copied === "octal" ? (
-                  <Check className="h-4 w-4 mr-2" />
-                ) : (
-                  <Copy className="h-4 w-4 mr-2" />
-                )}
-                Copier
               </Button>
             </div>
           </div>
@@ -515,14 +509,8 @@ export function ChmodCalculator() {
                 variant="default"
                 size="sm"
                 onClick={() => copyToClipboard(symbolicValue, "symbolic")}
-              >
-                {copied === "symbolic" ? (
-                  <Check className="h-4 w-4 mr-2" />
-                ) : (
-                  <Copy className="h-4 w-4 mr-2" />
-                )}
-                Copier
-              </Button>
+                icon={copied === "symbolic" ? Check : Copy}
+              >              </Button>
             </div>
           </div>
 
@@ -541,13 +529,8 @@ export function ChmodCalculator() {
                 onClick={() =>
                   copyToClipboard(`chmod ${octalValue} fichier`, "command")
                 }
+                icon={copied === "command" ? Check : Copy}
               >
-                {copied === "command" ? (
-                  <Check className="h-4 w-4 mr-2" />
-                ) : (
-                  <Copy className="h-4 w-4 mr-2" />
-                )}
-                Copier
               </Button>
             </div>
           </div>

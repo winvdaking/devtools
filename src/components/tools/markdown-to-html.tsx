@@ -181,25 +181,22 @@ function hello() {
                 <div className="flex gap-2">
                   <Button
                     variant="default"
-                    size="sm"
                     onClick={() => setShowPreview(!showPreview)}
+                    icon={showPreview ? EyeOff : Eye}
                   >
-                    {showPreview ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     {showPreview ? "Code" : "Aperçu"}
                   </Button>
                   <Button
                     variant="default"
-                    size="sm"
                     onClick={() => copyToClipboard(htmlOutput)}
+                    icon={Copy}
                   >
-                    <Copy className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="default"
-                    size="sm"
                     onClick={() => downloadFile(htmlOutput, 'converted.html', 'text/html')}
+                    icon={Download}
                   >
-                    <Download className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
@@ -224,24 +221,24 @@ function hello() {
             <Button
               onClick={() => copyToClipboard(htmlOutput)}
               className="flex items-center gap-2"
+              icon={Copy}
             >
-              <Copy className="h-4 w-4" />
               Copier le HTML
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(htmlOutput, 'converted.html', 'text/html')}
               className="flex items-center gap-2"
+              icon={Download}
             >
-              <Download className="h-4 w-4" />
               Télécharger HTML
             </Button>
             <Button
               variant="default"
               onClick={() => downloadFile(markdown, 'source.md', 'text/markdown')}
               className="flex items-center gap-2"
+              icon={FileText}
             >
-              <FileText className="h-4 w-4" />
               Télécharger Markdown
             </Button>
           </div>

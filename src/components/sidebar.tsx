@@ -378,20 +378,6 @@ const toolCategories: ToolCategory[] = [
         category: "formatting",
       },
       {
-        id: "spell-checker",
-        name: "Correcteur Orthographique",
-        description: "Vérification orthographe et grammaire",
-        icon: BookOpen,
-        category: "formatting",
-      },
-      {
-        id: "text-reformulator",
-        name: "Reformulateur de Texte",
-        description: "Reformulation selon différents styles",
-        icon: RefreshCw,
-        category: "formatting",
-      },
-      {
         id: "json-to-csv",
         name: "JSON to CSV",
         description: "Conversion JSON vers CSV",

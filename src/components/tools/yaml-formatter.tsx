@@ -305,13 +305,12 @@ export function YamlFormatter() {
               <Button
                 key={sample.name}
                 variant="default"
-                size="sm"
                 onClick={() => loadSample(sample)}
-                className="justify-start text-left h-auto p-3"
+                className="justify-start text-left h-auto p-3 overflow-hidden"
               >
-                <div>
-                  <div className="font-medium">{sample.name}</div>
-                  <div className="text-xs text-muted-foreground font-mono truncate">
+                <div className="w-full">
+                  <div className="font-medium mb-1">{sample.name}</div>
+                  <div className="text-xs text-muted-foreground font-mono break-all text-left">
                     {sample.yaml.split("\n")[0]}
                   </div>
                 </div>
@@ -364,16 +363,13 @@ export function YamlFormatter() {
           />
 
           <div className="flex flex-wrap gap-2">
-            <Button onClick={() => formatYaml(inputYaml)} className="flex-1">
-              <FileCode className="h-4 w-4 mr-2" />
+            <Button onClick={() => formatYaml(inputYaml)} className="flex-1" icon={FileCode}>
               Formater
             </Button>
-            <Button onClick={() => minifyYaml(inputYaml)} variant="default">
-              <Minus className="h-4 w-4 mr-2" />
+            <Button onClick={() => minifyYaml(inputYaml)} variant="default" icon={Minus}>
               Minifier
             </Button>
-            <Button onClick={clearAll} variant="default">
-              <Zap className="h-4 w-4 mr-2" />
+            <Button onClick={clearAll} variant="default" icon={Zap}>
               Effacer
             </Button>
           </div>
@@ -427,22 +423,16 @@ export function YamlFormatter() {
               <div className="flex space-x-2">
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => copyToClipboard(formattedYaml, "formatted")}
+                  icon={copied === "formatted" ? Check : Copy}
                 >
-                  {copied === "formatted" ? (
-                    <Check className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Copy className="h-4 w-4 mr-2" />
-                  )}
                   Copier
                 </Button>
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => downloadYaml(formattedYaml, "formatted.yaml")}
+                  icon={FileText}
                 >
-                  <FileText className="h-4 w-4 mr-2" />
                   Télécharger
                 </Button>
               </div>
@@ -472,23 +462,17 @@ export function YamlFormatter() {
               <div className="flex space-x-2">
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => copyToClipboard(minifiedYaml, "minified")}
+                  icon={copied === "minified" ? Check : Copy}
                 >
-                  {copied === "minified" ? (
-                    <Check className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Copy className="h-4 w-4 mr-2" />
-                  )}
                   Copier
                 </Button>
                 <Button
                   variant="default"
-                  size="sm"
                   onClick={() => downloadYaml(minifiedYaml, "minified.yaml")}
+                  icon={copied === "minified" ? Check : Copy}
                 >
-                  <FileText className="h-4 w-4 mr-2" />
-                  Télécharger
+                    Télécharger
                 </Button>
               </div>
             </div>
