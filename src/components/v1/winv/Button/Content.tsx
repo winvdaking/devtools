@@ -28,8 +28,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import ButtonComponent from "./Button";
+import Button from "@/components/v1/winv/Button/Button";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -427,11 +426,11 @@ export default function Button({
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Variants</h3>
                 <div className="flex flex-wrap gap-4">
-                  <ButtonComponent variant="default">Par défaut</ButtonComponent>
-                  <ButtonComponent variant="primary">Primaire</ButtonComponent>
-                  <ButtonComponent variant="secondary">Secondaire</ButtonComponent>
-                  <ButtonComponent variant="ghost">Fantôme</ButtonComponent>
-                  <ButtonComponent variant="destructive">Destructif</ButtonComponent>
+                  <Button variant="default">Par défaut</Button>
+                  <Button variant="primary">Primaire</Button>
+                  <Button variant="secondary">Secondaire</Button>
+                  <Button variant="ghost">Fantôme</Button>
+                  <Button variant="destructive">Destructif</Button>
                 </div>
               </div>
 
@@ -439,9 +438,9 @@ export default function Button({
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Tailles</h3>
                 <div className="flex items-center gap-4">
-                  <ButtonComponent size="sm">Petit</ButtonComponent>
-                  <ButtonComponent size="md">Moyen</ButtonComponent>
-                  <ButtonComponent size="lg">Grand</ButtonComponent>
+                  <Button size="sm">Petit</Button>
+                  <Button size="md">Moyen</Button>
+                  <Button size="lg">Grand</Button>
                 </div>
               </div>
 
@@ -449,14 +448,14 @@ export default function Button({
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Boutons avec icônes</h3>
                 <div className="flex flex-wrap gap-4">
-                  <ButtonComponent icon={DownloadIcon} variant="primary">Télécharger</ButtonComponent>
-                  <ButtonComponent icon={Send} variant="secondary">Envoyer</ButtonComponent>
-                  <ButtonComponent icon={Plus} variant="default">Ajouter</ButtonComponent>
-                  <ButtonComponent icon={Minus} variant="ghost">Retirer</ButtonComponent>
-                  <ButtonComponent icon={X} variant="destructive">Supprimer</ButtonComponent>
-                  <ButtonComponent icon={CheckIcon} variant="primary">Valider</ButtonComponent>
-                  <ButtonComponent icon={Star} variant="secondary">Favoris</ButtonComponent>
-                  <ButtonComponent icon={Heart} variant="ghost">J'aime</ButtonComponent>
+                  <Button icon={DownloadIcon} variant="primary">Télécharger</Button>
+                  <Button icon={Send} variant="secondary">Envoyer</Button>
+                  <Button icon={Plus} variant="default">Ajouter</Button>
+                  <Button icon={Minus} variant="ghost">Retirer</Button>
+                  <Button icon={X} variant="destructive">Supprimer</Button>
+                  <Button icon={CheckIcon} variant="primary">Valider</Button>
+                  <Button icon={Star} variant="secondary">Favoris</Button>
+                  <Button icon={Heart} variant="ghost">J'aime</Button>
                 </div>
               </div>
 
@@ -464,16 +463,16 @@ export default function Button({
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Boutons icon-only</h3>
                 <div className="flex flex-wrap gap-4">
-                  <ButtonComponent icon={DownloadIcon} variant="primary" />
-                  <ButtonComponent icon={Send} variant="secondary" />
-                  <ButtonComponent icon={Plus} variant="default" />
-                  <ButtonComponent icon={Minus} variant="ghost" />
-                  <ButtonComponent icon={X} variant="destructive" />
-                  <ButtonComponent icon={CheckIcon} variant="primary" />
-                  <ButtonComponent icon={Star} variant="secondary" />
-                  <ButtonComponent icon={Heart} variant="ghost" />
-                  <ButtonComponent icon={Sparkles} variant="default" />
-                  <ButtonComponent icon={Zap} variant="primary" />
+                  <Button icon={DownloadIcon} variant="primary" />
+                  <Button icon={Send} variant="secondary" />
+                  <Button icon={Plus} variant="default" />
+                  <Button icon={Minus} variant="ghost" />
+                    <Button icon={X} variant="destructive" />
+                  <Button icon={CheckIcon} variant="primary" />
+                  <Button icon={Star} variant="secondary" />
+                  <Button icon={Heart} variant="ghost" />
+                  <Button icon={Sparkles} variant="default" />
+                  <Button icon={Zap} variant="primary" />
                 </div>
               </div>
 
@@ -481,13 +480,13 @@ export default function Button({
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">États spéciaux</h3>
                 <div className="flex flex-wrap gap-4">
-                  <ButtonComponent loading={loading} onClick={handleLoadingDemo}>
+                  <Button loading={loading} onClick={handleLoadingDemo}>
                     {loading ? "Chargement..." : "Démo chargement"}
-                  </ButtonComponent>
-                  <ButtonComponent disabled>Désactivé</ButtonComponent>
-                  <ButtonComponent ripple={false}>Sans ripple</ButtonComponent>
-                  <ButtonComponent glow={false}>Sans glow</ButtonComponent>
-                  <ButtonComponent magnetic={false}>Sans magnétique</ButtonComponent>
+                  </Button>
+                  <Button disabled>Désactivé</Button>
+                  <Button ripple={false}>Sans ripple</Button>
+                  <Button glow={false}>Sans glow</Button>
+                  <Button magnetic={false}>Sans magnétique</Button>
                 </div>
               </div>
             </div>
@@ -581,7 +580,7 @@ export default function Button({
             <div className="space-y-3">
               <label className="text-sm font-medium">Aperçu</label>
               <div className="p-4 border rounded-lg bg-muted/50">
-                <ButtonComponent
+                <Button
                   variant={selectedVariant as any}
                   size={selectedSize as any}
                   ripple={rippleEnabled}
@@ -590,7 +589,7 @@ export default function Button({
                   icon={CheckIcon}
                 >
                   Bouton de test
-                </ButtonComponent>
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -619,16 +618,13 @@ export default function Button({
                 {generateInstallCode}
               </SyntaxHighlighter>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => copyToClipboard(generateInstallCode, "install")}
                 className="absolute top-2 right-2"
+                icon={copied === "install" ? Check : Copy}
               >
-                {copied === "install" ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
+                
               </Button>
             </div>
           </CardContent>
@@ -657,16 +653,13 @@ export default function Button({
                 {generateCode}
               </SyntaxHighlighter>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => copyToClipboard(generateCode, "usage")}
                 className="absolute top-2 right-2"
+                icon={copied === "usage" ? Check : Copy}
               >
-                {copied === "usage" ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
+                
               </Button>
             </div>
           </CardContent>
@@ -695,16 +688,12 @@ export default function Button({
                 {generateSourceCode}
               </SyntaxHighlighter>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => copyToClipboard(generateSourceCode, "source")}
                 className="absolute top-2 right-2"
-              >
-                {copied === "source" ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  <Copy className="h-4 w-4" />
-                )}
+                icon={copied === "source" ? Check : Copy}
+                >
               </Button>
             </div>
           </CardContent>

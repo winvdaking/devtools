@@ -126,7 +126,7 @@ export function KeycodeInfo() {
         </div>
         <Button
           onClick={() => setIsListening(!isListening)}
-          variant={isListening ? "default" : "outline"}
+          variant={isListening ? "default" : "secondary"}
           size="sm"
         >
           {isListening ? "Écoute active" : "Reprendre l'écoute"}
