@@ -76,8 +76,6 @@ export type ToolId =
   | "mock-data-generator"
   | "console-log-beautifier"
   | "error-stack-parser"
-  | "spell-checker"
-  | "text-reformulator"
 
   // Cheatsheets des technologies
   | "cheatsheets"
